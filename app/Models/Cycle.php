@@ -12,8 +12,11 @@ class Cycle extends Model
 
     protected $fillable = [
         'user_id',
-        'name',
+        'cycle',
+        'title',
         'id_family',
         'id_responsible',
+        'vliteral',
+        'cliteral'
     ];
 }

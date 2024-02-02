@@ -13,9 +13,14 @@ return new class extends Migration
     {
         Schema::create('cycles', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 50);
-            $table->bigInteger('id_family');
-            $table->bigInteger('id_responsible');
+            $table->string('cycle', 50);
+            $table->string('title', 100)->nullable();
+            $table->unsignedBigInteger('id_family');
+            $table->unsignedBigInteger('id_responsible');
+            $table->string('vliteral', 150);
+            $table->string('cliteral', 150);
+            $table->foreign('id_family', 'id_family')->references('id')->on('families')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('id_responsible', 'id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 
