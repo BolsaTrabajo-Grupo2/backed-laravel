@@ -5,16 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Family extends Model
+class Apply extends Model
 {
     use HasFactory;
-    protected $table='families';
-    protected $primaryKey='id';
-    public $timestamps = false;
     protected $fillable = [
-        'cliteral',
-        'vliteral',
-        'depcurt'
+        'idOffer',
+        'idStudent'
     ];
-
 }
