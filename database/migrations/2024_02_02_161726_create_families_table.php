@@ -13,7 +13,9 @@ return new class extends Migration
     {
         Schema::create('families', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 50);
+            $table->string('cliteral', 100);
+            $table->string('vliteral', 100);
+            $table->string('depcurt',30);
         });
     }
 

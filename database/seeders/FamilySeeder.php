@@ -22,7 +22,10 @@ class FamilySeeder extends Seeder
             foreach ($json as $familyData) {
                 Family::create([
                     'id' => $familyData['id'],
-                    'name' => $familyData['name'],
+                    'cliteral' => $familyData['cliteral'],
+                    'vliteral' => $familyData['vliteral'],
+                    'depcurt' => $familyData['depcurt'],
+
                 ]);
             }
 
