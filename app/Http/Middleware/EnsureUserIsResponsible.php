@@ -16,7 +16,7 @@ class EnsureUserIsResponsible
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::user()->rol != 'RESP') {
+        if (Auth::check() && Auth::user()->rol != 'RESP') {
 
             abort(403, 'Acció no autoritzada.');
         }

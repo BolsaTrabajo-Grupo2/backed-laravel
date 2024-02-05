@@ -17,7 +17,7 @@ class EnsureIsAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::user()->rol != 'ADM') {
+        if (Auth::check() && Auth::user()->rol != 'ADM') {
 
             abort(403, 'Acció no autoritzada.');
         }
