@@ -28,4 +28,7 @@ Route::middleware('rol:STU,COMP')->group(function () {
 Route::middleware('rol:ADMIN,RESP,STU')->group(function (){
     Route::apiResource('students',\App\Http\Controllers\Api\UserApiController::class);
 });
-Route::apiResource('company',\App\Http\Controllers\Api\CompanyApiController::class)->middleware('rol:ADMIN,RESP,COMP')
+Route::apiResource('company',\App\Http\Controllers\Api\CompanyApiController::class)->middleware('rol:ADMIN,RESP,COMP');
+Route::delete('student/delete/{id}',\App\Http\Controllers\Api\UserApiController::class)->middleware('rol:ADMIN,RESP,STU');
+Route::apiResource('responsible',\App\Http\Controllers\Api\UserApiController::class)->middleware('rol:RESP');
+Route::get('validate/{id}',\App\Http\Controllers\Api\OfferApiController::class)->middleware('rol:ADMIN,RESP');
