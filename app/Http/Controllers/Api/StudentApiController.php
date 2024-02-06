@@ -21,14 +21,16 @@ class StudentApiController extends Controller
     }
 
     public function store(StudentRequest $studentRequest){
-        $user = UserApiController::class->register($studentRequest);
+        $userResponse = UserApiController::register($studentRequest);
+        $user = $userResponse->getOriginalContent()['user'];
+        $token = $userResponse->getOriginalContent()['token'];
         $student = new Student();
         $student->idUser = $user->id;
         $student->address = $studentRequest->get("address");
         $student->CVLink = $studentRequest->get("CVLink");
         $student->accept = $studentRequest->get("accept");
         $student->save();
-        return response()->json(['token' => $user->token], 201);
+        return response()->json(['token' => $token], 201);
     }
 
     public function update(StudentRequest $studentRequest, $id){

@@ -38,7 +38,7 @@ class UserApiController extends Controller
 
         $token = $user->createToken('api-token')->plainTextToken;
 
-        return response()->json(['token' => $token, 'id' => $user->id], 201);
+        return response()->json(['token' => $token, 'user' => $user], 201);
     }
 
     public function update(UserRequest $request, $id)

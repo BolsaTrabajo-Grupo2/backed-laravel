@@ -15,10 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('surname');
+            $table->string('nickname')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->enum('rol', ['STU', 'ADM', 'RESP', 'COMP']);
+            $table->string('github_id')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
