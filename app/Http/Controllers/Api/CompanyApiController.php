@@ -6,19 +6,18 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\CompanyCollection;
 use App\Http\Resources\CompanyResource;
 use App\Models\Company;
-use App\Models\User;
 
 class CompanyApiController extends Controller
 {
     public function index()
     {
-        $users = Company::all()->paginate(10);
-        return new CompanyCollection($users);
+        $companies = Company::all()->paginate(10);
+        return new CompanyCollection($companies);
     }
 
-    public function show(User $user)
+    public function show(Company $company)
     {
-        return new CompanyResource($user);
+        return new CompanyResource($company);
     }
 
     public function store()
