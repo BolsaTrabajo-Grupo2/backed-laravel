@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Apply extends Model
 {
     use HasFactory;
+    public $timestamps = false;
     protected $fillable = [
         'idOffer',
         'idStudent'
