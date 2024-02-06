@@ -25,10 +25,11 @@ Route::middleware('rol:STU,COMP')->group(function () {
     Route::post('user/profile/update', \App\Http\Controllers\Api\UserApiController::class);
 });
 
-Route::middleware('rol:ADMIN,RESP,STU')->group(function (){
-    Route::apiResource('students',\App\Http\Controllers\Api\UserApiController::class);
-});
 Route::apiResource('company',\App\Http\Controllers\Api\CompanyApiController::class)->middleware('rol:ADMIN,RESP,COMP');
 Route::delete('student/delete/{id}',\App\Http\Controllers\Api\UserApiController::class)->middleware('rol:ADMIN,RESP,STU');
 Route::apiResource('responsible',\App\Http\Controllers\Api\UserApiController::class)->middleware('rol:RESP');
 Route::get('validate/{id}',\App\Http\Controllers\Api\OfferApiController::class)->middleware('rol:ADMIN,RESP');
+Route::apiResource('students', \App\Http\Controllers\Api\StudentApiController::class)->middleware('rol:ADMIN,STU');
+Route::apiResource('users', \App\Http\Controllers\Api\UserApiController::class)->middleware('rol:ADMIN');
+Route::apiResource('offers', \App\Http\Controllers\Api\OfferApiController::class)->middleware('rol:ADMIN,COMP');
+
