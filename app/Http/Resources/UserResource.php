@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CycleResource extends JsonResource
+class UserResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,9 +16,10 @@ class CycleResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'nombre' => $this->name,
-            'idFamilia' => $this->family->id,
-            'idResponsable' => $this->user->id,
+            'name' => $this->name,
+            'surname' => $this->surname,
+            'email' =>  $this->email,
+            'rol' => $this->rol,
         ];
     }
 }
