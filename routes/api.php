@@ -25,6 +25,7 @@ Route::middleware('rol:STU,COMP')->group(function () {
     Route::post('user/profile/update', \App\Http\Controllers\Api\UserApiController::class);
 });
 
-Route::middleware('rol:ADMIN,RESP,COMP')->group(function (){
-    Route::apiResource('company',\App\Http\Controllers\Api\CompanyApiController::class);
+Route::middleware('rol:ADMIN,RESP,STU')->group(function (){
+    Route::apiResource('students',\App\Http\Controllers\Api\UserApiController::class);
 });
+Route::apiResource('company',\App\Http\Controllers\Api\CompanyApiController::class)->middleware('rol:ADMIN,RESP,COMP')
