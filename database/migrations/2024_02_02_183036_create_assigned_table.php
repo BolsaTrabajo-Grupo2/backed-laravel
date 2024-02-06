@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('idOffer');
             $table->unsignedBigInteger('idCycle');
-            $table->foreign('idOffer', 'id_Offer')->references('id')->on('offers')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('idOffer', 'id_Offer')->references('id')->on('offers')->onDelete('restrict')->onUpdate('cascade');
             $table->foreign('idCycle', 'idCycle')->references('id')->on('cycles')->onDelete('cascade')->onUpdate('cascade');
         });
     }
