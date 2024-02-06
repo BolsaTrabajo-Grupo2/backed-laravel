@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('description',200);
             $table->string('duration',50);
-            $table->string('responsibleName',100);
-            $table->boolean('inscriptionMethod');
+            $table->string('responsible_name',100);
+            $table->boolean('inscription_method');
             $table->boolean('status');
             $table->string('cif',9);
             $table->foreign('cif', 'cif')->references('CIF')->on('company')->onDelete('restrict')->onUpdate('cascade');
