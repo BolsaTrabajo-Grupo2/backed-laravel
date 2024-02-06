@@ -18,9 +18,9 @@ use App\Http\Controllers\Api\CycleApiController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::post('login','\App\Http\Controllers\Api\LoginController::class@login');
-Route::post('registerCompany','\App\Http\Controllers\Api\CompanyApiController::class@register');
-Route::post('registerStudent','\App\Http\Controllers\Api\StudentApiController::class@register');
+Route::post('login',[\App\Http\Controllers\Api\LoginController::class, 'login']);
+Route::post('registerCompany',[\App\Http\Controllers\Api\CompanyApiController::class, 'store']);
+Route::post('registerStudent',[\App\Http\Controllers\Api\StudentApiController::class, 'register']);
 Route::middleware('rol:STU,COMP')->group(function () {
     Route::get('user/profile ',[\App\Http\Controllers\Api\UserApiController::class, 'show']);
     Route::post('user/profile/update', [\App\Http\Controllers\Api\UserApiController::class, 'update']);
