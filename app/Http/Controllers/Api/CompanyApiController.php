@@ -23,15 +23,17 @@ class CompanyApiController extends Controller
     }
     public function store(CompanyRequest $request)
     {
-        $user = UserApiController::register($request);
+        $userResponse = UserApiController::register($request);
+        $user = $userResponse->getOriginalContent()['user'];
+        $token = $userResponse->getOriginalContent()['token'];
         $company = new Company();
         $company->CIF = $request->get('CIF');
-        $company->user_id = $user->id;
+        $company->id_user = $user->id;
         $company->address = $request->get('address');
         $company->phone = $request->get('phone');
         $company->web = $request->get('web');
         $company->save();
-        return response()->json(['token' => $user->token], 201);
+        return response()->json(['token' => $token], 201);
     }
 
     public function update(CompanyRequest $request, $id)
