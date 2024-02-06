@@ -22,12 +22,11 @@ class StudentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|min:5',
-            'surname' => 'required|string|min:5',
+            'name' => 'required|string|max:250',
+            'surname' => 'required|string|max:250',
             'email' => 'required|email',
             'password' => 'required|string|min:8',
             'rol' => 'required',
-            'idUser' => 'required|integer|unsigned',
             'address' => 'required|string|max:100',
             'CVlink' => 'required|string|max:75',
             'accept' => 'required|boolean',

@@ -23,7 +23,7 @@ class CompanyApiController extends Controller
     }
     public function store(CompanyRequest $request)
     {
-        $user = UserApiController::class->register($request);
+        $user = UserApiController::register($request);
         $company = new Company();
         $company->CIF = $request->get('CIF');
         $company->user_id = $user->id;
