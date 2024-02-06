@@ -5,19 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Company extends Model
+class Assigned extends Model
 {
     use HasFactory;
     public $timestamps = false;
     protected $fillable = [
-        'user_id',
-        'CIF',
-        'address',
-        'phone',
-        'web',
+        'idOffer',
+        'idCycle'
     ];
-    public function user()
-    {
-        return $this->belongsTo(User::class,'id_user','id');
-    }
 }
