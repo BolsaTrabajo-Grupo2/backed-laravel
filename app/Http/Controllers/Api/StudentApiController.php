@@ -7,7 +7,7 @@ use App\Http\Requests\StudentRequest;
 use App\Http\Resources\StudentCollection;
 use App\Http\Resources\StudentResource;
 use App\Models\Student;
-use Illuminate\Http\Request;
+
 
 class StudentApiController extends Controller
 {
@@ -21,13 +21,14 @@ class StudentApiController extends Controller
     }
 
     public function store(StudentRequest $studentRequest){
+        $user = UserApiController::class->register($studentRequest);
         $student = new Student();
-        $student->idUser = $studentRequest->get("idUser");
+        $student->idUser = $user->id;
         $student->address = $studentRequest->get("address");
         $student->CVLink = $studentRequest->get("CVLink");
         $student->accept = $studentRequest->get("accept");
         $student->save();
-        return new StudentResource($student);
+        return response()->json(['token' => $user->token], 201);
     }
 
     public function update(StudentRequest $studentRequest, $id){
@@ -38,5 +39,20 @@ class StudentApiController extends Controller
         $student->accept = $studentRequest->get("accept");
         $student->save();
         return new StudentResource($student);
+    }
+    public function delete($id)
+    {
+        $student = Student::find($id);
+
+        if (!$student) {
+            return response()->json(['error' => 'No se ha encontrado el estudiante'], 404);
+        }
+
+        $student->delete();
+
+        return response()->json([
+            'message' => 'El estudiante con id:' . $id . ' ha sido borrado con éxito',
+            'data' => $id
+        ], 200);
     }
 }

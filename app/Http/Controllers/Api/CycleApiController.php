@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CycleRequest;
 use App\Http\Resources\CycleCollection;
 use App\Http\Resources\CycleResource;
 use App\Models\Cycle;
@@ -19,32 +20,49 @@ class CycleApiController extends Controller
         return new CycleResource($cycle);
     }
 
-    public function store(CycleRequest $request)
+    public function store(CycleRequest $cycleRequest)
     {
-        $company = new Company();
-        $company->CIF = $request->get('CIF');
-        $company->user_id = $request->get('idUser');
-        $company->address = $request->get('address');
-        $company->phone = $request->get('phone');
-        $company->web = $request->get('web');
-        $company->save();
-        return new CompanyResource($company);
+        $cycle = new Cycle();
+        $cycle->cycle = $cycleRequest->get('cycle');
+        $cycle->title = $cycleRequest->get('title');
+        $cycle->idFamily = $cycleRequest->get('idFamily');
+        $cycle->idResponsible = $cycleRequest->get('idResponsible');
+        $cycle->vliteral = $cycleRequest->get('vliteral');
+        $cycle->cliteral = $cycleRequest->get('cliteral');
+        $cycle->save();
+        return new CycleResource($cycle);
     }
 
-    public function update(CompanyRequest $request, $id)
+    public function update(CycleResource $cycleRequest, $id)
     {
-        $company = Company::findOrFail($id);
+        $cycle = Cycle::findOrFail($id);
 
-        $company->CIF = $request->get('CIF');
-        $company->user_id = $request->get('idUser');
-        $company->address = $request->get('address');
-        $company->phone = $request->get('phone');
-        $company->web = $request->get('web');
-
-        $company->save();
-
-        return new CompanyResource($company);
+        $cycle->cycle = $cycleRequest->get('cycle');
+        $cycle->title = $cycleRequest->get('title');
+        $cycle->idFamily = $cycleRequest->get('idFamily');
+        $cycle->idResponsible = $cycleRequest->get('idResponsible');
+        $cycle->vliteral = $cycleRequest->get('vliteral');
+        $cycle->cliteral = $cycleRequest->get('cliteral');
+        $cycle->save();
+        return new CycleResource($cycle);
     }
+
+    public function delete($id)
+    {
+        $cycle = Cycle::find($id);
+
+        if (!$cycle) {
+            return response()->json(['error' => 'No se ha encontrado el ciclo'], 404);
+        }
+
+        $cycle->delete();
+
+        return response()->json([
+            'message' => 'El ciclo con id:' . $id . ' ha sido borrado con éxito',
+            'data' => $id
+        ], 200);
+    }
+
 
 
 }
