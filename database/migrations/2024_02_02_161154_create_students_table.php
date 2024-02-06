@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('cv_link', 75)->nullable();
             $table->boolean('accept')->default(0);
             $table->timestamps();
-            $table->foreign('id_user', 'id_usuario')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('user_id', 'id_usuario')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

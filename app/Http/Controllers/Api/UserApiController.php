@@ -25,7 +25,7 @@ class UserApiController extends Controller
         return new UserResource($company);
     }
 
-    public function register(Request $request)
+    public static function register(Request $request)
     {
         $user = new User();
         $user->name = $request->get('name');
