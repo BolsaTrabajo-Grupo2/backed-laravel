@@ -56,5 +56,19 @@ class UserApiController extends Controller
         return new UserResource($user);
     }
 
+    public function delete($id)
+    {
+        $user = User::find($id);
 
+        if (!$user) {
+            return response()->json(['error' => 'No se ha encontrado el usuario'], 404);
+        }
+
+        $user->delete();
+
+        return response()->json([
+            'message' => 'El usuario con id:' . $id . ' ha sido borrada con éxito',
+            'data' => $id
+        ], 200);
+    }
 }

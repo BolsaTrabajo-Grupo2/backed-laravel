@@ -51,9 +51,17 @@ class CompanyApiController extends Controller
 
     public function delete($id)
     {
-        $company = Company::findOrFail($id);
+        $company = Company::find($id);
+
+        if (!$company) {
+            return response()->json(['error' => 'No se ha encontrado la empresa'], 404);
+        }
+
         $company->delete();
 
-        return response()->json(null, 204);
+        return response()->json([
+            'message' => 'La empresa con id:' . $id . ' ha sido borrada con éxito',
+            'data' => $id
+        ], 200);
     }
 }
