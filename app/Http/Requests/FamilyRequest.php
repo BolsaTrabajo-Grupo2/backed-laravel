@@ -22,12 +22,9 @@ class FamilyRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'cycle' => 'required|string|max:50',
-            'title' => 'nullable|string|max:100',
-            'idFamily' => 'required|integer|unsigned',
-            'idResponsible' => 'required|integer|unsigned',
-            'vliteral' => 'required|string|max:150',
-            'cliteral' => 'required|string|max:150',
+            'cliteral' => 'required|string|max:100',
+            'vliteral' => 'required|string|max:100',
+            'depcurt' => 'required|string|max:30',
         ];
     }
 }
