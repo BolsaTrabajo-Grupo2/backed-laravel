@@ -20,5 +20,8 @@ class CompanyApiController extends Controller
         return new CompanyResource($company);
     }
 
+    public function store()
+    {
 
+    }
 }
