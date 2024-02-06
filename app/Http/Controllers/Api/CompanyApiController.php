@@ -8,6 +8,7 @@ use App\Http\Requests\CompanyRequest;
 use App\Http\Resources\CompanyCollection;
 use App\Http\Resources\CompanyResource;
 use App\Models\Company;
+use Carbon\Carbon;
 
 class CompanyApiController extends Controller
 {
@@ -32,6 +33,8 @@ class CompanyApiController extends Controller
         $company->address = $request->get('address');
         $company->phone = $request->get('phone');
         $company->web = $request->get('web');
+        $company->created_at = Carbon::now();
+        $company->updated_at = Carbon::now();
         $company->save();
         return response()->json(['token' => $token], 201);
     }
@@ -45,6 +48,7 @@ class CompanyApiController extends Controller
         $company->address = $request->get('address');
         $company->phone = $request->get('phone');
         $company->web = $request->get('web');
+        $company->updated_at = Carbon::now();
 
         $company->save();
 
