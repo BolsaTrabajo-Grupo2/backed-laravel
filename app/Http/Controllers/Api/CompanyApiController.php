@@ -48,4 +48,12 @@ class CompanyApiController extends Controller
 
         return new CompanyResource($company);
     }
+
+    public function delete($id)
+    {
+        $company = Company::findOrFail($id);
+        $company->delete();
+
+        return response()->json(null, 204);
+    }
 }
