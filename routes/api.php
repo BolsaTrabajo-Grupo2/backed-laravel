@@ -14,7 +14,6 @@ use App\Http\Controllers\Api\CycleApiController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-/**
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
@@ -33,5 +32,3 @@ Route::get('validate/{id}',[\App\Http\Controllers\Api\OfferApiController::class,
 Route::apiResource('students', \App\Http\Controllers\Api\StudentApiController::class)->middleware('rol:ADMIN,STU');
 Route::apiResource('users', \App\Http\Controllers\Api\UserApiController::class)->middleware('rol:ADMIN');
 Route::apiResource('offers', \App\Http\Controllers\Api\OfferApiController::class)->middleware('rol:ADMIN,COMP');
-
-**/
