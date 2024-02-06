@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Api\UserApiController;
 use App\Http\Requests\CompanyRequest;
 use App\Http\Resources\CompanyCollection;
 use App\Http\Resources\CompanyResource;
@@ -22,14 +23,15 @@ class CompanyApiController extends Controller
     }
     public function store(CompanyRequest $request)
     {
+        $user = UserApiController::class->register($request);
         $company = new Company();
         $company->CIF = $request->get('CIF');
-        $company->user_id = $request->get('idUser');
+        $company->user_id = $user->id;
         $company->address = $request->get('address');
         $company->phone = $request->get('phone');
         $company->web = $request->get('web');
         $company->save();
-        return new CompanyResource($company);
+        return response()->json(['token' => $user->token], 201);
     }
 
     public function update(CompanyRequest $request, $id)

@@ -14,6 +14,11 @@ class CompanyRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'name' => 'required|string|min:5',
+            'surname' => 'required|string|min:5',
+            'email' => 'required|email',
+            'password' => 'required|string|min:8',
+            'rol' => 'required',
             'CIF' => 'required', 'string', 'max:9',
             'idUser' => 'required', 'integer', 'exists:users,id',
             'address' => 'required', 'string', 'max:100',
