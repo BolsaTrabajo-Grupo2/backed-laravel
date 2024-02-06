@@ -19,10 +19,10 @@ class CompanyRequest extends FormRequest
             'email' => 'required|email',
             'password' => 'required|string|min:8',
             'rol' => 'required',
-            'CIF' => 'required', 'string', 'size:9',
-            'address' => 'required', 'string', 'max:100',
-            'phone' => 'required', 'string', 'max:9',
-            'web' => 'nullable', 'string', 'max:100', 'url',
+            'CIF' => 'required|string|size:9',
+            'address' => 'required|string|max:100',
+            'phone' => 'required|string|max:9',
+            'web' => 'nullable|string|max:100|url',
         ];
     }
 }
