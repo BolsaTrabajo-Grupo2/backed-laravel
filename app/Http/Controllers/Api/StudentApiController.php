@@ -25,20 +25,18 @@ class StudentApiController extends Controller
         $user = $userResponse->getOriginalContent()['user'];
         $token = $userResponse->getOriginalContent()['token'];
         $student = new Student();
-        $student->idUser = $user->id;
+        $student->id_user = $user->id;
         $student->address = $studentRequest->get("address");
-        $student->CVLink = $studentRequest->get("CVLink");
-        $student->accept = $studentRequest->get("accept");
+        $student->cv_link = $studentRequest->get("CVLink");
         $student->save();
         return response()->json(['token' => $token], 201);
     }
 
     public function update(StudentRequest $studentRequest, $id){
         $student = Student::findOrFail($id);
-        $student->idUser = $studentRequest->get("idUser");
+        $student->id_user = $studentRequest->get("idUser");
         $student->address = $studentRequest->get("address");
-        $student->CVLink = $studentRequest->get("CVLink");
-        $student->accept = $studentRequest->get("accept");
+        $student->cv_link = $studentRequest->get("CVLink");
         $student->save();
         return new StudentResource($student);
     }

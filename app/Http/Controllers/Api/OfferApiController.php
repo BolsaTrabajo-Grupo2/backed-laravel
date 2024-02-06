@@ -39,8 +39,8 @@ class OfferApiController extends Controller
 
         $offer->description = $offerRequest->get('description');
         $offer->duration = $offerRequest->get('duration');
-        $offer->responsibleName = $offerRequest->get('responsibleName');
-        $offer->inscriptionMethod = $offerRequest->get('inscriptionMethod');
+        $offer->responsible_name = $offerRequest->get('responsibleName');
+        $offer->inscription_method = $offerRequest->get('inscriptionMethod');
         $offer->status = $offerRequest->get('status');
         $offer->save();
 

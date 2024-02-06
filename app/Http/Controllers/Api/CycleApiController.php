@@ -25,8 +25,8 @@ class CycleApiController extends Controller
         $cycle = new Cycle();
         $cycle->cycle = $cycleRequest->get('cycle');
         $cycle->title = $cycleRequest->get('title');
-        $cycle->idFamily = $cycleRequest->get('idFamily');
-        $cycle->idResponsible = $cycleRequest->get('idResponsible');
+        $cycle->id_family = $cycleRequest->get('idFamily');
+        $cycle->id_responsible = $cycleRequest->get('idResponsible');
         $cycle->vliteral = $cycleRequest->get('vliteral');
         $cycle->cliteral = $cycleRequest->get('cliteral');
         $cycle->save();
@@ -39,8 +39,8 @@ class CycleApiController extends Controller
 
         $cycle->cycle = $cycleRequest->get('cycle');
         $cycle->title = $cycleRequest->get('title');
-        $cycle->idFamily = $cycleRequest->get('idFamily');
-        $cycle->idResponsible = $cycleRequest->get('idResponsible');
+        $cycle->id_family = $cycleRequest->get('idFamily');
+        $cycle->id_responsible = $cycleRequest->get('idResponsible');
         $cycle->vliteral = $cycleRequest->get('vliteral');
         $cycle->cliteral = $cycleRequest->get('cliteral');
         $cycle->save();

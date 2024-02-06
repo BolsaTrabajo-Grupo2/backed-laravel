@@ -14,13 +14,13 @@ use App\Http\Controllers\Api\CycleApiController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-/**
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::post('login',[\App\Http\Controllers\Api\LoginController::class, 'login']);
 Route::post('registerCompany',[\App\Http\Controllers\Api\CompanyApiController::class, 'store']);
-Route::post('registerStudent',[\App\Http\Controllers\Api\StudentApiController::class, 'register']);
+Route::post('registerStudent',[\App\Http\Controllers\Api\StudentApiController::class, 'store']);
 Route::middleware('rol:STU,COMP')->group(function () {
     Route::get('user/profile ',[\App\Http\Controllers\Api\UserApiController::class, 'show']);
     Route::post('user/profile/update', [\App\Http\Controllers\Api\UserApiController::class, 'update']);
@@ -34,4 +34,3 @@ Route::apiResource('students', \App\Http\Controllers\Api\StudentApiController::c
 Route::apiResource('users', \App\Http\Controllers\Api\UserApiController::class)->middleware('rol:ADMIN');
 Route::apiResource('offers', \App\Http\Controllers\Api\OfferApiController::class)->middleware('rol:ADMIN,COMP');
 
-**/
