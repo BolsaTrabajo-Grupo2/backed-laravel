@@ -7,6 +7,7 @@ use App\Http\Requests\StudentRequest;
 use App\Http\Resources\StudentCollection;
 use App\Http\Resources\StudentResource;
 use App\Models\Student;
+use Carbon\Carbon;
 
 
 class StudentApiController extends Controller
@@ -28,6 +29,8 @@ class StudentApiController extends Controller
         $student->id_user = $user->id;
         $student->address = $studentRequest->get("address");
         $student->cv_link = $studentRequest->get("CVLink");
+        $student->created_at = Carbon::now();
+        $student->updated_at = Carbon::now();
         $student->save();
         return response()->json(['token' => $token], 201);
     }
@@ -37,6 +40,7 @@ class StudentApiController extends Controller
         $student->id_user = $studentRequest->get("idUser");
         $student->address = $studentRequest->get("address");
         $student->cv_link = $studentRequest->get("CVLink");
+        $student->updated_at = Carbon::now();
         $student->save();
         return new StudentResource($student);
     }
