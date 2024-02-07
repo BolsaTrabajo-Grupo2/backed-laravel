@@ -20,8 +20,10 @@ class CompanyRequest extends FormRequest
             'password' => 'required|string|min:8',
             'rol' => 'required',
             'CIF' => 'required|string|size:9',
-            'address' => 'required|string|max:100',
-            'phone' => 'required|string|max:9',
+            'companyName' => 'required|string|max:250',
+            'address' => 'required|string|max:250',
+            'CP' => 'required|string|size:5',
+            'phone' => 'required|string|size:9',
             'web' => 'nullable|string|max:100|url',
         ];
     }
