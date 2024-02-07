@@ -10,7 +10,7 @@ class Company extends Model
     use HasFactory;
     public $timestamps = false;
     protected $fillable = [
-        'user_id',
+        'id_user',
         'CIF',
         'company_name',
         'CP',
