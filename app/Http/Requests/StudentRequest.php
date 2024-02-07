@@ -29,7 +29,7 @@ class StudentRequest extends FormRequest
             'password' => 'required|string|min:8',
             'rol' => 'required',
             'address' => 'required|string|max:100',
-            'CVLink' => 'required|string|max:75',
+            'CVLink' => 'string|max:75',
         ];
     }
 }

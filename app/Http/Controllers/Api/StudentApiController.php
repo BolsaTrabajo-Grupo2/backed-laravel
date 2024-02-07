@@ -7,6 +7,7 @@ use App\Http\Requests\StudentRequest;
 use App\Http\Resources\StudentCollection;
 use App\Http\Resources\StudentResource;
 use App\Models\Student;
+use App\Notifications\NewStudentOrCompanyNotification;
 use Carbon\Carbon;
 
 
@@ -32,6 +33,7 @@ class StudentApiController extends Controller
         $student->created_at = Carbon::now();
         $student->updated_at = Carbon::now();
         $student->save();
+        $user->notify(new NewStudentOrCompanyNotification());
         return response()->json(['token' => $token], 201);
     }
 
