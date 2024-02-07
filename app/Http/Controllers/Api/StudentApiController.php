@@ -8,6 +8,7 @@ use App\Http\Resources\StudentCollection;
 use App\Http\Resources\StudentResource;
 use App\Models\Student;
 use App\Models\Study;
+use App\Models\User;
 use App\Notifications\ActivedNotification;
 use App\Notifications\NewStudentOrCompanyNotification;
 use Carbon\Carbon;
@@ -40,7 +41,7 @@ class StudentApiController extends Controller
             if (!empty($cycle['selectedCycle'])) {
                 $study = new Study();
                 $study->id_student = $student->id;
-                $study->id_cycle = $cycle['selectedCycle'];
+                $study->id_cycle = $cycle['id_cycle'];
                 $study->date = $cycle['date'];
                 $study->save();
             }
@@ -78,5 +79,27 @@ class StudentApiController extends Controller
         $student->accept = true;
         $student->save();
         $student->notify(new ActivedNotification());
+    }
+    public function getStudent($id) {
+        $student = Student::findOrFail($id);
+        $user = User::findOrFail($student->id_user);
+
+        // Crear un nuevo objeto para combinar los datos
+        $mergedData = new \stdClass();
+
+        // Asignar las propiedades del estudiante al nuevo objeto
+        foreach ($student->getAttributes() as $key => $value) {
+            $mergedData->$key = $value ?? ''; // Convertir null a ''
+        }
+
+        // Asignar las propiedades del usuario al nuevo objeto
+        foreach ($user->getAttributes() as $key => $value) {
+            $mergedData->$key = $value ?? ''; // Convertir null a ''
+        }
+
+        return $mergedData;
+    }
+    public function getCycleByStudent($id){
+        return Study::where('id_student', $id)->get();
     }
 }

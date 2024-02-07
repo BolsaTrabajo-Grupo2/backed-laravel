@@ -27,7 +27,10 @@ Route::middleware('rol:STU,COMP')->group(function () {
 Route::middleware('rol:STU,COMP,ADMIN,RESP')->group(function (){
     Route::get('/active/{id}',[\App\Http\Controllers\Api\StudentApiController::class,'active']);
 });
-
+//la ruta de abajo es para pillar el estudiante
+Route::get('student/{id}', [\App\Http\Controllers\Api\StudentApiController::class, 'getStudent']);
+//la ruta de abajo es para pillar los ciclos de un estudiante
+Route::get('studentCicles/{id}',[\App\Http\Controllers\Api\StudentApiController::class,'getCycleByStudent']);
 Route::apiResource('company',\App\Http\Controllers\Api\CompanyApiController::class)->middleware('rol:ADMIN,RESP,COMP');
 Route::delete('student/delete/{id}',[\App\Http\Controllers\Api\UserApiController::class, 'delete'])->middleware('rol:ADMIN,RESP,STU');
 Route::apiResource('responsible',\App\Http\Controllers\Api\UserApiController::class)->middleware('rol:RESP');
