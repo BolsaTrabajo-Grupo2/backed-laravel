@@ -7,6 +7,7 @@ use App\Http\Requests\StudentRequest;
 use App\Http\Resources\StudentCollection;
 use App\Http\Resources\StudentResource;
 use App\Models\Student;
+use App\Models\Study;
 use App\Notifications\NewStudentOrCompanyNotification;
 use Carbon\Carbon;
 
@@ -33,6 +34,15 @@ class StudentApiController extends Controller
         $student->created_at = Carbon::now();
         $student->updated_at = Carbon::now();
         $student->save();
+        foreach ($studentRequest->get('cycle') as $cycle) {
+            if (!empty($cycle['selectedCycle'])) {
+                $study = new Study();
+                $study->id_student = $student->id;
+                $study->id_cycle = $cycle['selectedCycle'];
+                $study->date = $cycle['date'];
+                $study->save();
+            }
+        }
         $user->notify(new NewStudentOrCompanyNotification());
         return response()->json(['token' => $token], 201);
     }
