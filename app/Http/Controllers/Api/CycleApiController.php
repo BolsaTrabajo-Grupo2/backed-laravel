@@ -12,12 +12,15 @@ use App\Models\Cycle;
 class CycleApiController extends Controller
 {
     public function index(){
-        $cycles = Cycle::all()->paginate(10);
+        $cycles = Cycle::paginate(10);
         return new CycleCollection($cycles);
     }
     public function show(Cycle $cycle)
     {
         return new CycleResource($cycle);
+    }
+    public function getAll(){
+        return Cycle::all();
     }
 
     public function store(CycleRequest $cycleRequest)

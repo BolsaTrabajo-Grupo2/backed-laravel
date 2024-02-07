@@ -19,4 +19,12 @@ class Cycle extends Model
         'vliteral',
         'cliteral'
     ];
+    public function family()
+    {
+        return $this->belongsTo(Family::class,'id_family','id');
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class,'id_responsible','id');
+    }
 }
