@@ -7,16 +7,16 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class NewStudentOrCompanyNotification extends Notification
+class ActivedNotification extends Notification
 {
     use Queueable;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct($student)
+    public function __construct()
     {
-        $this->student = $student;
+        //
     }
 
     /**
@@ -32,12 +32,11 @@ class NewStudentOrCompanyNotification extends Notification
     /**
      * Get the mail representation of the notification.
      */
-    public function toMail($notifiable)
+    public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject('Activación de cuenta')
-            ->line('¡Bienvenido! Una vez completado el registro, deberás activar tu cuenta para comenzar a utilizar nuestros servicios.')
-            ->action('Activar cuenta', url('/api/active/'.$this->student->id));
+            ->line('Su cuenta ha sido activada, ahora puedes disfrutar de todas las opciones')
+            ->line('Los ciclos estan en espera de ser validados, cuando estos esten validados podras recibir ofertas.');
     }
 
     /**

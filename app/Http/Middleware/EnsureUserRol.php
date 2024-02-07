@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Validation\UnauthorizedException;
+use Illuminate\Auth\AuthenticationException;
 use Symfony\Component\HttpFoundation\Response;
 
 class EnsureUserRol
@@ -14,13 +15,20 @@ class EnsureUserRol
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next, ... $roles): Response
+    public function handle(Request $request, Closure $next, ...$roles)
     {
-        foreach ($roles as $rol){
-            if($request->user()->hasRole($rol)){
+        $user = $request->user();
+
+        if (!$user) {
+            throw new UnauthorizedException('Unauthenticated.');
+        }
+
+        foreach ($roles as $role) {
+            if ($user->hasRole($role)) {
                 return $next($request);
             }
         }
+
         throw new UnauthorizedException('Forbidden.');
     }
 }

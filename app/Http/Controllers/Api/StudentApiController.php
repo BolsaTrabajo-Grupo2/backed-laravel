@@ -8,8 +8,10 @@ use App\Http\Resources\StudentCollection;
 use App\Http\Resources\StudentResource;
 use App\Models\Student;
 use App\Models\Study;
+use App\Notifications\ActivedNotification;
 use App\Notifications\NewStudentOrCompanyNotification;
 use Carbon\Carbon;
+use SebastianBergmann\Type\TrueType;
 
 
 class StudentApiController extends Controller
@@ -43,7 +45,7 @@ class StudentApiController extends Controller
                 $study->save();
             }
         }
-        $user->notify(new NewStudentOrCompanyNotification());
+        $user->notify(new NewStudentOrCompanyNotification($student));
         return response()->json(['token' => $token], 201);
     }
 
@@ -70,5 +72,11 @@ class StudentApiController extends Controller
             'message' => 'El estudiante con id:' . $id . ' ha sido borrado con éxito',
             'data' => $id
         ], 200);
+    }
+    public function active($id){
+        $student = Student::findOrFail($id);
+        $student->accept = true;
+        $student->save();
+        $student->notify(new ActivedNotification());
     }
 }
