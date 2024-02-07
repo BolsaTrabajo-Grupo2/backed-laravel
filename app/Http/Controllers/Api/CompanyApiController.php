@@ -33,7 +33,7 @@ class CompanyApiController extends Controller
         $company->address = $request->get('address');
         $company->phone = $request->get('phone');
         $company->web = $request->get('web');
-        $company->company_name = $request->get('companyName');
+        $company->company_name = $request->get('company_name');
         $company->CP = $request->get('CP');
         $company->created_at = Carbon::now();
         $company->updated_at = Carbon::now();
