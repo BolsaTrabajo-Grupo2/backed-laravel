@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('responsible_name',100);
             $table->boolean('inscription_method');
             $table->boolean('status');
-            $table->string('cif',9);
-            $table->foreign('cif', 'cif')->references('CIF')->on('companies')->onDelete('restrict')->onUpdate('cascade');
+            $table->string('CIF',9);
+            $table->foreign('CIF', 'CIF')->references('CIF')->on('companies')->onDelete('restrict')->onUpdate('cascade');
         });
     }
 

@@ -13,8 +13,10 @@ return new class extends Migration
     {
         Schema::create('companies', function (Blueprint $table) {
             $table->string('CIF', 9);
+            $table->string('company_name',100);
             $table->unsignedBigInteger('id_user');
             $table->string('address', 100);
+            $table->integer('CP');
             $table->string('phone', 9);
             $table->string('web', 100)->nullable();
             $table->timestamps();

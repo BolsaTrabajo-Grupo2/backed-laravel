@@ -18,7 +18,7 @@ class OfferSeeder extends Seeder
         for ($i = 0; $i < 20; $i++) {
             $offer = Offer::factory()->create();
             Assigned::factory([
-                'idOffer' => $offer->id
+                'id_offer' => $offer->id
             ])->create();
         }
 

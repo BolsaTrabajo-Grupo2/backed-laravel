@@ -23,7 +23,9 @@ class CompanyFactory extends Factory
 
         return [
             'CIF' => $this->GenerateCif(),
+            'company_name' => $faker->company,
             'address'     => $faker->streetAddress(),
+            'CP' => $this->generateCP(),
             'phone' => $faker->numerify('#########'),
             'web'  => $faker->url(),
             'created_at' => now(),
@@ -36,6 +38,17 @@ class CompanyFactory extends Factory
         $letter = $letters[rand(0, strlen($letters) - 1)];
         $number = mt_rand(10000000, 99999999);
         return $letter . str_pad($number, 8, '0', STR_PAD_LEFT);
+    }
+    function generateCP()
+    {
+        $FirstCP = 10000;
+        $LastCP = 99999;
+
+        $CP = rand($FirstCP, $LastCP);
+
+        $CPFormated = str_pad($CP, 5, '0', STR_PAD_LEFT);
+
+        return $CPFormated;
     }
 
 }

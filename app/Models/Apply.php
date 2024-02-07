@@ -10,7 +10,7 @@ class Apply extends Model
     use HasFactory;
     public $timestamps = false;
     protected $fillable = [
-        'idOffer',
-        'idStudent'
+        'id_offer',
+        'id_student'
     ];
 }

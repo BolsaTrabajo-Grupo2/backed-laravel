@@ -21,6 +21,7 @@ class OfferResource extends JsonResource
             'responsibleName' => $this->responsibleName,
             'inscriptionMethod' => $this->inscriptionMethod,
             'status' => $this->status,
+            'CIF' => $this->company->CIF
         ];
     }
 }

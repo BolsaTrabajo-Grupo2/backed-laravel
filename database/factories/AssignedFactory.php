@@ -20,8 +20,10 @@ class AssignedFactory extends Factory
     public function definition(): array
     {
         $idCycle = Cycle::inRandomOrder()->pluck('id')->first();
+        $idOffer = Offer::inRandomOrder()->pluck('id')->first();
         return [
-            'idCycle' => $idCycle,
+            'id_offer' => $idOffer,
+            'id_cycle' => $idCycle,
         ];
     }
 }

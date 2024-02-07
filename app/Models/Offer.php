@@ -11,4 +11,13 @@ class Offer extends Model
     protected $table='offers';
     protected $primaryKey='id';
     public $timestamps = false;
+
+    protected $fillable = [
+        'description',
+        'duration',
+        'responsible_name',
+        'inscription_method',
+        'status',
+        'CIF'
+    ];
 }

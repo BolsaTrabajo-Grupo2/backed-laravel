@@ -33,6 +33,8 @@ class CompanyApiController extends Controller
         $company->address = $request->get('address');
         $company->phone = $request->get('phone');
         $company->web = $request->get('web');
+        $company->company_name = $request->get('companyName');
+        $company->CP = $request->get('CP');
         $company->created_at = Carbon::now();
         $company->updated_at = Carbon::now();
         $company->save();
@@ -48,10 +50,10 @@ class CompanyApiController extends Controller
         $company->address = $request->get('address');
         $company->phone = $request->get('phone');
         $company->web = $request->get('web');
+        $company->company_name = $request->get('companyName');
+        $company->CP = $request->get('CP');
         $company->updated_at = Carbon::now();
-
         $company->save();
-
         return new CompanyResource($company);
     }
 

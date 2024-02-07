@@ -10,7 +10,7 @@ class Assigned extends Model
     use HasFactory;
     public $timestamps = false;
     protected $fillable = [
-        'idOffer',
-        'idCycle'
+        'id_offer',
+        'id_cycle'
     ];
 }

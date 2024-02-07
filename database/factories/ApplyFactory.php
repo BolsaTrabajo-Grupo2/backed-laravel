@@ -23,8 +23,8 @@ class ApplyFactory extends Factory
         $idUser = Student::inRandomOrder()->pluck('id')->first();
         $idOffer = Offer::inRandomOrder()->pluck('id')->first();
         return [
-            'idOffer' => $idOffer,
-            'idStudent' => $idUser,
+            'id_offer' => $idOffer,
+            'id_student' => $idUser,
         ];
     }
 }
