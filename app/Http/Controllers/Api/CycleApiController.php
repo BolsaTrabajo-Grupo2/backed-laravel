@@ -19,6 +19,9 @@ class CycleApiController extends Controller
     {
         return new CycleResource($cycle);
     }
+    public function getAll(){
+        return Cycle::all();
+    }
 
     public function store(CycleRequest $cycleRequest)
     {
