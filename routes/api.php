@@ -20,17 +20,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('login',[\App\Http\Controllers\Api\LoginController::class, 'login']);
 Route::post('registerCompany',[\App\Http\Controllers\Api\CompanyApiController::class, 'store']);
 Route::post('registerStudent',[\App\Http\Controllers\Api\StudentApiController::class, 'store']);
-Route::middleware('rol:STU,RESP,ADM')->group(function () {
-    Route::get('user/student ',[\App\Http\Controllers\Api\StudentApiController::class, 'show']);
-    Route::put('user/student/update/{id}', [\App\Http\Controllers\Api\StudentApiController::class, 'update']);
-});
-Route::middleware('rol:COMP,RESP,ADM')->group(function () {
-    Route::get('user/company ',[\App\Http\Controllers\Api\CompanyApiController::class, 'show']);
-    Route::put('user/company/update/{id}', [\App\Http\Controllers\Api\CompanyApiController::class, 'update']);
-});
-Route::middleware('rol:STU,COMP,ADM,RESP')->group(function (){
-    Route::get('/active/{id}',[\App\Http\Controllers\Api\StudentApiController::class,'active']);
-});
+Route::get('/active/{id}',[\App\Http\Controllers\Api\StudentApiController::class,'active']);
 //la ruta de abajo es para pillar el estudiante
 Route::get('student/{id}', [\App\Http\Controllers\Api\StudentApiController::class, 'getStudent']);
 //la ruta de abajo es para pillar los ciclos de un estudiante
@@ -48,4 +38,8 @@ Route::middleware('auth:sanctum')->group( function () {
     Route::apiResource('students', \App\Http\Controllers\Api\StudentApiController::class)->middleware('rol:ADM,STU');
     Route::apiResource('users', \App\Http\Controllers\Api\UserApiController::class)->middleware('rol:ADM');
     Route::apiResource('offers', \App\Http\Controllers\Api\OfferApiController::class)->middleware('rol:ADM,COMP');
+    Route::get('user/student ',[\App\Http\Controllers\Api\StudentApiController::class, 'show'])->middleware('rol:STU,RESP,ADM');
+    Route::put('user/student/update/{id}', [\App\Http\Controllers\Api\StudentApiController::class, 'update'])->middleware('rol:STU,RESP,ADM');
+    Route::get('user/company ',[\App\Http\Controllers\Api\CompanyApiController::class, 'show'])->middleware('rol:COMP,RESP,ADM');
+    Route::put('user/company/update/{id}', [\App\Http\Controllers\Api\CompanyApiController::class, 'update'])->middleware('rol:COMP,RESP,ADM');
 });
