@@ -12,7 +12,7 @@ use App\Models\Offer;
 class OfferApiController extends Controller
 {
     public function index(){
-        $offers = Offer::all()->paginate(10);
+        $offers = Offer::paginate(10);
         return new OfferCollection($offers);
     }
     public function show(Offer $offer)
