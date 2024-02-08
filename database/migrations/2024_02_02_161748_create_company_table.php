@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('CP',5);
             $table->string('phone', 9);
             $table->string('web', 100)->nullable();
+            $table->string('observations',250)->nullable();
             $table->timestamps();
             $table->primary('CIF');
             $table->foreign('id_user', 'id_user')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
