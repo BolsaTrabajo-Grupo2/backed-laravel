@@ -51,6 +51,7 @@ class StudentApiController extends Controller
     }
 
     public function update(StudentRequest $studentRequest, $id){
+        $userResponse = UserApiController::update($studentRequest);
         $student = Student::findOrFail($id);
         $student->id_user = $studentRequest->get("idUser");
         $student->address = $studentRequest->get("address");
@@ -81,8 +82,8 @@ class StudentApiController extends Controller
         $student->notify(new ActivedNotification());
     }
     public function getStudent($id) {
-        $student = Student::findOrFail($id);
-        $user = User::findOrFail($student->id_user);
+        $user = User::findOrFail($id);
+        $student = Student::where('id_user', $id)->first();
 
         $mergedData = new \stdClass();
         foreach ($student->getAttributes() as $key => $value) {
@@ -96,6 +97,16 @@ class StudentApiController extends Controller
         return $mergedData;
     }
     public function getCycleByStudent($id){
-        return Study::where('id_student', $id)->get();
+        $student = Student::where('id_user', $id)->first();
+        $studies = Study::where('id_student', $student->id)->get();
+        $cycles = [];
+        foreach ($studies as $study) {
+            $cycles[] = [
+                'id' => $study->id_cycle,
+                'selectedCycle' => $study->id_cycle,
+                'date' => $study->date
+            ];
+        }
+        return $cycles;
     }
 }

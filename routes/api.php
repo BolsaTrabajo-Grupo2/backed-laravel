@@ -22,7 +22,7 @@ Route::post('registerCompany',[\App\Http\Controllers\Api\CompanyApiController::c
 Route::post('registerStudent',[\App\Http\Controllers\Api\StudentApiController::class, 'store']);
 Route::middleware('rol:STU,COMP')->group(function () {
     Route::get('user/profile ',[\App\Http\Controllers\Api\UserApiController::class, 'show']);
-    Route::post('user/profile/update', [\App\Http\Controllers\Api\UserApiController::class, 'update']);
+    Route::put('user/profile/update/{id}', [\App\Http\Controllers\Api\UserApiController::class, 'update']);
 });
 Route::middleware('rol:STU,COMP,ADMIN,RESP')->group(function (){
     Route::get('/active/{id}',[\App\Http\Controllers\Api\StudentApiController::class,'active']);
