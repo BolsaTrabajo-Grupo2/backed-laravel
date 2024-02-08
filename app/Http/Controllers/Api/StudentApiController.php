@@ -51,7 +51,7 @@ class StudentApiController extends Controller
     }
 
     public function update(StudentRequest $studentRequest, $id){
-        $userResponse = UserApiController::update($studentRequest);
+        $userResponse = UserApiController::update($studentRequest,$id);
         $student = Student::findOrFail($id);
         $student->id_user = $studentRequest->get("idUser");
         $student->address = $studentRequest->get("address");

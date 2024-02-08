@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Api\UserApiController;
 use App\Http\Requests\CompanyRequest;
 use App\Http\Resources\CompanyCollection;
 use App\Http\Resources\CompanyResource;
@@ -43,8 +42,8 @@ class CompanyApiController extends Controller
 
     public function update(CompanyRequest $request, $id)
     {
+        $companyResponse = UserApiController::update($request,$id);
         $company = Company::findOrFail($id);
-
         $company->CIF = $request->get('CIF');
         $company->user_id = $request->get('idUser');
         $company->address = $request->get('address');

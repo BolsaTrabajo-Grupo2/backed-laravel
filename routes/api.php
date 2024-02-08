@@ -20,11 +20,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('login',[\App\Http\Controllers\Api\LoginController::class, 'login']);
 Route::post('registerCompany',[\App\Http\Controllers\Api\CompanyApiController::class, 'store']);
 Route::post('registerStudent',[\App\Http\Controllers\Api\StudentApiController::class, 'store']);
-Route::middleware('rol:STU,RESP')->group(function () {
+Route::middleware('rol:STU,RESP,ADM')->group(function () {
     Route::get('user/student ',[\App\Http\Controllers\Api\StudentApiController::class, 'show']);
     Route::put('user/student/update/{id}', [\App\Http\Controllers\Api\StudentApiController::class, 'update']);
 });
-Route::middleware('rol:COMP,RESP')->group(function () {
+Route::middleware('rol:COMP,RESP,ADM')->group(function () {
     Route::get('user/company ',[\App\Http\Controllers\Api\CompanyApiController::class, 'show']);
     Route::put('user/company/update/{CIF}', [\App\Http\Controllers\Api\CompanyApiController::class, 'update']);
 });
