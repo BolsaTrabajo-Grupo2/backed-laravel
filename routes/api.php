@@ -20,9 +20,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('login',[\App\Http\Controllers\Api\LoginController::class, 'login']);
 Route::post('registerCompany',[\App\Http\Controllers\Api\CompanyApiController::class, 'store']);
 Route::post('registerStudent',[\App\Http\Controllers\Api\StudentApiController::class, 'store']);
-Route::middleware('rol:STU,COMP')->group(function () {
-    Route::get('user/profile ',[\App\Http\Controllers\Api\UserApiController::class, 'show']);
-    Route::put('user/profile/update/{id}', [\App\Http\Controllers\Api\UserApiController::class, 'update']);
+Route::middleware('rol:STU,RESP')->group(function () {
+    Route::get('user/student ',[\App\Http\Controllers\Api\StudentApiController::class, 'show']);
+    Route::put('user/student/update/{id}', [\App\Http\Controllers\Api\StudentApiController::class, 'update']);
+});
+Route::middleware('rol:COMP,RESP')->group(function () {
+    Route::get('user/company ',[\App\Http\Controllers\Api\CompanyApiController::class, 'show']);
+    Route::put('user/company/update/{CIF}', [\App\Http\Controllers\Api\CompanyApiController::class, 'update']);
 });
 Route::middleware('rol:STU,COMP,ADM,RESP')->group(function (){
     Route::get('/active/{id}',[\App\Http\Controllers\Api\StudentApiController::class,'active']);
