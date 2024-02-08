@@ -88,7 +88,7 @@ class CompanyApiController extends Controller
         return $mergedData;
     }
     public function checkCIF($CIF){
-        $user = User::where('CIF', $CIF)->first();
-        return $user !== null;
+        $company = Company::where('CIF', $CIF)->first();
+        return $company !== null;
     }
 }
