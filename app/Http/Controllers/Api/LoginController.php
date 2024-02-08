@@ -28,6 +28,6 @@ class LoginController extends Controller
         // Crear un token de Sanctum
         $token = $user->createToken('api-token')->plainTextToken;
 
-        return response()->json(['token' => $token], 200);
+        return response()->json(['name' => $user->name, 'email' => $user->email, 'rol' => $user->rol, 'token' => $token], 200);
     }
 }
