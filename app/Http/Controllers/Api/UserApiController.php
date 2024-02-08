@@ -71,4 +71,8 @@ class UserApiController extends Controller
             'data' => $id
         ], 200);
     }
+    public function checkEmail($email){
+        $user = User::where('email', $email)->first();
+        return $user !== null;
+    }
 }

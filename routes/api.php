@@ -39,3 +39,5 @@ Route::apiResource('students', \App\Http\Controllers\Api\StudentApiController::c
 Route::apiResource('users', \App\Http\Controllers\Api\UserApiController::class)->middleware('rol:ADMIN');
 Route::apiResource('offers', \App\Http\Controllers\Api\OfferApiController::class)->middleware('rol:ADMIN,COMP');
 Route::get('cycles', [CycleApiController::class, 'getAll']);
+//la ruta para comprobar el email
+Route::get('checkEmail/{email}',[\App\Http\Controllers\Api\UserApiController::class,'checkEmail']);

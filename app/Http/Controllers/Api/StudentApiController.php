@@ -41,7 +41,7 @@ class StudentApiController extends Controller
             if (!empty($cycle['selectedCycle'])) {
                 $study = new Study();
                 $study->id_student = $student->id;
-                $study->id_cycle = $cycle['id_cycle'];
+                $study->id_cycle = $cycle['selectedCycle'];
                 $study->date = $cycle['date'];
                 $study->save();
             }
@@ -84,17 +84,13 @@ class StudentApiController extends Controller
         $student = Student::findOrFail($id);
         $user = User::findOrFail($student->id_user);
 
-        // Crear un nuevo objeto para combinar los datos
         $mergedData = new \stdClass();
-
-        // Asignar las propiedades del estudiante al nuevo objeto
         foreach ($student->getAttributes() as $key => $value) {
-            $mergedData->$key = $value ?? ''; // Convertir null a ''
+            $mergedData->$key = $value ?? '';
         }
 
-        // Asignar las propiedades del usuario al nuevo objeto
         foreach ($user->getAttributes() as $key => $value) {
-            $mergedData->$key = $value ?? ''; // Convertir null a ''
+            $mergedData->$key = $value ?? '';
         }
 
         return $mergedData;
