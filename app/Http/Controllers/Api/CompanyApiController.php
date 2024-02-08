@@ -7,6 +7,8 @@ use App\Http\Requests\CompanyRequest;
 use App\Http\Resources\CompanyCollection;
 use App\Http\Resources\CompanyResource;
 use App\Models\Company;
+use App\Models\Student;
+use App\Models\User;
 use Carbon\Carbon;
 
 class CompanyApiController extends Controller
@@ -43,9 +45,8 @@ class CompanyApiController extends Controller
     public function update(CompanyRequest $request, $id)
     {
         $companyResponse = UserApiController::update($request,$id);
-        $company = Company::findOrFail($id);
+        $company = Company::where('id_user',$id)->first();
         $company->CIF = $request->get('CIF');
-        $company->user_id = $request->get('idUser');
         $company->address = $request->get('address');
         $company->phone = $request->get('phone');
         $company->web = $request->get('web');
@@ -70,5 +71,24 @@ class CompanyApiController extends Controller
             'message' => 'La empresa con id:' . $id . ' ha sido borrada con éxito',
             'data' => $id
         ], 200);
+    }
+    public function getCompany($id) {
+        $user = User::findOrFail($id);
+        $company = Company::where('id_user', $id)->first();
+
+        $mergedData = new \stdClass();
+        foreach ($company->getAttributes() as $key => $value) {
+            $mergedData->$key = $value ?? '';
+        }
+
+        foreach ($user->getAttributes() as $key => $value) {
+            $mergedData->$key = $value ?? '';
+        }
+
+        return $mergedData;
+    }
+    public function checkCIF($CIF){
+        $user = User::where('CIF', $CIF)->first();
+        return $user !== null;
     }
 }
