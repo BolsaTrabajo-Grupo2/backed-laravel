@@ -41,14 +41,16 @@ class UserApiController extends Controller
         return response()->json(['token' => $token, 'user' => $user], 201);
     }
 
-    public function update(UserRequest $request, $id)
+    public function update(Request $request, $id)
     {
         $user = User::findOrFail($id);
 
         $user->name = $request->get('name');
         $user->surname = $request->get('surname');
         $user->email = $request->get('email');
-        $user->password = Hash::make($request->get('password'));
+        if($request->get('password') != '' ){
+            $user->password = Hash::make($request->get('password'));
+        }
         $user->rol = $request->get('rol');
 
         $user->save();
@@ -70,5 +72,9 @@ class UserApiController extends Controller
             'message' => 'El usuario con id:' . $id . ' ha sido borrada con éxito',
             'data' => $id
         ], 200);
+    }
+    public function checkEmail($email){
+        $user = User::where('email', $email)->first();
+        return $user !== null;
     }
 }

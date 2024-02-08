@@ -7,8 +7,12 @@ use App\Http\Requests\StudentRequest;
 use App\Http\Resources\StudentCollection;
 use App\Http\Resources\StudentResource;
 use App\Models\Student;
+use App\Models\Study;
+use App\Models\User;
+use App\Notifications\ActivedNotification;
 use App\Notifications\NewStudentOrCompanyNotification;
 use Carbon\Carbon;
+use SebastianBergmann\Type\TrueType;
 
 
 class StudentApiController extends Controller
@@ -33,11 +37,21 @@ class StudentApiController extends Controller
         $student->created_at = Carbon::now();
         $student->updated_at = Carbon::now();
         $student->save();
-        $user->notify(new NewStudentOrCompanyNotification());
+        foreach ($studentRequest->get('cycle') as $cycle) {
+            if (!empty($cycle['selectedCycle'])) {
+                $study = new Study();
+                $study->id_student = $student->id;
+                $study->id_cycle = $cycle['selectedCycle'];
+                $study->date = $cycle['date'];
+                $study->save();
+            }
+        }
+        $user->notify(new NewStudentOrCompanyNotification($student));
         return response()->json(['token' => $token], 201);
     }
 
     public function update(StudentRequest $studentRequest, $id){
+        $userResponse = UserApiController::update($studentRequest);
         $student = Student::findOrFail($id);
         $student->id_user = $studentRequest->get("idUser");
         $student->address = $studentRequest->get("address");
@@ -60,5 +74,39 @@ class StudentApiController extends Controller
             'message' => 'El estudiante con id:' . $id . ' ha sido borrado con éxito',
             'data' => $id
         ], 200);
+    }
+    public function active($id){
+        $student = Student::findOrFail($id);
+        $student->accept = true;
+        $student->save();
+        $student->notify(new ActivedNotification());
+    }
+    public function getStudent($id) {
+        $user = User::findOrFail($id);
+        $student = Student::where('id_user', $id)->first();
+
+        $mergedData = new \stdClass();
+        foreach ($student->getAttributes() as $key => $value) {
+            $mergedData->$key = $value ?? '';
+        }
+
+        foreach ($user->getAttributes() as $key => $value) {
+            $mergedData->$key = $value ?? '';
+        }
+
+        return $mergedData;
+    }
+    public function getCycleByStudent($id){
+        $student = Student::where('id_user', $id)->first();
+        $studies = Study::where('id_student', $student->id)->get();
+        $cycles = [];
+        foreach ($studies as $study) {
+            $cycles[] = [
+                'id' => $study->id_cycle,
+                'selectedCycle' => $study->id_cycle,
+                'date' => $study->date
+            ];
+        }
+        return $cycles;
     }
 }

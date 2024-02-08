@@ -16,4 +16,8 @@ class Student extends Model
         'cv_link',
         'accept',
     ];
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'id_user');
+    }
 }
