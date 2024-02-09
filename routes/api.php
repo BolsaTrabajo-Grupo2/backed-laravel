@@ -28,7 +28,8 @@ Route::get('studentCicles/{id}',[\App\Http\Controllers\Api\StudentApiController:
 Route::get('cycles', [CycleApiController::class, 'getAll']);
 //la ruta para comprobar el email
 Route::get('checkEmail/{email}',[\App\Http\Controllers\Api\UserApiController::class,'checkEmail']);
-
+Route::get('checkCIF/{CIF}',[\App\Http\Controllers\Api\CompanyApiController::class,'checkCIF']);
+Route::get('company/{id}', [\App\Http\Controllers\Api\CompanyApiController::class, 'getCompany']);
 Route::middleware('auth:sanctum')->group( function () {
     Route::apiResource('company',\App\Http\Controllers\Api\CompanyApiController::class)->middleware('rol:ADM,RESP,COMP');
     Route::delete('student/delete/{id}',[\App\Http\Controllers\Api\UserApiController::class, 'delete'])->middleware('rol:ADM,RESP,STU');
@@ -40,5 +41,5 @@ Route::middleware('auth:sanctum')->group( function () {
     Route::get('user/student ',[\App\Http\Controllers\Api\StudentApiController::class, 'show'])->middleware('rol:STU,RESP,ADM');
     Route::put('user/student/update/{id}', [\App\Http\Controllers\Api\StudentApiController::class, 'update'])->middleware('rol:STU,RESP,ADM');
     Route::get('user/company ',[\App\Http\Controllers\Api\CompanyApiController::class, 'show'])->middleware('rol:COMP,RESP,ADM');
-    Route::put('user/company/update/{CIF}', [\App\Http\Controllers\Api\CompanyApiController::class, 'update'])->middleware('rol:COMP,RESP,ADM');
+    Route::put('user/company/update/{id}', [\App\Http\Controllers\Api\CompanyApiController::class, 'update'])->middleware('rol:COMP,RESP,ADM');
 });
