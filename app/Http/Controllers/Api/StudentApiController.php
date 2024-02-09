@@ -51,13 +51,23 @@ class StudentApiController extends Controller
     }
 
     public function update(StudentRequest $studentRequest, $id){
-        $userResponse = UserApiController::update($studentRequest,$id);
-        $student = Student::findOrFail($id);
-        $student->id_user = $studentRequest->get("idUser");
+        $userApi = new UserApiController();
+        $userResponse = $userApi->update($studentRequest,$id);
+        $student = Student::where('id_user', $id)->firstOrFail();
         $student->address = $studentRequest->get("address");
         $student->cv_link = $studentRequest->get("CVLink");
         $student->updated_at = Carbon::now();
         $student->save();
+        Study::where('id_student', $student->id)->delete();
+        foreach ($studentRequest->get('cycle') as $cycle) {
+            if (!empty($cycle['selectedCycle'])) {
+                $study = new Study();
+                $study->id_student = $student->id;
+                $study->id_cycle = $cycle['selectedCycle'];
+                $study->date = $cycle['date'];
+                $study->save();
+            }
+        }
         return new StudentResource($student);
     }
     public function delete($id)
