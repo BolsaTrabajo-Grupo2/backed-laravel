@@ -13,6 +13,7 @@ use App\Models\User;
 use App\Notifications\ActivedNotification;
 use App\Notifications\NewStudentOrCompanyNotification;
 use Carbon\Carbon;
+use Illuminate\Notifications\Notifiable;
 use SebastianBergmann\Type\TrueType;
 
 
@@ -47,7 +48,8 @@ class StudentApiController extends Controller
                 $study->save();
             }
         }
-        $user->notify(new NewStudentOrCompanyNotification($student));
+        $studies = Study::where('id_student', $student->id)->get();
+        $user->notify(new NewStudentOrCompanyNotification($student, $studies));
         return response()->json(['token' => $token], 201);
     }
 
@@ -90,7 +92,8 @@ class StudentApiController extends Controller
         $student = Student::findOrFail($id);
         $student->accept = true;
         $student->save();
-        $student->notify(new ActivedNotification());
+        $user = User::findOrFail($student->id_user);
+        $user->notify(new ActivedNotification());
     }
     public function getStudent($id) {
         $user = User::findOrFail($id);

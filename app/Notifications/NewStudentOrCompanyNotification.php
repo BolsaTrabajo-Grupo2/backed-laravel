@@ -14,9 +14,10 @@ class NewStudentOrCompanyNotification extends Notification
     /**
      * Create a new notification instance.
      */
-    public function __construct($student)
+    public function __construct($student, $studies=null)
     {
         $this->student = $student;
+        $this->studies = $studies;
     }
 
     /**
@@ -34,9 +35,21 @@ class NewStudentOrCompanyNotification extends Notification
      */
     public function toMail($notifiable)
     {
+        $ciclos = '';
+        foreach ($this->studies as $study) {
+            $ciclos .= $study->cycle->cliteral . ', ';
+        }
+
+        if (!empty($ciclos)) {
+            $ciclos = rtrim($ciclos, ', ');
+        } else {
+            $ciclos = 'Ningún ciclo';
+        }
         return (new MailMessage)
             ->subject('Activación de cuenta')
-            ->line('¡Bienvenido! Una vez completado el registro, deberás activar tu cuenta para comenzar a utilizar nuestros servicios.')
+            ->line('¡Bienvenido! Una vez completado el registro, comprueba tus datos y activa tu cuenta.')
+            ->line('Nombre: ' . $this->student->user->name . $this->student->user->surname)
+            ->line('Ciclos: ' . $ciclos)
             ->action('Activar cuenta', url('/api/active/'.$this->student->id));
     }
 
