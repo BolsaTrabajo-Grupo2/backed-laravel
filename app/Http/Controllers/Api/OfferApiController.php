@@ -6,13 +6,50 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\OfferRequest;
 use App\Http\Resources\OfferCollection;
 use App\Http\Resources\OfferResource;
+use App\Models\Assigned;
+use App\Models\Company;
 use App\Models\Cycle;
 use App\Models\Offer;
+use App\Models\Study;
+use http\Client\Curl\User;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Auth;
+use Ramsey\Collection\Collection;
+
 
 class OfferApiController extends Controller
 {
     public function index(){
-        $offers = Offer::paginate(10);
+        $user = Auth::user();
+        $offers = null;
+        if ($user->rol == 'ADM'){
+            $offers = Offer::paginate(10);
+        }elseif ($user->rol == 'RESP'){
+            $arrayCiclos = [];
+            $ciclosDelRespondable = Cycle::where('id_responsible',$user->id)->get();
+            foreach ($ciclosDelRespondable as $cycle){
+                $ofertasDelCiclo = Assigned::where('id_cycle',$cycle->id)->get();
+                foreach ($ofertasDelCiclo as $off){
+                    $o = Offer::findOrFail($off->id_offer);
+                    $arrayCiclos[] = $o;
+                }
+            }
+            $colecciónCiclos = collect($arrayCiclos);
+        }elseif ($user->rol == 'COMP'){
+            $userCompany = Company::where('id_user',$user->id)->first();
+            $offers = Offer::where('cif',$userCompany->CIF)->paginate(10);
+        }elseif($user->rol == 'STU'){
+            $cycles = Study::with('id_user',$user->id)->get();
+            $offerResponsible = [];
+            foreach ($cycles as $cycle){
+                $offersCycle = Assigned::where('id_cycle',$cycle->id)->get();
+                foreach ($offersCycle as $offer){
+                    $offerResponsible[] = $offer;
+                }
+            }
+            $offers = collect($offerResponsible)->paginate(10);
+        }
+
         return new OfferCollection($offers);
     }
     public function show(Offer $offer)

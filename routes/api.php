@@ -37,7 +37,7 @@ Route::middleware('auth:sanctum')->group( function () {
     Route::get('validate/{id}',[\App\Http\Controllers\Api\OfferApiController::class, 'validate'])->middleware('rol:ADM,RESP');
     Route::apiResource('students', \App\Http\Controllers\Api\StudentApiController::class)->middleware('rol:ADM,STU');
     Route::apiResource('users', \App\Http\Controllers\Api\UserApiController::class)->middleware('rol:ADM');
-    Route::apiResource('offers', \App\Http\Controllers\Api\OfferApiController::class)->middleware('rol:ADM,COMP');
+    Route::apiResource('offers', \App\Http\Controllers\Api\OfferApiController::class)->middleware('rol:ADM,COMP,STU,RESP');
     Route::get('user/student ',[\App\Http\Controllers\Api\StudentApiController::class, 'show'])->middleware('rol:STU,RESP,ADM');
     Route::put('user/student/update/{id}', [\App\Http\Controllers\Api\StudentApiController::class, 'update'])->middleware('rol:STU,RESP,ADM');
     Route::get('user/company ',[\App\Http\Controllers\Api\CompanyApiController::class, 'show'])->middleware('rol:COMP,RESP,ADM');

@@ -13,4 +13,13 @@ class Assigned extends Model
         'id_offer',
         'id_cycle'
     ];
+    public function offer()
+    {
+        return $this->belongsTo(Offer::class, 'id_offer');
+    }
+
+    public function cycle()
+    {
+        return $this->belongsTo(Cycle::class, 'id_cycle');
+    }
 }
