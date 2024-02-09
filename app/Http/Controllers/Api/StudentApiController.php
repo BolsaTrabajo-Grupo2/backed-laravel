@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StudentRequest;
+use App\Http\Requests\StudentUpdateRquest;
 use App\Http\Resources\StudentCollection;
 use App\Http\Resources\StudentResource;
 use App\Models\Student;
@@ -52,7 +53,7 @@ class StudentApiController extends Controller
         return response()->json(['token' => $token], 201);
     }
 
-    public function update(StudentRequest $studentRequest, $id){
+    public function update(StudentUpdateRquest $studentRequest, $id){
         $userApi = new UserApiController();
         $userResponse = $userApi->update($studentRequest,$id);
         $student = Student::where('id_user', $id)->firstOrFail();
@@ -104,6 +105,11 @@ class StudentApiController extends Controller
         }
 
         foreach ($user->getAttributes() as $key => $value) {
+            // Omitir la contraseña y el correo electrónico
+            if ($key === 'password' || $key === 'email') {
+                continue;
+            }
+            // Agregar los demás atributos al objeto mergedData
             $mergedData->$key = $value ?? '';
         }
 
