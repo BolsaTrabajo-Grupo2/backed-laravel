@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CompanyRequest;
+use App\Http\Requests\CompanyUpdateRequest;
 use App\Http\Resources\CompanyCollection;
 use App\Http\Resources\CompanyResource;
 use App\Models\Company;
@@ -42,15 +43,16 @@ class CompanyApiController extends Controller
         return response()->json(['token' => $token], 201);
     }
 
-    public function update(CompanyRequest $request, $id)
+    public function update(CompanyUpdateRequest $request, $id)
     {
-        $companyResponse = UserApiController::update($request,$id);
-        $company = Company::where('id_user',$id)->first();
+        $userApi = new UserApiController();
+        $companyResponse = $userApi->update($request,$id);
+        $company = Company::where('id_user',$id)->firstOrFail();
         $company->CIF = $request->get('CIF');
         $company->address = $request->get('address');
         $company->phone = $request->get('phone');
         $company->web = $request->get('web');
-        $company->company_name = $request->get('companyName');
+        $company->company_name = $request->get('company_name');
         $company->CP = $request->get('CP');
         $company->updated_at = Carbon::now();
         $company->save();
