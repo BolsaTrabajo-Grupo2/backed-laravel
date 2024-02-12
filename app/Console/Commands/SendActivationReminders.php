@@ -35,7 +35,7 @@ class SendActivationReminders extends Command
 
         $students = Student::where('accept', 0)
             ->whereHas('user', function ($query) use ($threeDaysAgo) {
-                $query->where('created_at', '<=', $threeDaysAgo);
+                $query->where('created_at', '==', $threeDaysAgo);
             })
             ->get();
 
