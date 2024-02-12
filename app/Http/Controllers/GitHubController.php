@@ -6,11 +6,12 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Testing\Fluent\Concerns\Has;
+use Illuminate\Support\Str; // Importar la clase Str correcta
 use Laravel\Socialite\Facades\Socialite;
-use mysql_xdevapi\Exception;
-use Psy\Util\Str;
+use Exception;
 use function Laravel\Prompts\alert;
+
+// Importar la clase Exception correcta
 
 class GitHubController extends Controller
 {
@@ -23,17 +24,10 @@ class GitHubController extends Controller
     {
         try {
             $user = Socialite::driver('github')->user();
-
-            $gitUser = User::updateOrCreate([
-                'github_id' => $user->id
-            ], [
-                'name' => $user->name,
-                'nickname' => $user->nickname,
-                'email' => $user->email,
-                'password' => Hash::make(Str::random(10))
-            ]);
-
-            Auth::login($gitUser);
+            $existingUser = User::where('email', 'like', '%' . $user->email . '%')->first();
+            if ($existingUser) {
+                Auth::login($existingUser);
+            }
 
         } catch (Exception $e){
             alert($e->getMessage());

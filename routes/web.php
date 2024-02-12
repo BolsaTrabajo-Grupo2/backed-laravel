@@ -17,5 +17,5 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('auth/github' , [\App\Http\Controllers\GitHubController::class, 'redirect'])->name('github.login');
-Route::get('auth/github/callback' , [\App\Http\Controllers\GitHubController::class, 'callback']);
+Route::get('/auth/github' , [\App\Http\Controllers\GitHubController::class, 'redirect'])->name('github.login');
+Route::get('/auth/github/callback' , [\App\Http\Controllers\GitHubController::class, 'callback']);
