@@ -20,7 +20,7 @@ return new class extends Migration
             $table->boolean('status');
             $table->string('observations',250)->nullable();
             $table->string('CIF',9);
-            $table->foreign('CIF', 'CIF')->references('CIF')->on('companies')->onDelete('restrict')->onUpdate('cascade');
+            $table->foreign('CIF', 'CIF')->references('CIF')->on('company')->onDelete('restrict')->onUpdate('cascade');
         });
     }
 
