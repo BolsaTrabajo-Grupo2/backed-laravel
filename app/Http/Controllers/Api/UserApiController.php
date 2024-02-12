@@ -47,7 +47,9 @@ class UserApiController extends Controller
 
         $user->name = $request->get('name');
         $user->surname = $request->get('surname');
-        $user->email = $request->get('email');
+        if($request->get('email')){
+            $user->email = $request->get('email');
+        }
         if($request->get('password') != '' ){
             $user->password = Hash::make($request->get('password'));
         }
