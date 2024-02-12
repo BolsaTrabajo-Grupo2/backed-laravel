@@ -44,3 +44,4 @@ Route::middleware('auth:sanctum')->group( function () {
     Route::get('user/company ',[\App\Http\Controllers\Api\CompanyApiController::class, 'show'])->middleware('rol:COMP,RESP,ADM');
     Route::put('user/company/update/{id}', [\App\Http\Controllers\Api\CompanyApiController::class, 'update'])->middleware('rol:COMP,RESP,ADM');
 });
+
