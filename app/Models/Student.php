@@ -15,6 +15,7 @@ class Student extends Model
         'address',
         'cv_link',
         'accept',
+        'observations'
     ];
     public function user()
     {
