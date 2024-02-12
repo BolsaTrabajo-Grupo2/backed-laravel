@@ -95,6 +95,7 @@ class StudentApiController extends Controller
         $student->save();
         $user = User::findOrFail($student->id_user);
         $user->notify(new ActivedNotification());
+        return view('users.actived');
     }
     public function getStudent($id) {
         $user = User::findOrFail($id);
