@@ -14,6 +14,7 @@ class Study extends Model
         'id_student',
         'id_cycle',
         'date',
+        'verified'
     ];
     public function cycle(){
         return $this->belongsTo(Cycle::class, 'id_cycle', 'id');

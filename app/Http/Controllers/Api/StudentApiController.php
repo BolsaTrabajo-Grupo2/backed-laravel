@@ -7,10 +7,12 @@ use App\Http\Requests\StudentRequest;
 use App\Http\Requests\StudentUpdateRquest;
 use App\Http\Resources\StudentCollection;
 use App\Http\Resources\StudentResource;
+use App\Models\Cycle;
 use App\Models\Student;
 use App\Models\Study;
 use App\Models\User;
 use App\Notifications\ActivedNotification;
+use App\Notifications\CycleValidationRequest;
 use App\Notifications\NewStudentOrCompanyNotification;
 use Carbon\Carbon;
 use Illuminate\Notifications\Notifiable;
@@ -46,6 +48,9 @@ class StudentApiController extends Controller
                 $study->id_cycle = $cycle['selectedCycle'];
                 $study->date = $cycle['date'];
                 $study->save();
+                $cycle = Cycle::findOrFail($study->id_cycle);
+                $responsible = User::findOrFail($cycle->id_responsible);
+                $responsible->notify(new CycleValidationRequest($study, $user->name));
             }
         }
         $studies = Study::where('id_student', $student->id)->get();
@@ -129,5 +134,11 @@ class StudentApiController extends Controller
             ];
         }
         return $cycles;
+    }
+    public function verificated($id){
+        $study = Study::findOrFail($id);
+        $study->verified = true;
+        $study->update();
+        return 'verificado con exito';
     }
 }

@@ -20,7 +20,8 @@ class StudyFactory extends Factory
         $idCycles = DB::table('cycles')->pluck('id')->toArray();
         return [
             'id_cycle'=> $this->faker->randomElement($idCycles),
-            'date' => $this->faker->dateTimeBetween('-1 years', 'now')->format('Y-m-d')
+            'date' => $this->faker->dateTimeBetween('-1 years', 'now')->format('Y-m-d'),
+            'verified' => true,
         ];
     }
 }
