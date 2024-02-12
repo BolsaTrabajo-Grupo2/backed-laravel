@@ -24,8 +24,6 @@ class LoginController extends Controller
         }
 
         $user = User::where('email', $request->email)->firstOrFail();
-
-        // Crear un token de Sanctum
         $token = $user->createToken('api-token')->plainTextToken;
 
         return response()->json(['name' => $user->name, 'email' => $user->email, 'rol' => $user->rol, 'token' => $token], 200);
