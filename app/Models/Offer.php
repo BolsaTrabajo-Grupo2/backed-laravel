@@ -20,4 +20,8 @@ class Offer extends Model
         'status',
         'CIF'
     ];
+    public function assigneds()
+    {
+        return $this->hasMany(Assigned::class, 'id_offer');
+    }
 }
