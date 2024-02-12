@@ -67,14 +67,28 @@ class StudentApiController extends Controller
         $student->observations = $studentRequest->get('observations');
         $student->updated_at = Carbon::now();
         $student->save();
-        Study::where('id_student', $student->id)->delete();
+        $studies = Study::where('id_student', $student->id)->pluck('id_cycle')->toArray();
         foreach ($studentRequest->get('cycle') as $cycle) {
-            if (!empty($cycle['selectedCycle'])) {
-                $study = new Study();
-                $study->id_student = $student->id;
-                $study->id_cycle = $cycle['selectedCycle'];
-                $study->date = $cycle['date'];
-                $study->save();
+            $selectedCycle = $cycle['selectedCycle'];
+            if (!empty($selectedCycle)) {
+                if (in_array($selectedCycle, $studies)) {
+                    $existingStudy = Study::where('id_student', $student->id)
+                        ->where('id_cycle', $selectedCycle)
+                        ->first();
+                    if ($existingStudy) {
+                        $existingStudy->date = $cycle['date'];
+                        $existingStudy->save();
+                    }
+                } else {
+                    $study = new Study();
+                    $study->id_student = $student->id;
+                    $study->id_cycle = $selectedCycle;
+                    $study->date = $cycle['date'];
+                    $study->save();
+                    $cycleModel = Cycle::findOrFail($selectedCycle);
+                    $responsible = User::findOrFail($cycleModel->id_responsible);
+                    $responsible->notify(new CycleValidationRequest($study, $userResponse->name));
+                }
             }
         }
         return new StudentResource($student);
@@ -112,11 +126,9 @@ class StudentApiController extends Controller
         }
 
         foreach ($user->getAttributes() as $key => $value) {
-            // Omitir la contraseña y el correo electrónico
             if ($key === 'password' || $key === 'email') {
                 continue;
             }
-            // Agregar los demás atributos al objeto mergedData
             $mergedData->$key = $value ?? '';
         }
 
