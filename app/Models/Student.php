@@ -21,4 +21,13 @@ class Student extends Model
     {
         return $this->belongsTo(User::class, 'id_user');
     }
+    public function studies()
+    {
+        return $this->hasMany(Study::class, 'id_student', 'id');
+    }
+
+    public function cycles()
+    {
+        return $this->hasMany(Cycle::class, 'id_student', 'id_user');
+    }
 }

@@ -10,10 +10,12 @@ use App\Models\Assigned;
 use App\Models\Company;
 use App\Models\Cycle;
 use App\Models\Offer;
+use App\Models\Student;
 use App\Models\Study;
 use http\Client\Curl\User;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Ramsey\Collection\Collection;
 
 
@@ -25,7 +27,7 @@ class OfferApiController extends Controller
         if ($user->rol == 'ADM'){
             $offers = Offer::paginate(10);
         }elseif ($user->rol == 'RESP'){
-            $user = Auth::user(); // O cómo sea que obtengas al usuario actual
+            $user = Auth::user();
 
             $offers = Offer::whereIn('id', function($query) use ($user) {
                 $query->select('id_offer')
@@ -41,11 +43,14 @@ class OfferApiController extends Controller
             $offers = Offer::where('cif',$userCompany->CIF)->paginate(10);
         }elseif($user->rol == 'STU'){
             $user = Auth::user();
+            $student = Student::where('id_user', $user->id)->first();
+            if ($student) {
+                $cycles = Study::where('id_student', $student->id)->pluck('id');
 
-            $offers = Study::whereHas('cycle', function($query) use ($user) {
-                $query->where('id_student', $user->id);
-            })->paginate(10);
+                $assigned = Assigned::whereIn('id_cycle', $cycles)->pluck('id_offer');
 
+                $offers = Offer::whereIn('id', $assigned)->paginate(10);
+            }
         }
 
         return new OfferCollection($offers);

@@ -27,4 +27,8 @@ class Cycle extends Model
     {
         return $this->belongsTo(User::class,'id_responsible','id');
     }
+    public function student()
+    {
+        return $this->belongsTo(Student::class, 'id_student', 'id_user');
+    }
 }
