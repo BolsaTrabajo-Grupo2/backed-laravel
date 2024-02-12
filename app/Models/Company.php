@@ -8,18 +8,25 @@ use Illuminate\Database\Eloquent\Model;
 class Company extends Model
 {
     use HasFactory;
+
+    protected $primaryKey = 'CIF';
+    public $incrementing = false;
+
     public $timestamps = false;
+
     protected $fillable = [
-        'id_user',
         'CIF',
+        'id_user',
         'company_name',
         'CP',
         'address',
         'phone',
         'web',
     ];
+
     public function user()
     {
-        return $this->belongsTo(User::class,'id_user','id');
+        return $this->belongsTo(User::class, 'id_user', 'id');
     }
 }
+

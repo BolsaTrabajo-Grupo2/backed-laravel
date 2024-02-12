@@ -25,29 +25,27 @@ class OfferApiController extends Controller
         if ($user->rol == 'ADM'){
             $offers = Offer::paginate(10);
         }elseif ($user->rol == 'RESP'){
-            $arrayCiclos = [];
-            $ciclosDelRespondable = Cycle::where('id_responsible',$user->id)->get();
-            foreach ($ciclosDelRespondable as $cycle){
-                $ofertasDelCiclo = Assigned::where('id_cycle',$cycle->id)->get();
-                foreach ($ofertasDelCiclo as $off){
-                    $o = Offer::findOrFail($off->id_offer);
-                    $arrayCiclos[] = $o;
-                }
-            }
-            $colecciónCiclos = collect($arrayCiclos);
+            $user = Auth::user(); // O cómo sea que obtengas al usuario actual
+
+            $offers = Offer::whereIn('id', function($query) use ($user) {
+                $query->select('id_offer')
+                    ->from(with(new Assigned)->getTable())
+                    ->whereIn('id_cycle', function($query) use ($user) {
+                        $query->select('id')
+                            ->from(with(new Cycle)->getTable())
+                            ->where('id_responsible', $user->id);
+                    });
+            })->paginate(10);
         }elseif ($user->rol == 'COMP'){
             $userCompany = Company::where('id_user',$user->id)->first();
             $offers = Offer::where('cif',$userCompany->CIF)->paginate(10);
         }elseif($user->rol == 'STU'){
-            $cycles = Study::with('id_user',$user->id)->get();
-            $offerResponsible = [];
-            foreach ($cycles as $cycle){
-                $offersCycle = Assigned::where('id_cycle',$cycle->id)->get();
-                foreach ($offersCycle as $offer){
-                    $offerResponsible[] = $offer;
-                }
-            }
-            $offers = collect($offerResponsible)->paginate(10);
+            $user = Auth::user();
+
+            $offers = Study::whereHas('cycle', function($query) use ($user) {
+                $query->where('id_student', $user->id);
+            })->paginate(10);
+
         }
 
         return new OfferCollection($offers);

@@ -59,6 +59,7 @@ class StudentApiController extends Controller
         $student = Student::where('id_user', $id)->firstOrFail();
         $student->address = $studentRequest->get("address");
         $student->cv_link = $studentRequest->get("CVLink");
+        $student->observations = $studentRequest->get('observations');
         $student->updated_at = Carbon::now();
         $student->save();
         Study::where('id_student', $student->id)->delete();
