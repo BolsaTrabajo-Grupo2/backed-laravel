@@ -102,6 +102,10 @@
                 </div>
             </div>
 
+            <div>
+                <input type="hidden" name="rol" value="COMP" />
+            </div>
+
             <button type="submit" class="btn btn-default btn-primary">{{ $boton }}</button>
         </fieldset>
     </form>
