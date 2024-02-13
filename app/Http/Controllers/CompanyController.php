@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Api\UserApiController;
+use App\Http\Requests\CompanyRequest;
+use App\Http\Requests\CompanyUpdateRequest;
 use App\Models\Company;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class CompanyController extends Controller
@@ -23,22 +28,19 @@ class CompanyController extends Controller
     }
     public function store(Request $request)
     {
-
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:250',
-            'surname' => 'required|string|max:250',
-            'email' => 'required|email',
-            'password' => 'required|string|min:8',
-            'CIF' => 'required|string|size:9',
-            'company_name' => 'required|string|max:100',
-            'address' => 'required|string|max:250',
-            'CP' => 'required|string|size:5',
-            'phone' => 'required|string|size:9',
-            'web' => 'nullable|string|max:100|url',
-        ]);
-
-        $company = new Company($validatedData);
-        $company->rol = "COMP";
+        $userResponse = UserApiController::register($request);
+        $user = $userResponse->getOriginalContent()['user'];
+        $token = $userResponse->getOriginalContent()['token'];
+        $company = new Company();
+        $company->CIF = $request->get('CIF');
+        $company->id_user = $user->id;
+        $company->address = $request->get('address');
+        $company->phone = $request->get('phone');
+        $company->web = $request->get('web');
+        $company->company_name = $request->get('company_name');
+        $company->CP = $request->get('CP');
+        $company->created_at = Carbon::now();
+        $company->updated_at = Carbon::now();
         $company->save();
 
         return redirect()->route('company.index')->with('success', 'Compañia añadida correctamente.');
@@ -53,39 +55,31 @@ class CompanyController extends Controller
 
         return view('company.edit', compact('company'));
     }
-    public function update(Request $request, $id)
+    public function update(CompanyUpdateRequest $request, $id)
     {
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:250',
-            'surname' => 'required|string|max:250',
-            'CIF' => 'required|string|size:9',
-            'company_name' => 'required|string|max:100',
-            'address' => 'required|string|max:250',
-            'CP' => 'required|string|size:5',
-            'phone' => 'required|string|size:9',
-            'web' => 'nullable|string|max:100|url',
-            'rol' => 'required',
-        ]);
-
-        $company = Company::find($id);
-
-        if (!$company) {
-            return abort(404);
-        }
-
-        $company->update($validatedData);
+        $userApi = new UserApiController();
+        $companyResponse = $userApi->update($request,$id);
+        $company = Company::where('id_user',$id)->firstOrFail();
+        $company->CIF = $request->get('CIF');
+        $company->address = $request->get('address');
+        $company->phone = $request->get('phone');
+        $company->web = $request->get('web');
+        $company->company_name = $request->get('company_name');
+        $company->CP = $request->get('CP');
+        $company->updated_at = Carbon::now();
+        $company->save();
 
         return redirect()->route('company.show', $company->id_user)->with('success', 'Compañia actualizada correctamente.');
     }
     public function destroy($id)
     {
-        $company = Company::find($id);
+        $user = User::find($id);
 
-        if (!$company) {
+        if (!$user) {
             return abort(404);
         }
 
-        $company->delete();
+        $user->delete();
 
         return redirect()->route('company.index')->with('success', 'Compañia eliminada correctamente.');
     }

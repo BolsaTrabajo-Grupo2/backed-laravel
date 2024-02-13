@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Assigned;
+use App\Models\Cycle;
 use App\Models\Offer;
 use Illuminate\Http\Request;
 
@@ -23,22 +24,18 @@ class OfferController extends Controller
     }
     public function create()
     {
-        return view('offer.create');
+        $cicles = Cycle::all();
+        return view('offer.create',compact("cicles"));
     }
     public function store(Request $request)
     {
 
         $validatedData = $request->validate([
-            'name' => 'required|string|max:250',
-            'surname' => 'required|string|max:250',
-            'email' => 'required|email',
-            'password' => 'required|string|min:8',
-            'CIF' => 'required|string|size:9',
-            'company_name' => 'required|string|max:100',
-            'address' => 'required|string|max:250',
-            'CP' => 'required|string|size:5',
-            'phone' => 'required|string|size:9',
-            'web' => 'nullable|string|max:100|url',
+            'description' => 'required|string|max:200',
+            'duration' => 'required|string|max:50',
+            'responsibleName' => 'required|string|max:100',
+            'inscriptionMethod' => 'required|boolean',
+            'status' => 'required|boolean',
         ]);
 
         $company = new Company($validatedData);
