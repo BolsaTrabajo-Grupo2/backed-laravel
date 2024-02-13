@@ -49,9 +49,9 @@ class OfferApiController extends Controller
         }
         return new OfferCollection($offers);
     }
-    public function show(Offer $offer)
+    public function show($id)
     {
-        return new OfferResource($offer);
+        return new OfferResource(Offer::find($id));
     }
 
     public function store(OfferRequest $offerRequest)
