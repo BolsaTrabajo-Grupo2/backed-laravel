@@ -42,15 +42,16 @@ class OfferApiController extends Controller
             $userCompany = Company::where('id_user',$user->id)->first();
             $offers = Offer::where('cif',$userCompany->CIF)->paginate(10);
         }elseif($user->rol == 'STU'){
-            $user = Auth::user();
             $student = Student::where('id_user', $user->id)->first();
             if ($student) {
-                $cycles = Study::where('id_student', $student->id)->pluck('id');
+                $studyCycles = Study::where('id_student', $student->id)->first();
 
-                $assigned = Assigned::whereIn('id_cycle', $cycles)->pluck('id_offer');
+                $assignedOffers = Assigned::where('id_cycle', $studyCycles->id_cycle)->get();
+                $assignedOfferIds = $assignedOffers->pluck('id_offer')->toArray();
 
-                $offers = Offer::whereIn('id', $assigned)->paginate(10);
+                $offers = Offer::whereIn('id', $assignedOfferIds)->paginate(10);
             }
+
         }
 
         return new OfferCollection($offers);
