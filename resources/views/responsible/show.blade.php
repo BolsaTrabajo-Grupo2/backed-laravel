@@ -9,45 +9,45 @@
                 <div class="form-group row">
                     <label for="name" class="col-md-4 col-form-label text-md-right">ID</label>
                     <div class="col-md-6">
-                        <p>{{ $responsable->id }}</p>
+                        <p>{{ $responsible->id }}</p>
                     </div>
                 </div>
 
                 <div class="form-group row">
                     <label for="name" class="col-md-4 col-form-label text-md-right">Nombre</label>
                     <div class="col-md-6">
-                        <p>{{ $responsable->name }}</p>
+                        <p>{{ $responsible->name }}</p>
                     </div>
                 </div>
 
                 <div class="form-group row">
                     <label for="surname" class="col-md-4 col-form-label text-md-right">Apellido</label>
                     <div class="col-md-6">
-                        <p>{{ $responsable->surname }}</p>
+                        <p>{{ $responsible->surname }}</p>
                     </div>
                 </div>
 
                 <div class="form-group row">
                     <label for="email" class="col-md-4 col-form-label text-md-right">Email</label>
                     <div class="col-md-6">
-                        <p>{{ $responsable->email }}</p>
+                        <p>{{ $responsible->email }}</p>
                     </div>
                 </div>
 
                 <div class="form-group row">
                     <label for="created_at" class="col-md-4 col-form-label text-md-right">Creado</label>
                     <div class="col-md-6">
-                        <p>{{ $responsable->created_at->format('d/m/Y H:i:s') }}</p>
+                        <p>{{ $responsible->created_at->format('d/m/Y H:i:s') }}</p>
                     </div>
                 </div>
 
                 <div class="form-group row">
                     <label for="updated_at" class="col-md-4 col-form-label text-md-right">Actualizado</label>
                     <div class="col-md-6">
-                        <p>{{ $responsable->updated_at->format('d/m/Y H:i:s') }}</p>
+                        <p>{{ $responsible->updated_at->format('d/m/Y H:i:s') }}</p>
                     </div>
                 </div>
-                <a href="{{ route('responsable.index') }}" class="btn btn-primary mb-3">Volver a la lista</a>
+                <a href="{{ route('responsible.index') }}" class="btn btn-primary mb-3">Volver a la lista</a>
             </div>
         </div>
     </div>

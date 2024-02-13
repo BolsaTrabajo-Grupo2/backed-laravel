@@ -47,13 +47,6 @@
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label class="col-md-4 control-label">Confirmar Contraseña</label>
-                    <div class="col-md-6">
-                        <input id="password_confirmation" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
-                    </div>
-                </div>
-
                 <div>
                     <input type="hidden" name="rol" value="RESP" />
                 </div>

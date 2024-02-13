@@ -8,7 +8,8 @@
                     <div class="card-header">Lista de Responsables</div>
 
                     <div class="card-body">
-                        <a href="{{ route('responsable.create') }}" class="btn btn-primary mb-3">Crear Nuevo Responsable</a>
+                        <a href="{{ route('responsible.create') }}" class="btn btn-primary mb-3">Crear Nuevo
+                            Responsable</a>
 
                         <table class="table">
                             <thead>
@@ -20,18 +21,24 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach ($responsables as $responsable)
+                            @foreach ($responsibles as $responsible)
                                 <tr>
-                                    <th scope="row">{{ $responsable->id }}</th>
-                                    <td>{{ $responsable->name }}</td>
-                                    <td>{{ $responsable->email }}</td>
+                                    <th scope="row">{{ $responsible->id }}</th>
+                                    <td>{{ $responsible->name }}</td>
+                                    <td>{{ $responsible->email }}</td>
                                     <td>
-                                        <a href="{{ route('responsable.edit', $responsable->id) }}" class="btn btn-sm btn-primary">Editar</a>
-                                        <a href="{{ route('responsable.show', $responsable->id) }}" class="btn btn-sm btn-info">Ver Detalles</a>
-                                        <form action="{{ route('responsable.destroy', $responsable->id) }}" method="POST" style="display: inline-block;">
+                                        <a href="{{ route('responsible.edit', $responsible->id) }}"
+                                           class="btn btn-sm btn-primary">Editar</a>
+                                        <a href="{{ route('responsible.show', $responsible->id) }}"
+                                           class="btn btn-sm btn-info">Ver Detalles</a>
+                                        <form action="{{ route('responsible.destroy', $responsible->id) }}"
+                                              method="POST" style="display: inline-block;">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar este responsable?')">Eliminar</button>
+                                            <button type="submit" class="btn btn-sm btn-danger"
+                                                    onclick="return confirm('¿Estás seguro de que deseas eliminar este responsable?')">
+                                                Eliminar
+                                            </button>
                                         </form>
                                     </td>
                                 </tr>
