@@ -7,6 +7,7 @@ use App\Http\Requests\StudentRequest;
 use App\Http\Requests\StudentUpdateRquest;
 use App\Http\Resources\StudentCollection;
 use App\Http\Resources\StudentResource;
+use App\Models\Apply;
 use App\Models\Student;
 use App\Models\Study;
 use App\Models\User;
@@ -82,7 +83,13 @@ class StudentApiController extends Controller
             return response()->json(['error' => 'No se ha encontrado el estudiante'], 404);
         }
 
+        $userId = $student->id_user;
+
+        Apply::where('id_student', $id)->delete();
+
         $student->delete();
+
+        User::where('id', $userId)->delete();
 
         return response()->json([
             'message' => 'El estudiante con id:' . $id . ' ha sido borrado con éxito',

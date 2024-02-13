@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Student extends Model
 {
     use HasFactory;
+
     public $timestamps = false;
 
     protected $fillable = [
@@ -17,22 +18,24 @@ class Student extends Model
         'accept',
         'observations'
     ];
+
     public function user()
     {
-        return $this->belongsTo(User::class, 'id_user');
+        return $this->belongsTo(User::class, 'user_id');
     }
+
     public function studies()
     {
         return $this->hasMany(Study::class, 'id_student', 'id');
     }
 
-    public function applies()
-    {
-        return $this->hasMany(Apply::class, 'id_student');
-    }
-
     public function cycles()
     {
-        return $this->hasMany(Cycle::class, 'id_student', 'id_user');
+        return $this->hasMany(Cycle::class, 'id_student', 'user_id');
+    }
+
+    public function applies()
+    {
+        return $this->hasMany(Apply::class, 'id_student', 'user_id');
     }
 }

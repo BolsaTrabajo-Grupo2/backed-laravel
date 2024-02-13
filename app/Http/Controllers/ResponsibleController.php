@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserRequest;
 use App\Models\User;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 
 class ResponsibleController extends Controller
@@ -21,17 +23,9 @@ class ResponsibleController extends Controller
     {
         return view('responsible.create');
     }
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
-
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:250',
-            'surname' => 'required|string|max:250',
-            'email' => 'required|email',
-            'password' => 'required|string|min:8',
-        ]);
-        $responsible = new User($validatedData);
-        $responsible->rol = "RESP";
+        $responsible = new User($request);
         $responsible->save();
 
         return redirect()->route('responsible.index')->with('success', 'Responsable añadido correctamente.');
@@ -46,34 +40,38 @@ class ResponsibleController extends Controller
 
         return view('responsible.edit', compact('responsible'));
     }
-    public function update(Request $request, $id)
+
+
+
+    public function update(UserRequest $request, $id)
     {
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:250',
-            'surname' => 'required|string|max:250',
-            'email' => 'required|email',
-            'password' => 'required|string|min:8',
-        ]);
         $responsible = User::find($id);
 
         if (!$responsible) {
             return abort(404);
         }
 
-        $responsible->update($validatedData);
+        $responsible->update($request);
 
         return redirect()->route('responsible.show', $responsible->id)->with('success', 'Responsable añadido correctamente.');
     }
     public function destroy($id)
     {
-        $responsible = User::find($id);
+        try {
+            $responsible = User::find($id);
 
-        if (!$responsible) {
-            return abort(404);
+            if (!$responsible) {
+                return abort(404);
+            }
+            $responsible->delete();
+            return redirect()->route('responsible.index')->with('success', 'Responsable eliminado correctamente.');
+        } catch (QueryException $e) {
+            $errorCode = $e->errorInfo[1];
+            if ($errorCode == 1451) {
+                return redirect()->route('responsible.index')->with('error', 'No se puede eliminar el responsable debido a restricciones de clave externa.');
+            } else {
+                return redirect()->route('responsible.index')->with('error', 'Error al eliminar el responsable.');
+            }
         }
-
-        $responsible->delete();
-
-        return redirect()->route('responsible.index')->with('success', 'Responsable eliminado correctamente.');
     }
 }
