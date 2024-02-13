@@ -6,9 +6,9 @@ use App\Http\Controllers\Api\UserApiController;
 use App\Http\Requests\CompanyRequest;
 use App\Http\Requests\CompanyUpdateRequest;
 use App\Models\Company;
-use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CompanyController extends Controller
 {
@@ -71,16 +71,40 @@ class CompanyController extends Controller
 
         return redirect()->route('company.show', $company->id_user)->with('success', 'Compañia actualizada correctamente.');
     }
+    use Illuminate\Support\Facades\DB;
+    use App\Models\Company;
+
     public function destroy($id)
     {
-        $user = User::find($id);
+        $company = Company::find($id);
 
-        if (!$user) {
+        if (!$company) {
             return abort(404);
         }
 
-        $user->delete();
+        $userId = $company->id_user;
 
-        return redirect()->route('company.index')->with('success', 'Compañia eliminada correctamente.');
+        DB::beginTransaction();
+
+        try {
+
+            $cifToDelete = $company->CIF;
+
+            DB::table('offers')
+                ->where('CIF', $cifToDelete)
+                ->update(['CIF' => null]);
+
+            $company->delete();
+
+            DB::table('users')->where('id', $userId)->delete();
+
+            DB::commit();
+
+            return redirect()->route('company.index')->with('success', 'Compañía y usuario eliminados correctamente.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return redirect()->route('company.index')->with('error', 'Error al eliminar la compañía y el usuario.');
+        }
     }
 }

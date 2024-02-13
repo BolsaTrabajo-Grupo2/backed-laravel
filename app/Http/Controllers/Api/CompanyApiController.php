@@ -11,6 +11,7 @@ use App\Models\Company;
 use App\Models\Student;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class CompanyApiController extends Controller
 {
@@ -62,17 +63,31 @@ class CompanyApiController extends Controller
     public function delete($id)
     {
         $company = Company::find($id);
-
         if (!$company) {
-            return response()->json(['error' => 'No se ha encontrado la empresa'], 404);
+            return abort(404);
+        }
+        $userId = $company->id_user;
+        DB::beginTransaction();
+        try {
+            $cifToDelete = $company->CIF;
+            DB::table('offers')
+                ->where('CIF', $cifToDelete)
+                ->update(['CIF' => null]);
+            $company->delete();
+            DB::table('users')->where('id', $userId)->delete();
+            DB::commit();
+            return response()->json([
+                'message' => 'La empresa con id:' . $id . ' ha sido borrada con éxito',
+                'data' => $id
+            ], 200);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                'message' => 'La empresa con id:' . $id . ' no se ha podido borrar',
+                'data' => $id
+            ], (500));
         }
 
-        $company->delete();
-
-        return response()->json([
-            'message' => 'La empresa con id:' . $id . ' ha sido borrada con éxito',
-            'data' => $id
-        ], 200);
     }
     public function getCompany($id) {
         $user = User::findOrFail($id);
