@@ -9,7 +9,7 @@ class StudentController extends Controller
 {
     public function index()
     {
-        $students = Student::all()->paginate(10);
+        $students = Student::withCount('applies')->paginate(10);
         return view('student.index', compact('students'));
     }
     public function show($id)

@@ -26,6 +26,11 @@ class Student extends Model
         return $this->hasMany(Study::class, 'id_student', 'id');
     }
 
+    public function applies()
+    {
+        return $this->hasMany(Apply::class, 'id_student');
+    }
+
     public function cycles()
     {
         return $this->hasMany(Cycle::class, 'id_student', 'id_user');
