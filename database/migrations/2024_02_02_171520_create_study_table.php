@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('id_student');
             $table->unsignedBigInteger('id_cycle');
             $table->date('date')->nullable();
+            $table->boolean('verified')->default(false);
             $table->unique(['id_student', 'id_cycle']);
             $table->foreign('id_student', 'id_student')->references('id')->on('students')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('id_cycle', 'id_cycle')->references('id')->on('cycles')->onDelete('cascade')->onUpdate('cascade');
