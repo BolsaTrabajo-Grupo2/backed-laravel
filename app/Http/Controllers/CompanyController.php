@@ -71,8 +71,6 @@ class CompanyController extends Controller
 
         return redirect()->route('company.show', $company->id_user)->with('success', 'Compañia actualizada correctamente.');
     }
-    use Illuminate\Support\Facades\DB;
-    use App\Models\Company;
 
     public function destroy($id)
     {
