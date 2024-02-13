@@ -23,7 +23,9 @@ class GitHubController extends Controller
     public function callback()
     {
         try {
+
             $user = Socialite::driver('github')->user();
+
 
             $existingUser = User::where('email', $user->email)->first();
 
@@ -33,13 +35,7 @@ class GitHubController extends Controller
 
             Auth::login($existingUser);
             $token = $existingUser->createToken('GitHub Token')->plainTextToken;
-
-            return response()->json([
-                'name' => $existingUser->name,
-                'email' => $existingUser->email,
-                'role' => $existingUser->role,
-                'token' => $token
-            ], 200);
+            return redirect('http://localhost:5174?name=' . $user->name . '&email=' . $user->email . '&rol=' . $existingUser->rol . '&token=' . $token);
 
         } catch (Exception $e) {
             return response()->json(['error' => 'Ha ocurrido un error durante el proceso de autenticación.'], 500);
