@@ -2,6 +2,12 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\StudentController;
+use App\Http\Controllers\ResponsibleController;
+use App\Http\Controllers\OfferController;
+use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\CycleController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -30,6 +36,18 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+Route::middleware('auth:sanctum')->group( function () {
+    Route::resource('students', StudentController::class)->middleware('rol:RESP');
+    Route::resource('responsibles', ResponsibleController::class)->middleware('rol:ADM');
+    Route::resource('offers', OfferController::class)->middleware('rol:RESP');
+    Route::resource('companies', CompanyController::class)->middleware('rol:ADM');
+    Route::get('/cycles', [CycleController::class, 'index'])->name('cycles.index')->middleware('rol:ADM');;
+});
+
+Route::fallback(function () {
+    return redirect()->route('login');
 });
 
 require __DIR__.'/auth.php';

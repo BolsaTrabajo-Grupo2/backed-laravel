@@ -95,14 +95,13 @@ class OfferApiController extends Controller
     }
     public function delete($id)
     {
-        $offer = Offer::find($id);
+        DB::beginTransaction();
 
-        if (!$offer) {
-            return response()->json(['error' => 'No se ha encontrado la oferta'], 404);
-        }
+        DB::table('assigneds')->where('id_offer', $id)->delete();
+        DB::table('applies')->where('id_offer', $id)->delete();
 
-        $offer->delete();
-
+        Offer::destroy($id);
+        DB::commit();
         return response()->json([
             'message' => 'La oferta con id:' . $id . ' ha sido borrada con éxito',
             'data' => $id

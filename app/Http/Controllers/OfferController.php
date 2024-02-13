@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\OfferRequest;
 use App\Models\Assigned;
 use App\Models\Cycle;
 use App\Models\Offer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class OfferController extends Controller
 {
@@ -27,67 +29,56 @@ class OfferController extends Controller
         $cicles = Cycle::all();
         return view('offer.create',compact("cicles"));
     }
-    public function store(Request $request)
+    public function store(OfferRequest $request)
     {
 
-        $validatedData = $request->validate([
-            'description' => 'required|string|max:200',
-            'duration' => 'required|string|max:50',
-            'responsibleName' => 'required|string|max:100',
-            'inscriptionMethod' => 'required|boolean',
-            'status' => 'required|boolean',
-        ]);
 
-        $company = new Company($validatedData);
-        $company->rol = "COMP";
-        $company->save();
+        $offer = new Offer($request);
+        $offer->save();
 
-        return redirect()->route('company.index')->with('success', 'Compañia añadida correctamente.');
+        return redirect()->route('offer.index')->with('success', 'Oferta añadida correctamente.');
     }
 
     public function edit($id)
     {
-        $company = Company::find($id);
-        if (!$company) {
+        $offer = Offer::find($id);
+        if (!$offer) {
             return abort(404);
         }
 
-        return view('company.edit', compact('company'));
+        return view('offer.edit', compact('offer'));
     }
-    public function update(Request $request, $id)
+    public function update(OfferRequest $request, $id)
     {
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:250',
-            'surname' => 'required|string|max:250',
-            'CIF' => 'required|string|size:9',
-            'company_name' => 'required|string|max:100',
-            'address' => 'required|string|max:250',
-            'CP' => 'required|string|size:5',
-            'phone' => 'required|string|size:9',
-            'web' => 'nullable|string|max:100|url',
-            'rol' => 'required',
-        ]);
 
-        $company = Company::find($id);
+        $offer = Offer::find($id);
 
-        if (!$company) {
+        if (!$offer) {
             return abort(404);
         }
 
-        $company->update($validatedData);
+        $offer->update($request);
 
-        return redirect()->route('company.show', $company->id_user)->with('success', 'Compañia actualizada correctamente.');
+        return redirect()->route('offer.show', $offer->id)->with('success', 'Offer actualizada correctamente.');
     }
     public function destroy($id)
     {
-        $company = Company::find($id);
+        try {
+            DB::beginTransaction();
 
-        if (!$company) {
-            return abort(404);
+            DB::table('assigneds')->where('id_offer', $id)->delete();
+            DB::table('applies')->where('id_offer', $id)->delete();
+
+            Offer::destroy($id);
+            DB::commit();
+            return response()->json([
+                'message' => 'La oferta con id:' . $id . ' y sus registros relacionados han sido eliminados con éxito',
+                'data' => $id
+            ], 200);
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return response()->json(['error' => $e->getMessage()], 500);
         }
-
-        $company->delete();
-
-        return redirect()->route('company.index')->with('success', 'Compañia eliminada correctamente.');
     }
 }
