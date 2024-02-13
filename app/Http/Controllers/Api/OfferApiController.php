@@ -56,14 +56,26 @@ class OfferApiController extends Controller
 
     public function store(OfferRequest $offerRequest)
     {
+        $userAutenticate = Auth::user();
         $offer = new Offer();
         $offer->description = $offerRequest->get('description');
         $offer->duration = $offerRequest->get('duration');
-        $offer->responsibleName = $offerRequest->get('responsibleName');
-        $offer->inscriptionMethod = $offerRequest->get('inscriptionMethod');
-        $offer->status = $offerRequest->get('status');
+        if($offerRequest->get('responsible_name')){
+            $offer->responsible_name = $offerRequest->get('responsible_name');
+        }else{
+            $offer->responsible_name = $userAutenticate->name;
+        }
+        $offer->inscription_method = $offerRequest->get('inscription_method');
+        $empresa = Company::where('id_user', $userAutenticate->id)->first();
+        $offer->CIF = $empresa->CIF;
         $offer->save();
-
+        $ciclosSelecionados = $offerRequest->get('selectedCycles');
+        foreach ($ciclosSelecionados as $cycleId){
+            $assigned = new Assigned();
+            $assigned->id_offer = $offer->id;
+            $assigned->id_cycle = $cycleId;
+            $assigned->save();
+        }
         return new OfferResource($offer);
     }
 

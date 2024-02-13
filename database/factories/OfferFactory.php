@@ -22,7 +22,7 @@ class OfferFactory extends Factory
         $responsible_name = $company->user->name;
         return [
             'description' => $this->faker->sentence(10),
-            'duration' => $this->faker->randomElement(['Jornada completa', 'Jordana partida', 'Jornada flexible']),
+            'duration' => $this->faker->randomElement(['Un año', '6 meses', 'Dos años']),
             'responsible_name' => $responsible_name,
             'inscription_method' => $this->faker->boolean(),
             'status' => true,

@@ -11,7 +11,7 @@ class OfferRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,9 +24,7 @@ class OfferRequest extends FormRequest
         return [
             'description' => 'required|string|max:200',
             'duration' => 'required|string|max:50',
-            'responsibleName' => 'required|string|max:100',
-            'inscriptionMethod' => 'required|boolean',
-            'status' => 'required|boolean',
+            'responsibleName' => 'string|max:100',
         ];
     }
 }
