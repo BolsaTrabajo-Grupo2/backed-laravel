@@ -12,12 +12,7 @@ use App\Models\Cycle;
 use App\Models\Offer;
 use App\Models\Student;
 use App\Models\Study;
-use http\Client\Curl\User;
-use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Ramsey\Collection\Collection;
-
 
 class OfferApiController extends Controller
 {
@@ -25,10 +20,8 @@ class OfferApiController extends Controller
         $user = Auth::user();
         $offers = null;
         if ($user->rol == 'ADM'){
-            $offers = Offer::paginate(10);
+            $offers = Offer::where('status', 1)->paginate(10);
         }elseif ($user->rol == 'RESP'){
-            $user = Auth::user();
-
             $offers = Offer::whereIn('id', function($query) use ($user) {
                 $query->select('id_offer')
                     ->from(with(new Assigned)->getTable())
@@ -37,23 +30,23 @@ class OfferApiController extends Controller
                             ->from(with(new Cycle)->getTable())
                             ->where('id_responsible', $user->id);
                     });
-            })->paginate(10);
+            })->where('status', 1)->paginate(10);
         }elseif ($user->rol == 'COMP'){
             $userCompany = Company::where('id_user',$user->id)->first();
-            $offers = Offer::where('cif',$userCompany->CIF)->paginate(10);
+            $offers = Offer::where('cif',$userCompany->CIF)->where('status', 1)->paginate(10);
         }elseif($user->rol == 'STU'){
             $student = Student::where('id_user', $user->id)->first();
             if ($student) {
-                $studyCycles = Study::where('id_student', $student->id)->first();
+                $studyCycles = Study::where('id_student', $student->id)->get();
+                $studyCyclesIds = $studyCycles->pluck('id_cycle')->toArray();
 
-                $assignedOffers = Assigned::where('id_cycle', $studyCycles->id_cycle)->get();
+                $assignedOffers = Assigned::where('id_cycle', $studyCyclesIds)->get();
                 $assignedOfferIds = $assignedOffers->pluck('id_offer')->toArray();
 
-                $offers = Offer::whereIn('id', $assignedOfferIds)->paginate(10);
+                $offers = Offer::whereIn('id', $assignedOfferIds)->where('status', 1)->paginate(10);
             }
 
         }
-
         return new OfferCollection($offers);
     }
     public function show(Offer $offer)
