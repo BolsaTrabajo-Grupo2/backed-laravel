@@ -6,6 +6,7 @@ use App\Http\Requests\UserRequest;
 use App\Models\User;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class ResponsibleController extends Controller
 {
@@ -25,9 +26,16 @@ class ResponsibleController extends Controller
     }
     public function store(UserRequest $request)
     {
-        $responsible = new User($request);
-        $responsible->save();
+        $user = new User();
+        $user->name = $request->get('name');
+        $user->surname = $request->get('surname');
+        $user->email = $request->get('email');
+        $user->password = Hash::make($request->get('password'));
+        $user->rol = $request->get('rol');
 
+        $user->save();
+
+        $token = $user->createToken('api-token')->plainTextToken;
         return redirect()->route('responsible.index')->with('success', 'Responsable añadido correctamente.');
     }
 
@@ -45,15 +53,21 @@ class ResponsibleController extends Controller
 
     public function update(UserRequest $request, $id)
     {
-        $responsible = User::find($id);
+        $user = User::findOrFail($id);
 
-        if (!$responsible) {
-            return abort(404);
+        $user->name = $request->get('name');
+        $user->surname = $request->get('surname');
+        if($request->get('email')){
+            $user->email = $request->get('email');
         }
+        if($request->get('password') != '' ){
+            $user->password = Hash::make($request->get('password'));
+        }
+        $user->rol = $request->get('rol');
 
-        $responsible->update($request);
+        $user->save();
 
-        return redirect()->route('responsible.show', $responsible->id)->with('success', 'Responsable añadido correctamente.');
+        return redirect()->route('responsible.show', $user->id)->with('success', 'Responsable añadido correctamente.');
     }
     public function destroy($id)
     {

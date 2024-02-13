@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\OfferRequest;
 use App\Models\Assigned;
+use App\Models\Company;
 use App\Models\Cycle;
 use App\Models\Offer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class OfferController extends Controller
@@ -29,13 +31,29 @@ class OfferController extends Controller
         $cicles = Cycle::all();
         return view('offer.create',compact("cicles"));
     }
-    public function store(OfferRequest $request)
+    public function store(OfferRequest $offerRequest)
     {
-
-
-        $offer = new Offer($request);
+        $userAutenticate = Auth::user();
+        $offer = new Offer();
+        $offer->description = $offerRequest->get('description');
+        $offer->duration = $offerRequest->get('duration');
+        if($offerRequest->get('responsible_name')){
+            $offer->responsible_name = $offerRequest->get('responsible_name');
+        }else{
+            $offer->responsible_name = $userAutenticate->name;
+        }
+        $offer->inscription_method = $offerRequest->get('inscription_method');
+        $empresa = Company::where('id_user', $userAutenticate->id)->first();
+        $offer->CIF = $empresa->CIF;
+        $offer->status = true;
         $offer->save();
-
+        $ciclosSelecionados = $offerRequest->get('selectedCycles');
+        foreach ($ciclosSelecionados as $cycleId){
+            $assigned = new Assigned();
+            $assigned->id_offer = $offer->id;
+            $assigned->id_cycle = $cycleId;
+            $assigned->save();
+        }
         return redirect()->route('offer.index')->with('success', 'Oferta añadida correctamente.');
     }
 
@@ -48,16 +66,17 @@ class OfferController extends Controller
 
         return view('offer.edit', compact('offer'));
     }
-    public function update(OfferRequest $request, $id)
+    public function update(OfferRequest $offerRequest, $id)
     {
 
-        $offer = Offer::find($id);
+        $offer = Offer::findOrFail($id);
 
-        if (!$offer) {
-            return abort(404);
-        }
-
-        $offer->update($request);
+        $offer->description = $offerRequest->get('description');
+        $offer->duration = $offerRequest->get('duration');
+        $offer->responsible_name = $offerRequest->get('responsibleName');
+        $offer->inscription_method = $offerRequest->get('inscriptionMethod');
+        $offer->status = $offerRequest->get('status');
+        $offer->save();
 
         return redirect()->route('offer.show', $offer->id)->with('success', 'Offer actualizada correctamente.');
     }

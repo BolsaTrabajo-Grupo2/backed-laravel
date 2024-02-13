@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Api\UserApiController;
 use App\Http\Requests\StudentRequest;
+use App\Http\Requests\StudentUpdateRquest;
 use App\Models\Apply;
+use App\Models\Cycle;
 use App\Models\Student;
 use App\Models\Study;
 use App\Models\User;
+use App\Notifications\CycleValidationRequest;
 use App\Notifications\NewStudentOrCompanyNotification;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -59,11 +62,39 @@ class StudentController extends Controller
         return redirect()->route('student.index')->with('success', 'Studiante añadido correctamente.');
     }
 
-    public function edit($id)
+    public function edit(StudentUpdateRquest $studentRequest, $id)
     {
-        $student = Student::find($id);
-        if (!$student) {
-            return abort(404);
+        $userApi = new UserApiController();
+        $userResponse = $userApi->update($studentRequest,$id);
+        $student = Student::where('id_user', $id)->firstOrFail();
+        $student->address = $studentRequest->get("address");
+        $student->cv_link = $studentRequest->get("CVLink");
+        $student->observations = $studentRequest->get('observations');
+        $student->updated_at = Carbon::now();
+        $student->save();
+        $studies = Study::where('id_student', $student->id)->pluck('id_cycle')->toArray();
+        foreach ($studentRequest->get('cycle') as $cycle) {
+            $selectedCycle = $cycle['selectedCycle'];
+            if (!empty($selectedCycle)) {
+                if (in_array($selectedCycle, $studies)) {
+                    $existingStudy = Study::where('id_student', $student->id)
+                        ->where('id_cycle', $selectedCycle)
+                        ->first();
+                    if ($existingStudy) {
+                        $existingStudy->date = $cycle['date'];
+                        $existingStudy->save();
+                    }
+                } else {
+                    $study = new Study();
+                    $study->id_student = $student->id;
+                    $study->id_cycle = $selectedCycle;
+                    $study->date = $cycle['date'];
+                    $study->save();
+                    $cycleModel = Cycle::findOrFail($selectedCycle);
+                    $responsible = User::findOrFail($cycleModel->id_responsible);
+                    $responsible->notify(new CycleValidationRequest($study, $userResponse->name));
+                }
+            }
         }
 
         return view('student.edit', compact('student'));
