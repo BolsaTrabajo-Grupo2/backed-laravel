@@ -16,7 +16,7 @@ class UserApiController extends Controller
 
     public function index()
     {
-        $users = Company::all()->paginate(10);
+        $users = User::paginate(10);
         return new UserCollection($users);
     }
 
