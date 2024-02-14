@@ -108,4 +108,13 @@ class CompanyApiController extends Controller
         $company = Company::where('CIF', $CIF)->first();
         return $company !== null;
     }
+    public function getCompanyCIF($CIF) {
+        $company = Company::where('CIF', $CIF)->first();
+
+        if ($company) {
+            return new CompanyResource($company);
+        } else {
+            return response()->json(['message' => 'Empresa no encontrada para el CIF proporcionado'], 404);
+        }
+    }
 }
