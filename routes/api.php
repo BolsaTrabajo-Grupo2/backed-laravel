@@ -46,5 +46,6 @@ Route::middleware('auth:sanctum')->group( function () {
     Route::put('user/student/update/{id}', [\App\Http\Controllers\Api\StudentApiController::class, 'update'])->middleware('rol:STU,RESP,ADM');
     Route::get('user/company ',[\App\Http\Controllers\Api\CompanyApiController::class, 'show'])->middleware('rol:COMP,RESP,ADM');
     Route::put('user/company/update/{id}', [\App\Http\Controllers\Api\CompanyApiController::class, 'update'])->middleware('rol:COMP,RESP,ADM');
+    Route::get('offerByCIF/{cif}',[\App\Http\Controllers\Api\OfferApiController::class,'getOfferByCIF'])->middleware('rol:STU,COMP');
 });
 
