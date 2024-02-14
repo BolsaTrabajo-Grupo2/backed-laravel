@@ -17,6 +17,8 @@ use App\Notifications\CycleValidationRequest;
 use App\Notifications\NewStudentOrCompanyNotification;
 use Carbon\Carbon;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
 use SebastianBergmann\Type\TrueType;
 
 
@@ -169,5 +171,22 @@ class StudentApiController extends Controller
         $study->verified = true;
         $study->update();
         return 'verificado con exito';
+    }
+    public function signUp($idOffer){
+        $user = Auth::user();
+        $singUp = new Apply();
+        $singUp->id_offer = $idOffer;
+        $singUp->id_student = $user->id;
+        $singUp->save();
+    }
+    public function showUserApplie($id){
+        $applies = Apply::where('id_offer',$id);
+        $users = [];
+        foreach ($applies as $apply) {
+            $student = Student::findOrFail($apply->id_student);
+            $user = User::where('id_user',$student->id_user);
+            $users = $user;
+        }
+        return $users;
     }
 }
