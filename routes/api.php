@@ -33,6 +33,7 @@ Route::get('company/{id}', [\App\Http\Controllers\Api\CompanyApiController::clas
 Route::get('/verificated/{id}',[\App\Http\Controllers\Api\StudentApiController::class, 'verificated']);
 Route::middleware('auth:sanctum')->group( function () {
     Route::get('companyCIF/{CIF}', [\App\Http\Controllers\Api\CompanyApiController::class, 'getCompanyCIF']);
+    Route::post('apply/{idOffer}',[\App\Http\Controllers\Api\StudentApiController::class,'signUp'])->middleware('rol:STU');
     Route::apiResource('company',\App\Http\Controllers\Api\CompanyApiController::class)->middleware('rol:ADM,RESP,COMP');
     Route::delete('student/delete/{id}',[\App\Http\Controllers\Api\UserApiController::class, 'delete'])->middleware('rol:ADM,RESP,STU');
     Route::apiResource('responsible',\App\Http\Controllers\Api\UserApiController::class)->middleware('rol:RESP');
