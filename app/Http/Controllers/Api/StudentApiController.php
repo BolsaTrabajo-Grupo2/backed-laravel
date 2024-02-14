@@ -69,6 +69,17 @@ class StudentApiController extends Controller
         $student->updated_at = Carbon::now();
         $student->save();
         $studies = Study::where('id_student', $student->id)->pluck('id_cycle')->toArray();
+
+        $existingStudies = Study::where('id_student', $student->id)->pluck('id_cycle')->toArray();
+
+        $sentCycles = collect($studentRequest->get('cycle'))->pluck('selectedCycle')->toArray();
+
+        $cyclesToDelete = array_diff($existingStudies, $sentCycles);
+
+        Study::where('id_student', $student->id)
+            ->whereIn('id_cycle', $cyclesToDelete)
+            ->delete();
+
         foreach ($studentRequest->get('cycle') as $cycle) {
             $selectedCycle = $cycle['selectedCycle'];
             if (!empty($selectedCycle)) {

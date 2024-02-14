@@ -3,34 +3,36 @@
 @section('content')
     <div class="container">
         <h1>Listado de Ciclos</h1>
-        <table class="table">
-            <thead>
-            <tr>
-                <th>ID</th>
-                <th>Ciclo</th>
-                <th>Título</th>
-                <th>Cantidad de Ofertas</th>
-            </tr>
-            </thead>
-            <tbody>
-            @foreach($cycles as $cycle)
-                <tr>
-                    <td>{{ $cycle->id }}</td>
-                    <td>{{ $cycle->cycle }}</td>
-                    <td>{{ $cycle->title }}</td>
-                    <td>
-                        @if($cycle->offers_count > 0)
-                            {{ $cycle->offers_count }}
-                        @else
-                            No hay ofertas en este momento
-                        @endif
-                    </td>
-
-                </tr>
-            @endforeach
-            </tbody>
-        </table>
-        {{ $cycles->links() }}
+        <canvas id="myChart"></canvas>
     </div>
-@endsection
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const ctx = document.getElementById('myChart');
+        const cycles = {!! json_encode($cycles->pluck('cycle')) !!};
+        const assignmentsCounts = {!! json_encode($cycles->map(function ($cycle) {
+            return $cycle->assigneds->count();
+        })) !!};
+
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: cycles,
+                datasets: [{
+                    label: 'Cantidad de Ofertas',
+                    data: assignmentsCounts,
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+@endsection

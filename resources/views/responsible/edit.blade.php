@@ -53,14 +53,6 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="col-md-4 control-label">Confirmar Contraseña</label>
-                    <div class="col-md-6">
-                        <input id="password_confirmation" type="password" class="form-control"
-                               name="password_confirmation" autocomplete="new-password">
-                    </div>
-                </div>
-
-                <div class="form-group">
                     <div class="col-md-6 offset-md-4">
                         <button type="submit" class="btn btn-primary">
                             Guardar Cambios

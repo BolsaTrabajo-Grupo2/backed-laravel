@@ -10,7 +10,7 @@ class CycleController extends Controller
 {
     public function index()
     {
-        $cycles = Cycle::withCount('assigneds')->paginate(10);
+        $cycles = Cycle::with('assigneds')->get();
         return view('cycle.index', compact('cycles'));
     }
     public function show($id)
