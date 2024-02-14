@@ -7,6 +7,7 @@ use App\Models\Offer;
 use App\Models\Student;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class ApplySeeder extends Seeder
 {
@@ -15,26 +16,44 @@ class ApplySeeder extends Seeder
      */
    public function run(): void
     {
-        $maxAttempts = 1000; // Límite de intentos para evitar bucles infinitos
+        $maxAttempts = 1000;
         $attempts = 0;
         $count = 0;
 
         while ($count < 30 && $attempts < $maxAttempts) {
             $idUser = Student::inRandomOrder()->pluck('id')->first();
-            $idOffer = Offer::inRandomOrder()->pluck('id')->first();
 
-            // Verificar si la combinación ya existe en la tabla applies
-            if (!Apply::where('id_offer', $idOffer)->where('id_student', $idUser)->exists()) {
-                Apply::create([
-                    'id_offer' => $idOffer,
-                    'id_student' => $idUser,
-                ]);
-                $count++; // Incrementar el contador de registros creados
-                $attempts = 0; // Reiniciar el contador de intentos si se crea un registro único
+
+            $student = Student::find($idUser);
+            $cycleIds = $student->studies()->pluck('id_cycle')->toArray();
+
+
+            $idOffer = DB::table('assigneds')
+                ->whereIn('id_cycle', $cycleIds)
+                ->inRandomOrder()
+                ->pluck('id_offer')
+                ->first();
+
+
+            if ($idOffer !== null) {
+
+                if (!Apply::where('id_offer', $idOffer)->where('id_student', $idUser)->exists()) {
+                    Apply::create([
+                        'id_offer' => $idOffer,
+                        'id_student' => $idUser,
+                    ]);
+                    $count++;
+                    $attempts = 0;
+                } else {
+                    $attempts++;
+                }
             } else {
-                $attempts++; // Incrementar el contador de intentos si la combinación ya existe
+                $attempts++;
             }
         }
+
+
+
     }
 
 }
