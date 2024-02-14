@@ -179,4 +179,14 @@ class StudentApiController extends Controller
         $singUp->id_student = $user->id;
         $singUp->save();
     }
+    public function showUserApplie($id){
+        $applies = Apply::where('id_offer',$id);
+        $users = [];
+        foreach ($applies as $apply) {
+            $student = Student::findOrFail($apply->id_student);
+            $user = User::where('id_user',$student->id_user);
+            $users = $user;
+        }
+        return $users;
+    }
 }
