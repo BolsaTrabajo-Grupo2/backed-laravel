@@ -2,7 +2,7 @@
     <form method="POST" action="{{ route('company.store') }}">
         @csrf
         <fieldset>
-            <legend>{{ $titulo }}</legend>
+            <legend>Crear una nueva Emrpesa</legend>
 
             <div>
                 <div>
@@ -106,7 +106,8 @@
                 <input type="hidden" name="rol" value="COMP" />
             </div>
 
-            <button type="submit" class="btn btn-default btn-primary">{{ $boton }}</button>
+            <button type="submit" class="btn btn-default btn-primary">Crear</button>
         </fieldset>
     </form>
+    <a href="{{ route('company.index') }}" class="btn btn-primary mb-3">Volver a la lista</a>
 </div>

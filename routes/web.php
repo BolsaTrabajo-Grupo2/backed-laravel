@@ -45,7 +45,6 @@ Route::middleware('auth:sanctum')->group( function () {
     Route::resource('company', CompanyController::class)->middleware('rol:ADM');
     Route::get('/cycles', [CycleController::class, 'index'])->name('cycles.index')->middleware('rol:ADM');;
 });
-
 Route::fallback(function () {
     return redirect()->route('login');
 });
