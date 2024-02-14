@@ -16,13 +16,13 @@
                 </thead>
                 <tbody>
                 @foreach ($companies as $company)
-                    <tr>
-                        <td>{{ $company->name }}</td>
+                    <tr >
+                        <td >{{ $company->name }}</td>
                         <td>{{ $company->surname }}</td>
                         <td>{{ $company->email }}</td>
                         <td>
-                            <a href="{{ route('company.edit', $company->id) }}" class="btn btn-primary">Editar</a>
-                            <form action="{{ route('company.destroy', $company->id) }}" method="POST" style="display: inline-block;">
+                            <a href="{{ route('company.edit', $company->id_user) }}" class="btn btn-primary">Editar</a>
+                            <form action="{{ route('company.destroy', $company->id_user) }}" method="POST" style="display: inline-block;">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger">Eliminar</button>
