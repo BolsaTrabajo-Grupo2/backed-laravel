@@ -190,4 +190,15 @@ class StudentApiController extends Controller
 
         return response()->json(['message' => 'Aplicación creada con éxito'], 200);
     }
+
+    public function showUserApplie($idOffer){
+        $applies =  Apply::where('id_offer',$idOffer)->get();
+        $student = [];
+        foreach ($applies as $applie){
+            $s = Student::findOrFail($applie->id_student);
+            $u = User::findOrFail($s->id_user);
+            $student[] = $u;
+        }
+        return $student;
+    }
 }
