@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Api\UserApiController;
-use App\Http\Requests\CompanyRequest;
 use App\Http\Requests\CompanyUpdateRequest;
 use App\Models\Company;
 use Carbon\Carbon;
