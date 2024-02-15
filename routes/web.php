@@ -39,7 +39,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware('auth:sanctum')->group( function () {
-    Route::resource('students', StudentController::class)->middleware('rol:RESP');
+    Route::resource('student', StudentController::class)->middleware('rol:RESP,ADM');
     Route::resource('responsible', ResponsibleController::class)->middleware('rol:ADM');
     Route::resource('offers', OfferController::class)->middleware('rol:RESP,ADM');
     Route::resource('company', CompanyController::class)->middleware('rol:ADM');

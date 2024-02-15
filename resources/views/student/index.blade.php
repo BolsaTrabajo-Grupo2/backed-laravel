@@ -18,12 +18,12 @@
                 <tbody>
                 @foreach ($students as $student)
                     <tr>
-                        <td>{{ $student->name }}</td>
-                        <td>{{ $student->surname }}</td>
-                        <td>{{ $student->email }}</td>
+                        <td>{{ $student->user->name }}</td>
+                        <td>{{ $student->user->surname }}</td>
+                        <td>{{ $student->user->email }}</td>
                         <td>{{ $student->applies_count }}</td>
                         <td>
-                            <a href="{{ route('student.edit', $student->id) }}" class="btn btn-primary">Editar</a>
+                            <a href="{{ route('student.edit', $student->id_user) }}" class="btn btn-primary">Editar</a>
                             <form action="{{ route('student.destroy', $student->id) }}" method="POST" style="display: inline-block;">
                                 @csrf
                                 @method('DELETE')

@@ -15,4 +15,9 @@ class Apply extends Model
         'id_offer',
         'id_student'
     ];
+    public function student()
+    {
+        return $this->belongsTo(Student::class, 'id_user');
+    }
+
 }

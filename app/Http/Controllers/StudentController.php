@@ -62,7 +62,16 @@ class StudentController extends Controller
         return redirect()->route('student.index')->with('success', 'Studiante añadido correctamente.');
     }
 
-    public function edit(StudentUpdateRquest $studentRequest, $id)
+    public function edit($id)
+    {
+        $cycles = Cycle::all();
+        $student = Student::where('id_user', $id)->firstOrFail();
+        if (!$student) {
+            return abort(404);
+        }
+        return view('student.edit', compact('student','cycles'));
+    }
+    public function update(StudentUpdateRquest $studentRequest, $id)
     {
         $userApi = new UserApiController();
         $userResponse = $userApi->update($studentRequest,$id);
@@ -96,19 +105,6 @@ class StudentController extends Controller
                 }
             }
         }
-
-        return view('student.edit', compact('student'));
-    }
-    public function update(StudentRequest $request, $id)
-    {
-
-        $student = Student::find($id);
-
-        if (!$student) {
-            return abort(404);
-        }
-
-        $student->update($request);
 
         return redirect()->route('student.show', $student->id)->with('success', 'Student actualizado correctamente.');
     }
