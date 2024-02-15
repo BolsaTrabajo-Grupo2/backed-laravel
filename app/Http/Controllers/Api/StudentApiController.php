@@ -16,6 +16,7 @@ use App\Notifications\ActivedNotification;
 use App\Notifications\CycleValidationRequest;
 use App\Notifications\NewStudentOrCompanyNotification;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
 use SebastianBergmann\Type\TrueType;
@@ -171,11 +172,34 @@ class StudentApiController extends Controller
         $study->update();
         return 'verificado con exito';
     }
-    public function signUp($idOffer){
-        $user = Auth::user();
-        $singUp = new Apply();
-        $singUp->id_offer = $idOffer;
-        $singUp->id_student = $user->id;
+    public function signUp(Request $request, $idOffer) {
+        $user = $request->user();
+        $student = Student::where('id_user',$user->id)->first();
+        $existingApplication = Apply::where('id_offer', $idOffer)
+            ->where('id_student', $student->id)
+            ->first();
+
+        if ($existingApplication) {
+            return response()->json(['error' => 'Ya has aplicado a esta oferta'], 400);
+        }
+
+        $application = new Apply();
+        $application->id_offer = $idOffer;
+        $application->id_student = $student->id;
+        $application->save();
+
+        return response()->json(['message' => 'Aplicación creada con éxito'], 200);
+    }
+
+    public function showUserApplie($idOffer){
+        $applies =  Apply::where('id_offer',$idOffer)->get();
+        $student = [];
+        foreach ($applies as $applie){
+            $s = Student::findOrFail($applie->id_student);
+            $u = User::findOrFail($s->id_user);
+            $student[] = $u;
+        }
+        return $student;
     }
 
     public function getStudentByEmail($email)

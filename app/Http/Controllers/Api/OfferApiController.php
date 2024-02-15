@@ -107,5 +107,13 @@ class OfferApiController extends Controller
             'data' => $id
         ], 200);
     }
+    public  function getOfferByCIF($cif){
+        $offersPaginate = $this->index();
+        $filteredCollection = $offersPaginate->filter(function ($item) use ($cif) {
+            return $item->CIF == $cif;
+        });
+
+        return $filteredCollection;
+    }
 
 }

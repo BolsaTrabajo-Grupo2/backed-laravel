@@ -33,6 +33,7 @@ Route::get('checkCIF/{CIF}',[\App\Http\Controllers\Api\CompanyApiController::cla
 Route::get('company/{id}', [\App\Http\Controllers\Api\CompanyApiController::class, 'getCompany']);
 Route::get('companyEmail/{email}', [\App\Http\Controllers\Api\CompanyApiController::class, 'getCompanyByEmail']);
 Route::get('/verificated/{id}',[\App\Http\Controllers\Api\StudentApiController::class, 'verificated']);
+Route::get('/sendEmail/{email}',[\App\Http\Controllers\Api\UserApiController::class,'sendEmail']);
 Route::middleware('auth:sanctum')->group( function () {
     Route::get('companyCIF/{CIF}', [\App\Http\Controllers\Api\CompanyApiController::class, 'getCompanyCIF']);
     Route::get('userOffert/{id}',[\App\Http\Controllers\Api\StudentApiController::class,'showUserApplie'])->middleware('rol:COMP');
@@ -48,5 +49,6 @@ Route::middleware('auth:sanctum')->group( function () {
     Route::put('user/student/update/{id}', [\App\Http\Controllers\Api\StudentApiController::class, 'update'])->middleware('rol:STU,RESP,ADM');
     Route::get('user/company ',[\App\Http\Controllers\Api\CompanyApiController::class, 'show'])->middleware('rol:COMP,RESP,ADM');
     Route::put('user/company/update/{id}', [\App\Http\Controllers\Api\CompanyApiController::class, 'update'])->middleware('rol:COMP,RESP,ADM');
+    Route::get('offerByCIF/{cif}',[\App\Http\Controllers\Api\OfferApiController::class,'getOfferByCIF'])->middleware('rol:STU,COMP');
 });
 
