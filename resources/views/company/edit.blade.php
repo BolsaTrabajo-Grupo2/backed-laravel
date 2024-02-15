@@ -5,16 +5,15 @@
         <h1>Editar Empresa</h1>
         <hr>
         <div class="row">
-            <form method="POST" action="{{ route('company.update', $company->id) }}">
+            <form method="POST" action="{{ route('company.update', $company->id_user) }}">
                 @csrf
                 @method('PUT')
                 <fieldset>
-                    <legend>{{ $titulo }}</legend>
 
                     <div>
                         <div>
                             <label for="name">Nombre:</label><br />
-                            <input name="name" type="text" value="{{ $company->name }}" /><br />
+                            <input name="name" type="text" value="{{ $company->user->name }}" /><br />
                             @error('name')
                             <span class="validate-error">{{ $message }}</span><br />
                             @enderror
@@ -22,7 +21,7 @@
 
                         <div>
                             <label for="surname">Apellidos:</label><br />
-                            <input name="surname" type="text" value="{{ $company->surname }}" /><br />
+                            <input name="surname" type="text" value="{{ $company->user->surname }}" /><br />
                             @error('surname')
                             <span class="validate-error">{{ $message }}</span><br />
                             @enderror
@@ -38,7 +37,7 @@
 
                         <div>
                             <label for="email">Email:</label><br />
-                            <input name="email" type="text" value="{{ $company->email }}" /><br />
+                            <input name="email" type="text" value="{{ $company->user->email }}" /><br />
                             @error('email')
                             <span class="validate-error">{{ $message }}</span><br />
                             @enderror
@@ -107,13 +106,9 @@
                             <span class="validate-error">{{ $message }}</span><br />
                             @enderror
                         </div>
-
-                        <div>
-                            <input type="hidden" name="id" value="{{ $company->id }}">
-                        </div>
                     </div>
 
-                    <button type="submit" class="btn btn-default btn-primary">{{ $boton }}</button>
+                    <button type="submit" class="btn btn-default btn-primary">Editar</button>
                 </fieldset>
             </form>
             <a href="{{ route('company.index') }}" class="btn btn-primary mb-3">Volver a la lista</a>

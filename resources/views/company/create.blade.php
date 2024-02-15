@@ -7,7 +7,7 @@
             <div>
                 <div>
                     <label for="name">Nombre:</label><br />
-                    <input name="name" type="text" value="{{ old('name') }}" /><br />
+                    <input name="name" type="text" /><br />
                     @error('name')
                     <span class="validate-error">{{ $message }}</span><br />
                     @enderror
@@ -15,7 +15,7 @@
 
                 <div>
                     <label for="surname">Apellidos:</label><br />
-                    <input name="surname" type="text" value="{{ old('surname') }}" /><br />
+                    <input name="surname" type="text"/><br />
                     @error('surname')
                     <span class="validate-error">{{ $message }}</span><br />
                     @enderror
@@ -23,7 +23,7 @@
 
                 <div>
                     <label for="phone">Teléfono:</label><br />
-                    <input name="phone" type="text" value="{{ old('phone') }}" /><br />
+                    <input name="phone" type="text" /><br />
                     @error('phone')
                     <span class="validate-error">{{ $message }}</span><br />
                     @enderror
@@ -31,7 +31,7 @@
 
                 <div>
                     <label for="email">Email:</label><br />
-                    <input name="email" type="text" value="{{ old('email') }}" /><br />
+                    <input name="email" type="text"/><br />
                     @error('email')
                     <span class="validate-error">{{ $message }}</span><br />
                     @enderror
@@ -55,15 +55,15 @@
 
                 <div>
                     <label for="CIF">CIF:</label><br />
-                    <input name="CIF" type="text" value="{{ old('CIF') }}" /><br />
+                    <input name="CIF" type="text"/><br />
                     @error('CIF')
                     <span class="validate-error">{{ $message }}</span><br />
                     @enderror
                 </div>
 
                 <div>
-                    <label for="companyName">Nombre Empresa:</label><br />
-                    <input name="companyName" type="text" value="{{ old('companyName') }}" /><br />
+                    <label for="company_name">Nombre Empresa:</label><br />
+                    <input name="company_name" type="text"/><br />
                     @error('companyName')
                     <span class="validate-error">{{ $message }}</span><br />
                     @enderror
@@ -71,7 +71,7 @@
 
                 <div>
                     <label for="web">Web:</label><br />
-                    <input name="web" type="text" value="{{ old('web') }}" /><br />
+                    <input name="web" type="text"/><br />
                     @error('web')
                     <span class="validate-error">{{ $message }}</span><br />
                     @enderror
@@ -79,7 +79,7 @@
 
                 <div>
                     <label for="address">Dirección:</label><br />
-                    <input name="address" type="text" value="{{ old('address') }}" /><br />
+                    <input name="address" type="text"/><br />
                     @error('address')
                     <span class="validate-error">{{ $message }}</span><br />
                     @enderror
@@ -87,7 +87,7 @@
 
                 <div>
                     <label for="CP">CP:</label><br />
-                    <input name="CP" type="text" value="{{ old('CP') }}" /><br />
+                    <input name="CP" type="text"/><br />
                     @error('CP')
                     <span class="validate-error">{{ $message }}</span><br />
                     @enderror
