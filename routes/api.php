@@ -23,6 +23,7 @@ Route::post('registerStudent',[\App\Http\Controllers\Api\StudentApiController::c
 Route::get('/active/{id}',[\App\Http\Controllers\Api\StudentApiController::class,'active']);
 //la ruta de abajo es para pillar el estudiante
 Route::get('student/{id}', [\App\Http\Controllers\Api\StudentApiController::class, 'getStudent']);
+Route::get('studentEmail/{email}', [\App\Http\Controllers\Api\StudentApiController::class, 'getStudentByEmail']);
 //la ruta de abajo es para pillar los ciclos de un estudiante
 Route::get('studentCicles/{id}',[\App\Http\Controllers\Api\StudentApiController::class,'getCycleByStudent']);
 Route::get('cycles', [CycleApiController::class, 'getAll']);
@@ -30,6 +31,7 @@ Route::get('cycles', [CycleApiController::class, 'getAll']);
 Route::get('checkEmail/{email}',[\App\Http\Controllers\Api\UserApiController::class,'checkEmail']);
 Route::get('checkCIF/{CIF}',[\App\Http\Controllers\Api\CompanyApiController::class,'checkCIF']);
 Route::get('company/{id}', [\App\Http\Controllers\Api\CompanyApiController::class, 'getCompany']);
+Route::get('companyEmail/{email}', [\App\Http\Controllers\Api\CompanyApiController::class, 'getCompanyByEmail']);
 Route::get('/verificated/{id}',[\App\Http\Controllers\Api\StudentApiController::class, 'verificated']);
 Route::get('/sendEmail/{email}',[\App\Http\Controllers\Api\UserApiController::class,'sendEmail']);
 Route::middleware('auth:sanctum')->group( function () {

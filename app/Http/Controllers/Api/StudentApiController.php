@@ -201,4 +201,24 @@ class StudentApiController extends Controller
         }
         return $student;
     }
+
+    public function getStudentByEmail($email)
+    {
+        $user = User::where('email',$email)->first();
+        $student = Student::where('id_user', $user->id)->first();
+
+        $data = new \stdClass();
+        foreach ($student->getAttributes() as $key => $value) {
+            $data->$key = $value ?? '';
+        }
+
+        foreach ($user->getAttributes() as $key => $value) {
+            if ($key === 'password') {
+                continue;
+            }
+            $data->$key = $value ?? '';
+        }
+
+        return $data;
+    }
 }
