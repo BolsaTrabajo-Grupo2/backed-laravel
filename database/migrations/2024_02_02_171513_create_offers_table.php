@@ -21,6 +21,7 @@ return new class extends Migration
             $table->boolean('verified')->default(false);
             $table->string('observations',250)->nullable();
             $table->string('CIF',9)->nullable();
+            $table->timestamps();
             $table->foreign('CIF', 'CIF')->references('CIF')->on('companies')->onDelete('restrict')->onUpdate('cascade');
         });
     }
