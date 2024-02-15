@@ -6,13 +6,18 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\OfferRequest;
 use App\Http\Resources\OfferCollection;
 use App\Http\Resources\OfferResource;
+use App\Mail\NewOfferStudentMail;
+use App\Mail\OfferConfirmationMail;
 use App\Models\Assigned;
 use App\Models\Company;
 use App\Models\Cycle;
 use App\Models\Offer;
 use App\Models\Student;
 use App\Models\Study;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class OfferApiController extends Controller
 {
@@ -20,7 +25,7 @@ class OfferApiController extends Controller
         $user = Auth::user();
         $offers = null;
         if ($user->rol == 'ADM'){
-            $offers = Offer::where('status', 1)->paginate(10);
+            $offers = Offer::where('status', 1)->where('verified',1)->paginate(10);
         }elseif ($user->rol == 'RESP'){
             $offers = Offer::whereIn('id', function($query) use ($user) {
                 $query->select('id_offer')
@@ -30,10 +35,10 @@ class OfferApiController extends Controller
                             ->from(with(new Cycle)->getTable())
                             ->where('id_responsible', $user->id);
                     });
-            })->where('status', 1)->paginate(10);
+            })->where('status', 1)->where('verified',1)->paginate(10);
         }elseif ($user->rol == 'COMP'){
             $userCompany = Company::where('id_user',$user->id)->first();
-            $offers = Offer::where('cif',$userCompany->CIF)->where('status', 1)->paginate(10);
+            $offers = Offer::where('cif',$userCompany->CIF)->where('status', 1)->where('verified',1)->paginate(10);
         }elseif($user->rol == 'STU'){
             $student = Student::where('id_user', $user->id)->first();
             if ($student) {
@@ -43,7 +48,7 @@ class OfferApiController extends Controller
                 $assignedOffers = Assigned::where('id_cycle', $studyCyclesIds)->get();
                 $assignedOfferIds = $assignedOffers->pluck('id_offer')->toArray();
 
-                $offers = Offer::whereIn('id', $assignedOfferIds)->where('status', 1)->paginate(10);
+                $offers = Offer::whereIn('id', $assignedOfferIds)->where('status', 1)->where('verified',1)->paginate(10);
             }
 
         }
@@ -76,6 +81,9 @@ class OfferApiController extends Controller
             $assigned = new Assigned();
             $assigned->id_offer = $offer->id;
             $assigned->id_cycle = $cycleId;
+            $cycle = Cycle::findOrFail($cycleId);
+            $user = User::where('id',$cycle->id_responsible)->first();
+            Mail::to($user->email)->send(new OfferConfirmationMail($offer,$user,$cycle));
             $assigned->save();
         }
         return new OfferResource($offer);
@@ -115,6 +123,27 @@ class OfferApiController extends Controller
         });
 
         return $filteredCollection;
+    }
+    public function verificate($idOffer){
+        $offer = Offer::findOrFail($idOffer);
+        $offer->verified = true;
+        $offer->save();
+        $cycleOffers = Assigned::where('id_offer',$offer->id)->get();
+        foreach ($cycleOffers as $cycle) {
+            $studentsCycle = Study::where('id_cycle',$cycle->id)->get();
+            $c = Cycle::findOrFail($cycle->id_cycle);
+            foreach ($studentsCycle as $student){
+                $s = Student::findOrFail($student->id_student);
+                $u = User::findOrFail($s->id_user);
+                Mail::to($u->email)->send(new NewOfferStudentMail($u,$offer,$c));
+            }
+        }
+        return view('emails.succes_verified_email');
+    }
+    public function spread($idOffer){
+        $offer = Offer::findOrFail($idOffer);
+        $offer->created_at = Carbon::now();
+        $offer->save();
     }
 
 }

@@ -10,7 +10,7 @@ class Offer extends Model
     use HasFactory;
     protected $table='offers';
     protected $primaryKey='id';
-    public $timestamps = false;
+    public $timestamps = true;
 
     protected $fillable = [
         'description',

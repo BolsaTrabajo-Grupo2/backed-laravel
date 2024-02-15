@@ -36,6 +36,8 @@ Route::get('companyEmail/{email}', [\App\Http\Controllers\Api\CompanyApiControll
 Route::delete('companyDelete/{id}', [\App\Http\Controllers\Api\CompanyApiController::class, 'delete']);
 Route::get('/verificated/{id}',[\App\Http\Controllers\Api\StudentApiController::class, 'verificated']);
 Route::get('/sendEmail/{email}',[\App\Http\Controllers\Api\UserApiController::class,'sendEmail']);
+Route::get('/verificateOffer/{idOffer}',[\App\Http\Controllers\Api\OfferApiController::class,'verificate']);
+Route::get('/spread/{idOffer}',[\App\Http\Controllers\Api\OfferApiController::class,'spread']);
 Route::middleware('auth:sanctum')->group( function () {
     Route::get('companyCIF/{CIF}', [\App\Http\Controllers\Api\CompanyApiController::class, 'getCompanyCIF']);
     Route::get('userOffert/{id}',[\App\Http\Controllers\Api\StudentApiController::class,'showUserApplie'])->middleware('rol:COMP');
