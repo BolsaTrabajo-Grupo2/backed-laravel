@@ -26,6 +26,7 @@ class OfferFactory extends Factory
             'responsible_name' => $responsible_name,
             'inscription_method' => $this->faker->boolean(),
             'status' => true,
+            'verified' => true,
             'CIF' => $cif,
         ];
     }

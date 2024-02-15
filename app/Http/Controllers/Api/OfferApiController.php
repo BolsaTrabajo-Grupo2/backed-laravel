@@ -69,6 +69,7 @@ class OfferApiController extends Controller
         $empresa = Company::where('id_user', $userAutenticate->id)->first();
         $offer->CIF = $empresa->CIF;
         $offer->status = true;
+        $offer->verified = false;
         $offer->save();
         $ciclosSelecionados = $offerRequest->get('selectedCycles');
         foreach ($ciclosSelecionados as $cycleId){
