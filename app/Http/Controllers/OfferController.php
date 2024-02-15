@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\OfferBackendRequest;
 use App\Http\Requests\OfferRequest;
 use App\Models\Assigned;
 use App\Models\Company;
@@ -13,12 +14,24 @@ use Illuminate\Support\Facades\DB;
 
 class OfferController extends Controller
 {
-    public function index($ciclo)
+    public function index()
     {
-        $assigneds = Assigned::where('id_cycle', $ciclo)->get();
-        $offers = $assigneds->map(function ($assigned) {
-            return $assigned->offer;
-        });
+        $user = Auth::user();
+        $offers = null;
+        if ($user->rol == 'ADM'){
+            $offers = Offer::where('status', 1)->paginate(10);
+        }elseif ($user->rol == 'RESP'){
+            $offers = Offer::whereIn('id', function($query) use ($user) {
+                $query->select('id_offer')
+                    ->from(with(new Assigned)->getTable())
+                    ->whereIn('id_cycle', function($query) use ($user) {
+                        $query->select('id')
+                            ->from(with(new Cycle)->getTable())
+                            ->where('id_responsible', $user->id);
+                    });
+            })->where('status', 1)->paginate(10);
+        }
+
         return view('offer.index', ['offers' => $offers]);
     }
     public function show($id)
@@ -31,7 +44,7 @@ class OfferController extends Controller
         $cicles = Cycle::all();
         return view('offer.create',compact("cicles"));
     }
-    public function store(OfferRequest $offerRequest)
+    public function store(OfferBackendRequest $offerRequest)
     {
         $userAutenticate = Auth::user();
         $offer = new Offer();
@@ -64,7 +77,7 @@ class OfferController extends Controller
             return abort(404);
         }
 
-        return view('offer.edit', compact('offer'));
+        return view('offer.update', compact('offer'));
     }
     public function update(OfferRequest $offerRequest, $id)
     {
@@ -90,10 +103,7 @@ class OfferController extends Controller
 
             Offer::destroy($id);
             DB::commit();
-            return response()->json([
-                'message' => 'La oferta con id:' . $id . ' y sus registros relacionados han sido eliminados con éxito',
-                'data' => $id
-            ], 200);
+            return redirect()->route('offer.index', $id)->with('success', 'Offer eliminada correctamente.');
         } catch (\Exception $e) {
             DB::rollBack();
 
