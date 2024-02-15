@@ -3,10 +3,11 @@
 namespace App\Console\Commands;
 
 use App\Models\Student;
+use App\Models\User;
 use App\Notifications\AccountActivationReminder;
 use App\Notifications\NewStudentOrCompanyNotification;
 use Carbon\Carbon;
-use http\Client\Curl\User;
+
 use Illuminate\Console\Command;
 use Illuminate\Notifications\Notification;
 
@@ -33,17 +34,14 @@ class SendActivationReminders extends Command
     {
         $threeDaysAgo = Carbon::now()->subDays(3);
 
-        $students = Student::where('accept', 0)
-            ->whereHas('user', function ($query) use ($threeDaysAgo) {
-                $query->where('created_at', '==', $threeDaysAgo);
-            })
-            ->get();
-
+        $students = Student::where('accept', 0)->get()->filter(function ($student) use ($threeDaysAgo) {
+            return Carbon::parse($student->created_at)->toDateString() === $threeDaysAgo->toDateString();
+        });
         foreach ($students as $student) {
             $user = User::find($student->id_user);
             if ($user) {
-                Notification::route('mail', $user->email)
-                    ->notify(new AccountActivationReminder($student));
+                $user->notify(new AccountActivationReminder($student));
+
             }
         }
 
