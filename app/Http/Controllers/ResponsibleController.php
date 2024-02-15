@@ -25,7 +25,7 @@ class ResponsibleController extends Controller
     {
         return view('responsible.create');
     }
-    public function store(UserUpdateRequest $request)
+    public function store(UserRequest $request)
     {
         $user = new User();
         $user->name = $request->get('name');
@@ -42,34 +42,32 @@ class ResponsibleController extends Controller
 
     public function edit($id)
     {
-        $responsible = User::find($id);
-        if (!$responsible) {
-            return abort(404);
-        }
-
+        $responsible = User::findOrFail($id);
         return view('responsible.edit', compact('responsible'));
     }
 
 
-
-    public function update(UserRequest $request, $id)
+    public function update(UserUpdateRequest $request, $id)
     {
         $user = User::findOrFail($id);
 
-        $user->name = $request->get('name');
-        $user->surname = $request->get('surname');
-        if($request->get('email')){
-            $user->email = $request->get('email');
+        $user->name = $request->input('name');
+        $user->surname = $request->input('surname');
+        $user->email = $request->input('email');
+
+        if ($request->filled('password')) {
+            $user->password = Hash::make($request->input('password'));
         }
-        if($request->get('password') != '' ){
-            $user->password = Hash::make($request->get('password'));
+
+        if ($request->filled('rol')) {
+            $user->rol = $request->input('rol');
         }
-        $user->rol = $request->get('rol');
 
         $user->save();
 
-        return redirect()->route('responsible.show', $user->id)->with('success', 'Responsable añadido correctamente.');
+        return redirect()->route('responsible.show', $user->id)->with('success', 'Responsable editado correctamente.');
     }
+
     public function destroy($id)
     {
         try {
