@@ -6,13 +6,16 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\OfferRequest;
 use App\Http\Resources\OfferCollection;
 use App\Http\Resources\OfferResource;
+use App\Mail\OfferConfirmationMail;
 use App\Models\Assigned;
 use App\Models\Company;
 use App\Models\Cycle;
 use App\Models\Offer;
 use App\Models\Student;
 use App\Models\Study;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class OfferApiController extends Controller
 {
@@ -76,6 +79,9 @@ class OfferApiController extends Controller
             $assigned = new Assigned();
             $assigned->id_offer = $offer->id;
             $assigned->id_cycle = $cycleId;
+            $cycle = Cycle::findOrFail($cycleId);
+            $user = User::where('id',$cycle->id_responsible)->first();
+            Mail::to($user->email)->send(new OfferConfirmationMail($offer,$user,$cycle));
             $assigned->save();
         }
         return new OfferResource($offer);
