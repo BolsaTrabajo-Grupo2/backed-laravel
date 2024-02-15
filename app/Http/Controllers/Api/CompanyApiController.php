@@ -120,18 +120,21 @@ class CompanyApiController extends Controller
 
     public function getCompanyByEmail($email)
     {
-        $user = User::findOrFail($email);
+        $user = User::where('email',$email)->first();
         $company = Company::where('id_user', $user->id)->first();
 
-        $mergedData = new \stdClass();
+        $data = new \stdClass();
         foreach ($company->getAttributes() as $key => $value) {
-            $mergedData->$key = $value ?? '';
+            $data->$key = $value ?? '';
         }
 
         foreach ($user->getAttributes() as $key => $value) {
-            $mergedData->$key = $value ?? '';
+            if ($key === 'password') {
+                continue;
+            }
+            $data->$key = $value ?? '';
         }
 
-        return $mergedData;
+        return $data;
     }
 }

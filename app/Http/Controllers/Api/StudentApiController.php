@@ -180,21 +180,21 @@ class StudentApiController extends Controller
 
     public function getStudentByEmail($email)
     {
-        $user = User::findOrFail($email)->first();
+        $user = User::where('email',$email)->first();
         $student = Student::where('id_user', $user->id)->first();
 
-        $mergedData = new \stdClass();
+        $data = new \stdClass();
         foreach ($student->getAttributes() as $key => $value) {
-            $mergedData->$key = $value ?? '';
+            $data->$key = $value ?? '';
         }
 
         foreach ($user->getAttributes() as $key => $value) {
-            if ($key === 'password' || $key === 'email') {
+            if ($key === 'password') {
                 continue;
             }
-            $mergedData->$key = $value ?? '';
+            $data->$key = $value ?? '';
         }
 
-        return $mergedData;
+        return $data;
     }
 }
