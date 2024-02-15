@@ -51,20 +51,23 @@ class ResponsibleController extends Controller
     {
         $user = User::findOrFail($id);
 
-        $user->name = $request->get('name');
-        $user->surname = $request->get('surname');
-        if($request->get('email')){
-            $user->email = $request->get('email');
+        $user->name = $request->input('name');
+        $user->surname = $request->input('surname');
+        $user->email = $request->input('email');
+
+        if ($request->filled('password')) {
+            $user->password = Hash::make($request->input('password'));
         }
-        if($request->get('password') != '' ){
-            $user->password = Hash::make($request->get('password'));
+
+        if ($request->filled('rol')) {
+            $user->rol = $request->input('rol');
         }
-        $user->rol = $request->get('rol');
 
         $user->save();
 
         return redirect()->route('responsible.show', $user->id)->with('success', 'Responsable editado correctamente.');
     }
+
     public function destroy($id)
     {
         try {

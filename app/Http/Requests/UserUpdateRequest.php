@@ -40,7 +40,6 @@ class UserUpdateRequest extends FormRequest
                 'min:8',
                 'regex:/^(?=.*[A-Z])(?=.*\d).{8,}$/'
             ],
-            'rol' => 'required'
         ];
     }
 
@@ -60,7 +59,6 @@ class UserUpdateRequest extends FormRequest
             'email.unique' => 'El email ya está registrado',
             'password.min' => 'La contraseña debe tener al menos :min caracteres',
             'password.regex' => 'La contraseña debe tener al menos 8 caracteres, una mayúscula y un número.',
-            'rol.required' => 'El rol es obligatorio'
         ];
     }
 }
