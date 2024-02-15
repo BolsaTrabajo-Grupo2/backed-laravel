@@ -116,6 +116,7 @@
                     <button type="submit" class="btn btn-default btn-primary">{{ $boton }}</button>
                 </fieldset>
             </form>
+            <a href="{{ route('company.index') }}" class="btn btn-primary mb-3">Volver a la lista</a>
         </div>
     </div>
 @endsection

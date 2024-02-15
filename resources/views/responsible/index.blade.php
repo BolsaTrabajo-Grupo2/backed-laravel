@@ -21,6 +21,7 @@
                             </tr>
                             </thead>
                             <tbody>
+
                             @foreach ($responsibles as $responsible)
                                 <tr>
                                     <th scope="row">{{ $responsible->id }}</th>
@@ -45,9 +46,14 @@
                             @endforeach
                             </tbody>
                         </table>
+                        <div class="text-left">
+                            {{ $responsibles->links() }}
+                        </div>
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
+
 @endsection

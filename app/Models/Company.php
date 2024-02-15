@@ -14,6 +14,7 @@ class Company extends Model
 
     public $timestamps = false;
 
+    protected $table = "companies";
     protected $fillable = [
         'CIF',
         'id_user',

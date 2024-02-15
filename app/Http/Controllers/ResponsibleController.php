@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserRequest;
+use App\Http\Requests\UserUpdateRequest;
 use App\Models\User;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
@@ -24,7 +25,7 @@ class ResponsibleController extends Controller
     {
         return view('responsible.create');
     }
-    public function store(UserRequest $request)
+    public function store(UserUpdateRequest $request)
     {
         $user = new User();
         $user->name = $request->get('name');

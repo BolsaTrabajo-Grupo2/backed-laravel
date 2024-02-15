@@ -40,13 +40,12 @@
                 <div class="form-group">
                     <label class="col-md-4 control-label">Contraseña</label>
                     <div class="col-md-6">
-                        <input id="password" type="password" class="form-control" name="password" required autocomplete="new-password">
+                        <input id="password" type="password" class="form-control" name="password" value="{{ old('email') }}" required autocomplete="new-password">
                         @error('password')
                         <span class="error">{{ $message }}</span>
                         @enderror
                     </div>
                 </div>
-
                 <div>
                     <input type="hidden" name="rol" value="RESP" />
                 </div>
@@ -56,6 +55,10 @@
                         <button type="submit" class="btn btn-primary">
                             Crear Responsable
                         </button>
+                    </div>
+                    <br>
+                    <div class="col-md-6 offset-md-4">
+                        <a href="{{ route('responsible.index') }}" class="btn btn-primary mb-3">Volver a la lista</a>
                     </div>
                 </div>
             </fieldset>
