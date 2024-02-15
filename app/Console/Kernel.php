@@ -14,6 +14,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('reminders:send-activation')->daily();
         $schedule->command('students:remove-unaccepted')->daily();
+        $schedule->command('app:check-offer-status')->monthly();
     }
 
     /**

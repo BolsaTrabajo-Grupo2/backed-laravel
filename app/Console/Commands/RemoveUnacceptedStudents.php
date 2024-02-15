@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Student;
+use App\Models\Study;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 
@@ -30,12 +31,12 @@ class RemoveUnacceptedStudents extends Command
         $sixDaysAgo = Carbon::now()->subDays(6);
         $students = Student::where('accept', 0)
             ->where('created_at', '<=', $sixDaysAgo)
-            ->whereHas('user', function ($query) use ($sixDaysAgo) {
-                $query->where('created_at', '==', $sixDaysAgo);
-            })
             ->get();
-
         foreach ($students as $student) {
+            $studies = Study::where('id_student',$student->id)->get();
+            foreach ($studies as $study) {
+                $study->delete();
+            }
             $student->delete();
         }
 

@@ -5,6 +5,7 @@
         <h1>Detalles de la Empresa</h1>
         <hr>
         <dl class="row">
+
             <dt class="col-sm-3">Nombre:</dt>
             <dd class="col-sm-9">{{ $company->user->name }}</dd>
 

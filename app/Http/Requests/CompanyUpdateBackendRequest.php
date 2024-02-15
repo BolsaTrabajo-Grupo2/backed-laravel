@@ -3,11 +3,14 @@
 namespace App\Http\Requests;
 
 use App\Models\Company;
-use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class CompanyUpdateRequest extends FormRequest
+class CompanyUpdateBackendRequest extends FormRequest
 {
+    /**
+     * Determine if the user is authorized to make this request.
+     */
     public function authorize(): bool
     {
         return true;
@@ -15,15 +18,36 @@ class CompanyUpdateRequest extends FormRequest
 
     public function rules(): array
     {
+        $companyId = $this->route('company');
+        $companyBD = Company::where('id_user', $companyId)->firstOrFail();
         return [
             'name' => 'required|string|max:250',
             'surname' => 'required|string|max:250',
-            'CIF' => 'required|string|size:9',
+            'CIF' => [
+                'required',
+                'string',
+                'size:9',
+                Rule::unique('companies', 'CIF')->ignore($companyBD)],
+            'email' => [
+                'required',
+                'email',
+                Rule::unique('users', 'email')->ignore($companyBD->user)
+            ],
             'company_name' => 'required|string|max:100',
             'address' => 'required|string|max:250',
             'CP' => 'required|string|size:5',
             'phone' => 'required|string|size:9',
             'web' => 'nullable|string|max:100|url',
+            'password' => [
+                'nullable',
+                'string',
+                'min:8',
+                'regex:/^(?=.*[A-Z])(?=.*\d).{8,}$/'
+            ],
+            'confirmPassword' => [
+                'required_with:password',
+                'same:password',
+            ],
         ];
     }
 
@@ -41,6 +65,11 @@ class CompanyUpdateRequest extends FormRequest
             'CIF.required' => 'El campo CIF es obligatorio.',
             'CIF.string' => 'El campo CIF debe ser una cadena de texto.',
             'CIF.size' => 'El campo CIF debe tener 9 caracteres.',
+            'CIF.unique' => 'El CIF ya está en uso.',
+
+            'email.required' => 'El campo email es obligatorio.',
+            'email.email' => 'El campo email debe ser una dirección de correo electrónico válida.',
+            'email.unique' => 'El email ya está en uso.',
 
             'company_name.required' => 'El campo nombre de la empresa es obligatorio.',
             'company_name.string' => 'El campo nombre de la empresa debe ser una cadena de texto.',
@@ -63,6 +92,14 @@ class CompanyUpdateRequest extends FormRequest
             'web.max' => 'El campo web no puede superar los 100 caracteres.',
             'web.url' => 'El campo web debe ser una URL válida.',
 
+            'password.nullable' => 'El campo contraseña debe ser una cadena de texto o nulo.',
+            'password.string' => 'El campo contraseña debe ser una cadena de texto.',
+            'password.min' => 'La contraseña debe tener al menos 8 caracteres.',
+            'password.regex' => 'La contraseña debe contener al menos una letra mayúscula y un dígito.',
+
+            'confirmPassword.required_with' => 'El campo repetir contraseña es obligatorio cuando se proporciona una contraseña.',
+            'confirmPassword.same' => 'La confirmación de la contraseña no coincide con la contraseña proporcionada.',
         ];
     }
+
 }

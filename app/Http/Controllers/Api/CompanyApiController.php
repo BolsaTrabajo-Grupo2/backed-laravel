@@ -17,7 +17,7 @@ class CompanyApiController extends Controller
 {
     public function index()
     {
-        $companies = Company::all()->paginate(10);
+        $companies = Company::paginate(10);
         return new CompanyCollection($companies);
     }
 
