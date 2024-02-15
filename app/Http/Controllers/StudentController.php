@@ -24,8 +24,11 @@ class StudentController extends Controller
     }
     public function show($id)
     {
+        $cursedCycles = Cycle::join('studies', 'cycles.id', '=', 'studies.id_cycle')
+            ->where('studies.id_student', $id)
+            ->get();
         $student = Student::find($id);
-        return view('student.show', ['student' => $student]);
+        return view('student.show', ['student' => $student],['cursedCycles' => $cursedCycles]);
     }
     public function create()
     {
@@ -117,8 +120,6 @@ class StudentController extends Controller
         }
 
         $userId = $student->id_user;
-
-        Apply::where('id_student', $id)->delete();
 
         $student->delete();
 
