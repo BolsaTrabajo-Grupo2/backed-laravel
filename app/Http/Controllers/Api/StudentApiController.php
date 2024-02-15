@@ -189,4 +189,24 @@ class StudentApiController extends Controller
         }
         return $users;
     }
+
+    public function getStudentByEmail($email)
+    {
+        $user = User::findOrFail($email)->first();
+        $student = Student::where('id_user', $user->id)->first();
+
+        $mergedData = new \stdClass();
+        foreach ($student->getAttributes() as $key => $value) {
+            $mergedData->$key = $value ?? '';
+        }
+
+        foreach ($user->getAttributes() as $key => $value) {
+            if ($key === 'password' || $key === 'email') {
+                continue;
+            }
+            $mergedData->$key = $value ?? '';
+        }
+
+        return $mergedData;
+    }
 }

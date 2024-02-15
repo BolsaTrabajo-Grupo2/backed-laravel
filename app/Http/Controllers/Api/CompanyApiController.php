@@ -117,4 +117,21 @@ class CompanyApiController extends Controller
             return response()->json(['message' => 'Empresa no encontrada para el CIF proporcionado'], 404);
         }
     }
+
+    public function getCompanyByEmail($email)
+    {
+        $user = User::findOrFail($email);
+        $company = Company::where('id_user', $user->id)->first();
+
+        $mergedData = new \stdClass();
+        foreach ($company->getAttributes() as $key => $value) {
+            $mergedData->$key = $value ?? '';
+        }
+
+        foreach ($user->getAttributes() as $key => $value) {
+            $mergedData->$key = $value ?? '';
+        }
+
+        return $mergedData;
+    }
 }
