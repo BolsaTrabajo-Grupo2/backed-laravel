@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Validación de Nueva Oferta</title>
+    <title>Ver de Nueva Oferta</title>
 </head>
 <body>
 <p>Hola, {{ $user->name }}</p>

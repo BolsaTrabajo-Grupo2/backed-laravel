@@ -15,6 +15,7 @@ use App\Models\Offer;
 use App\Models\Student;
 use App\Models\Study;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
@@ -24,7 +25,7 @@ class OfferApiController extends Controller
         $user = Auth::user();
         $offers = null;
         if ($user->rol == 'ADM'){
-            $offers = Offer::where('status', 1)->paginate(10);
+            $offers = Offer::where('status', 1)->where('verified',1)->paginate(10);
         }elseif ($user->rol == 'RESP'){
             $offers = Offer::whereIn('id', function($query) use ($user) {
                 $query->select('id_offer')
@@ -34,10 +35,10 @@ class OfferApiController extends Controller
                             ->from(with(new Cycle)->getTable())
                             ->where('id_responsible', $user->id);
                     });
-            })->where('status', 1)->paginate(10);
+            })->where('status', 1)->where('verified',1)->paginate(10);
         }elseif ($user->rol == 'COMP'){
             $userCompany = Company::where('id_user',$user->id)->first();
-            $offers = Offer::where('cif',$userCompany->CIF)->where('status', 1)->paginate(10);
+            $offers = Offer::where('cif',$userCompany->CIF)->where('status', 1)->where('verified',1)->paginate(10);
         }elseif($user->rol == 'STU'){
             $student = Student::where('id_user', $user->id)->first();
             if ($student) {
@@ -47,7 +48,7 @@ class OfferApiController extends Controller
                 $assignedOffers = Assigned::where('id_cycle', $studyCyclesIds)->get();
                 $assignedOfferIds = $assignedOffers->pluck('id_offer')->toArray();
 
-                $offers = Offer::whereIn('id', $assignedOfferIds)->where('status', 1)->paginate(10);
+                $offers = Offer::whereIn('id', $assignedOfferIds)->where('status', 1)->where('verified',1)->paginate(10);
             }
 
         }
@@ -138,6 +139,11 @@ class OfferApiController extends Controller
             }
         }
         return view('emails.succes_verified_email');
+    }
+    public function spread($idOffer){
+        $offer = Offer::findOrFail($idOffer);
+        $offer->created_at = Carbon::now();
+        $offer->save();
     }
 
 }
