@@ -26,6 +26,7 @@ Route::get('student/{id}', [\App\Http\Controllers\Api\StudentApiController::clas
 Route::get('cycles', [CycleApiController::class, 'getAll']);
 //la ruta para comprobar el email
 Route::delete('offersDelete/{id}', [\App\Http\Controllers\Api\OfferApiController::class, 'delete']);
+Route::put('/offersDeactivate/{id}', [\App\Http\Controllers\Api\OfferApiController::class, 'deactivate']);
 Route::get('checkEmail/{email}',[\App\Http\Controllers\Api\UserApiController::class,'checkEmail']);
 Route::get('checkCIF/{CIF}',[\App\Http\Controllers\Api\CompanyApiController::class,'checkCIF']);
 Route::get('company/{id}', [\App\Http\Controllers\Api\CompanyApiController::class, 'getCompany']);
