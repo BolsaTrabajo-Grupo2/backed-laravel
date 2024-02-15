@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\OfferRequest;
 use App\Http\Resources\OfferCollection;
 use App\Http\Resources\OfferResource;
+use App\Models\Apply;
 use App\Models\Assigned;
 use App\Models\Company;
 use App\Models\Cycle;
@@ -13,6 +14,7 @@ use App\Models\Offer;
 use App\Models\Student;
 use App\Models\Study;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class OfferApiController extends Controller
 {
@@ -94,18 +96,33 @@ class OfferApiController extends Controller
 
         return new OfferResource($offer);
     }
+
+    public function deactivate($id)
+    {
+        // Buscar la oferta por su ID
+        $offer = Offer::findOrFail($id);
+
+        $offer->status = false;
+        $offer->save();
+
+        return response()->json([
+            'message' => 'La oferta con id:' . $id . ' ha sido desactivada con éxito',
+            'data' => $offer
+        ], 200);
+    }
     public function delete($id)
     {
-        DB::beginTransaction();
+        $offer = Offer::findOrFail($id);
 
-        DB::table('assigneds')->where('id_offer', $id)->delete();
-        DB::table('applies')->where('id_offer', $id)->delete();
+        $offer->status = false;
+        $offer->save();
 
-        Offer::destroy($id);
-        DB::commit();
+
+        Assigned::where('id_offer', $id)->delete();
+
         return response()->json([
-            'message' => 'La oferta con id:' . $id . ' ha sido borrada con éxito',
-            'data' => $id
+            'message' => 'La oferta con id:' . $id . ' ha sido marcada como "borrada" con éxito',
+            'data' => $offer
         ], 200);
     }
     public  function getOfferByCIF($cif){
