@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\OfferRequest;
 use App\Http\Resources\OfferCollection;
 use App\Http\Resources\OfferResource;
+use App\Mail\NewOfferStudentMail;
 use App\Mail\OfferConfirmationMail;
 use App\Models\Assigned;
 use App\Models\Company;
@@ -121,6 +122,22 @@ class OfferApiController extends Controller
         });
 
         return $filteredCollection;
+    }
+    public function verificate($idOffer){
+        $offer = Offer::findOrFail($idOffer);
+        $offer->verified = true;
+        $offer->save();
+        $cycleOffers = Assigned::where('id_offer',$offer->id)->get();
+        foreach ($cycleOffers as $cycle) {
+            $studentsCycle = Study::where('id_cycle',$cycle->id)->get();
+            $c = Cycle::findOrFail($cycle->id_cycle);
+            foreach ($studentsCycle as $student){
+                $s = Student::findOrFail($student->id_student);
+                $u = User::findOrFail($s->id_user);
+                Mail::to($u->email)->send(new NewOfferStudentMail($u,$offer,$c));
+            }
+        }
+        return view('emails.succes_verified_email');
     }
 
 }

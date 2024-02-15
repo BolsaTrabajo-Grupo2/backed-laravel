@@ -9,8 +9,7 @@
 <p>Descripcion: {{$offer->description}}</p>
 <p>Duracion: {{$offer->duration}}</p>
 <p>Nombre del responsable: {{$offer->responsible_name}}</p>
-<p>Pulsa en el siguiente enlace para verificarla</p>
-<p><a href="{{ url('api/verificateOffer/'.$offer->id) }}">Validar oferta</a></p>
+<p>Entra a la bolsa para ver mas datos</p>
 <p>Gracias.</p>
 </body>
 </html>
