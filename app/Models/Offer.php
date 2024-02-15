@@ -18,7 +18,8 @@ class Offer extends Model
         'responsible_name',
         'inscription_method',
         'status',
-        'CIF'
+        'verified',
+        'CIF',
     ];
     public function assigneds()
     {
