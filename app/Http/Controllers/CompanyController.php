@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Api\UserApiController;
+use App\Http\Requests\CompanyUpdateBackendRequest;
 use App\Http\Requests\CompanyUpdateRequest;
 use App\Models\Company;
 use Carbon\Carbon;
@@ -53,7 +54,7 @@ class CompanyController extends Controller
     }
 
 
-    public function update(CompanyUpdateRequest $request, $userId)
+    public function update(CompanyUpdateBackendRequest $request, $userId)
     {
         $userApi = new UserApiController();
         $companyResponse = $userApi->update($request, $userId);

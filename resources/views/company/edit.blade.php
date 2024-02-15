@@ -5,7 +5,7 @@
         <h1>Editar Empresa</h1>
         <hr>
         <div class="row">
-            <form method="POST" action="{{ route('company.update', $company->id_user) }}">
+            <form method="POST" action="{{ route('company.update', ['company' => $company->id_user]) }}">
                 @csrf
                 @method('PUT')
                 <fieldset>
