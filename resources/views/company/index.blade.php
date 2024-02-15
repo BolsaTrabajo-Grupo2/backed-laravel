@@ -27,10 +27,10 @@
                         <td>{{ $company->user->surname }}</td>
                         <td>{{ $company->user->email }}</td>
                         <td>
-                            <a href="{{ route('company.edit', $company) }}" class="btn btn-primary">Editar</a>
+                            <a href="{{ route('company.edit', $company->CIF) }}" class="btn btn-primary">Editar</a>
                             <a href="{{ route('company.show', $company) }}"
                                class="btn btn-sm btn-info">Ver Detalles</a>
-                            <form action="{{ route('company.destroy', $company->id_user) }}" method="POST" style="display: inline-block;">
+                            <form action="{{ route('company.destroy', $company->CIF) }}" method="POST" style="display: inline-block;">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger">Eliminar</button>

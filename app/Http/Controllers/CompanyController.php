@@ -46,35 +46,36 @@ class CompanyController extends Controller
         return redirect()->route('company.index')->with('success', 'Compañia añadida correctamente.');
     }
 
-    public function edit($id)
+    public function edit($CIF)
     {
-        $company = Company::find($id);
-        if (!$company) {
-            return abort(404);
-        }
-
+        $company = Company::where('CIF', $CIF)->firstOrFail();
         return view('company.edit', compact('company'));
     }
-    public function update(CompanyUpdateRequest $request, $id)
+
+
+    public function update(CompanyUpdateRequest $request, $userId)
     {
         $userApi = new UserApiController();
-        $companyResponse = $userApi->update($request,$id);
-        $company = Company::where('id_user',$id)->firstOrFail();
+        $companyResponse = $userApi->update($request, $userId);
+
+        $company = Company::where('id_user', $userId)->firstOrFail();
         $company->CIF = $request->get('CIF');
         $company->address = $request->get('address');
         $company->phone = $request->get('phone');
         $company->web = $request->get('web');
         $company->company_name = $request->get('company_name');
         $company->CP = $request->get('CP');
-        $company->updated_at = Carbon::now();
+        $company->updated_at = now();
         $company->save();
 
-        return redirect()->route('company.show', $company->id_user)->with('success', 'Compañia actualizada correctamente.');
+        return redirect()->route('company.show', $company)->with('success', 'Compañía actualizada correctamente.');
     }
+
+
 
     public function destroy($id)
     {
-        $company = Company::find($id);
+        $company = Company::find($id)->first();
 
         if (!$company) {
             return abort(404);

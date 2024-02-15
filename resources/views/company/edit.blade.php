@@ -9,7 +9,6 @@
                 @csrf
                 @method('PUT')
                 <fieldset>
-
                     <div>
                         <div>
                             <label for="name">Nombre:</label><br />
@@ -68,9 +67,9 @@
                         </div>
 
                         <div>
-                            <label for="companyName">Nombre Empresa:</label><br />
-                            <input name="companyName" type="text" value="{{ $company->company_name }}" /><br />
-                            @error('companyName')
+                            <label for="company_name">Nombre Empresa:</label><br />
+                            <input name="company_name" type="text" value="{{ $company->company_name }}" /><br />
+                            @error('company_name')
                             <span class="validate-error">{{ $message }}</span><br />
                             @enderror
                         </div>
@@ -98,16 +97,7 @@
                             <span class="validate-error">{{ $message }}</span><br />
                             @enderror
                         </div>
-
-                        <div>
-                            <input name="aceptar" type="checkbox" value="1" />
-                            <span class="form-check-label"> Acepto los términos y condiciones</span><br />
-                            @error('aceptar')
-                            <span class="validate-error">{{ $message }}</span><br />
-                            @enderror
-                        </div>
                     </div>
-
                     <button type="submit" class="btn btn-default btn-primary">Editar</button>
                 </fieldset>
             </form>
