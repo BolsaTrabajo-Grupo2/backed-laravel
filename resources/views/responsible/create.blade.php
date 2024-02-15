@@ -10,7 +10,7 @@
                 <div class="form-group">
                     <label class="col-md-4 control-label">Nombre</label>
                     <div class="col-md-6">
-                        <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
+                        <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" autocomplete="name" autofocus>
                         @error('name')
                         <span class="error">{{ $message }}</span>
                         @enderror
@@ -20,7 +20,7 @@
                 <div class="form-group">
                     <label class="col-md-4 control-label">Apellido</label>
                     <div class="col-md-6">
-                        <input id="surname" type="text" class="form-control" name="surname" value="{{ old('surname') }}" required autocomplete="surname">
+                        <input id="surname" type="text" class="form-control" name="surname" value="{{ old('surname') }}" autocomplete="surname">
                         @error('surname')
                         <span class="error">{{ $message }}</span>
                         @enderror
@@ -30,7 +30,7 @@
                 <div class="form-group">
                     <label class="col-md-4 control-label">Email</label>
                     <div class="col-md-6">
-                        <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required autocomplete="email">
+                        <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" autocomplete="email">
                         @error('email')
                         <span class="error">{{ $message }}</span>
                         @enderror
@@ -40,7 +40,7 @@
                 <div class="form-group">
                     <label class="col-md-4 control-label">Contraseña</label>
                     <div class="col-md-6">
-                        <input id="password" type="password" class="form-control" name="password" value="{{ old('email') }}" required autocomplete="new-password">
+                        <input id="password" type="password" class="form-control" name="password" value="" autocomplete="new-password">
                         @error('password')
                         <span class="error">{{ $message }}</span>
                         @enderror

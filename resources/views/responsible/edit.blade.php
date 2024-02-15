@@ -2,8 +2,8 @@
 
 @section('content')
     <div class="container">
-        <form class="form-horizontal" method="POST" action="{{ route('responsible.update', $responsible->id) }}">
-            @csrf
+        <form class="form-horizontal" method="POST" action="{{ route('responsible.update', ['responsible' => $responsible->id]) }}">
+        @csrf
             @method('PUT')
             <fieldset>
                 <legend>Editar Responsable</legend>
@@ -12,7 +12,7 @@
                     <label class="col-md-4 control-label">Nombre</label>
                     <div class="col-md-6">
                         <input id="name" type="text" class="form-control" name="name" value="{{ $responsible->name }}"
-                               required autocomplete="name" autofocus>
+                               autocomplete="name" autofocus>
                         @error('name')
                         <span class="error">{{ $message }}</span>
                         @enderror
@@ -23,7 +23,7 @@
                     <label class="col-md-4 control-label">Apellido</label>
                     <div class="col-md-6">
                         <input id="surname" type="text" class="form-control" name="surname"
-                               value="{{ $responsible->surname }}" required autocomplete="surname">
+                               value="{{ $responsible->surname }}" autocomplete="surname">
                         @error('surname')
                         <span class="error">{{ $message }}</span>
                         @enderror
@@ -34,7 +34,7 @@
                     <label class="col-md-4 control-label">Email</label>
                     <div class="col-md-6">
                         <input id="email" type="email" class="form-control" name="email"
-                               value="{{ $responsible->email }}" required autocomplete="email">
+                               value="{{ $responsible->email }}" autocomplete="email">
                         @error('email')
                         <span class="error">{{ $message }}</span>
                         @enderror
@@ -50,6 +50,11 @@
                         <span class="error">{{ $message }}</span>
                         @enderror
                     </div>
+                </div>
+
+                <input type="hidden" name="responsible_id" value="{{ $responsible->id }}">
+                <div>
+                    <input type="hidden" name="rol" value="RESP" />
                 </div>
 
                 <div class="form-group">
