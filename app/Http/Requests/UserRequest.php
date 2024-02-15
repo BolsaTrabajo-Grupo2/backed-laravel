@@ -38,6 +38,10 @@ class UserRequest extends FormRequest
                 'min:8',
                 'regex:/^(?=.*[A-Z])(?=.*\d).{8,}$/'
             ],
+            'confirmPassword' => [
+                'required_with:password',
+                'same:password',
+            ],
             'rol' => 'required'
         ];
     }
@@ -58,6 +62,8 @@ class UserRequest extends FormRequest
             'password.required' => 'La contraseña es obligatoria',
             'password.min' => 'La contraseña debe tener al menos :min caracteres',
             'password.regex' => 'La contraseña debe tener al menos 8 caracteres, una mayúscula y un número.',
+            'confirmPassword.required_with' => 'El campo repetir contraseña es obligatorio cuando se proporciona una contraseña.',
+            'confirmPassword.same' => 'La confirmación de la contraseña no coincide con la contraseña proporcionada.',
             'rol.required' => 'El rol es obligatorio'
         ];
     }

@@ -53,10 +53,12 @@
                 <span class="validate-error">{{ $message }}</span>
                 @enderror
             </div>
-
             <br/>
 
             <button type="submit" class="btn btn-primary">Guardar Cambios</button>
         </fieldset>
     </form>
+    <div class="col-md-6 offset-md-4">
+        <a href="{{ route('offer.index') }}" class="btn btn-primary mb-3">Volver a la lista</a>
+    </div>
 </div>

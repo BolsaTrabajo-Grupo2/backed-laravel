@@ -41,12 +41,13 @@ class OfferController extends Controller
     }
     public function create()
     {
-        $cicles = Cycle::all();
-        return view('offer.create',compact("cicles"));
+        $cycles = Cycle::all();
+        return view('offer.create',compact("cycles"));
     }
     public function store(OfferBackendRequest $offerRequest)
     {
         $userAutenticate = Auth::user();
+
         $offer = new Offer();
         $offer->description = $offerRequest->get('description');
         $offer->duration = $offerRequest->get('duration');
@@ -56,7 +57,9 @@ class OfferController extends Controller
             $offer->responsible_name = $userAutenticate->name;
         }
         $offer->inscription_method = $offerRequest->get('inscription_method');
+
         $empresa = Company::where('id_user', $userAutenticate->id)->first();
+
         $offer->CIF = $empresa->CIF;
         $offer->status = true;
         $offer->save();
@@ -77,7 +80,7 @@ class OfferController extends Controller
             return abort(404);
         }
 
-        return view('offer.update', compact('offer'));
+        return view('offer.edit', compact('offer'));
     }
     public function update(OfferRequest $offerRequest, $id)
     {

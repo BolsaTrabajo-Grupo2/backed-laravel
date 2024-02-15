@@ -1,4 +1,5 @@
 <div class="row">
+
     <form method="POST" action="{{ route('offer.store') }}">
         @csrf
         <fieldset>
@@ -24,6 +25,18 @@
                 <label for="responsible_name">Nombre del responsable:</label><br />
                 <input name="responsible_name" type="text" class="form-control" value="{{ old('responsible_name') }}" />
                 @error('responsible_name')
+                <span class="validate-error">{{ $message }}</span>
+                @enderror
+            </div>
+
+            <div class="form-group">
+                <label for="selectedCycles">Selecciona los ciclos:</label><br />
+                <select name="selectedCycles" multiple class="form-control">
+                    @foreach($cycles as $cycle)
+                        <option value="{{ $cycle->id }}">{{ $cycle->cliteral }}</option>
+                    @endforeach
+                </select>
+                @error('selectedCycles')
                 <span class="validate-error">{{ $message }}</span>
                 @enderror
             </div>
@@ -57,4 +70,7 @@
             <button type="submit" class="btn btn-primary">Guardar</button>
         </fieldset>
     </form>
+    <div class="col-md-6 offset-md-4">
+        <a href="{{ route('offer.index') }}" class="btn btn-primary mb-3">Volver a la lista</a>
+    </div>
 </div>

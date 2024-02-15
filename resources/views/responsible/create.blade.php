@@ -46,6 +46,15 @@
                         @enderror
                     </div>
                 </div>
+
+                <div>
+                    <label for="confirmPassword">Repetir Contraseña:</label><br />
+                    <input name="confirmPassword" type="password" /><br />
+                    @error('confirmPassword')
+                    <span class="validate-error">{{ $message }}</span><br />
+                    @enderror
+                </div>
+
                 <div>
                     <input type="hidden" name="rol" value="RESP" />
                 </div>
@@ -56,12 +65,11 @@
                             Crear Responsable
                         </button>
                     </div>
-                    <br>
-                    <div class="col-md-6 offset-md-4">
-                        <a href="{{ route('responsible.index') }}" class="btn btn-primary mb-3">Volver a la lista</a>
-                    </div>
                 </div>
             </fieldset>
         </form>
+        <div class="col-md-6 offset-md-4">
+            <a href="{{ route('responsible.index') }}" class="btn btn-primary mb-3">Volver a la lista</a>
+        </div>
     </div>
 @endsection

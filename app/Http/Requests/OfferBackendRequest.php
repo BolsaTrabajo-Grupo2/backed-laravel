@@ -6,7 +6,6 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use App\Models\Company;
 
-
 class OfferBackendRequest extends FormRequest
 {
     /**
@@ -24,11 +23,10 @@ class OfferBackendRequest extends FormRequest
      */
     public function rules(): array
     {
-
         return [
             'description' => 'required|string|max:200',
             'duration' => 'required|string|max:50',
-            'responsible_name' => 'required|string|max:100',
+            'responsible_name' => 'nullable|string|max:100',
             'inscription_method' => 'nullable|boolean',
             'observations' => 'nullable|string|max:250',
             'CIF' => [
@@ -36,7 +34,9 @@ class OfferBackendRequest extends FormRequest
                 'string',
                 'size:9',
                 'regex:/^[A-Z]\d{8}$/',
+                Rule::exists('companies', 'CIF'),
             ],
+            'selectedCycles' => 'required|array|min:1',
         ];
     }
 
@@ -56,7 +56,6 @@ class OfferBackendRequest extends FormRequest
             'duration.string' => 'La duración debe ser un texto.',
             'duration.max' => 'La duración no puede exceder los :max caracteres.',
 
-            'responsible_name.required' => 'El nombre del responsable es obligatorio.',
             'responsible_name.string' => 'El nombre del responsable debe ser un texto.',
             'responsible_name.max' => 'El nombre del responsable no puede exceder los :max caracteres.',
 
@@ -70,6 +69,8 @@ class OfferBackendRequest extends FormRequest
             'CIF.size' => 'El CIF debe tener exactamente :size caracteres.',
             'CIF.regex' => 'El CIF debe tener el formato correcto (una letra seguida de ocho números).',
             'CIF.exists' => 'El CIF proporcionado no existe en nuestra base de datos.',
+
+            'selectedCycles.required' => 'Debe seleccionar al menos un ciclo.',
         ];
     }
 }

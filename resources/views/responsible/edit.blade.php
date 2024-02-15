@@ -52,6 +52,14 @@
                     </div>
                 </div>
 
+                <div>
+                    <label for="confirmPassword">Repetir Contraseña:</label><br />
+                    <input name="confirmPassword" type="password" /><br />
+                    @error('confirmPassword')
+                    <span class="validate-error">{{ $message }}</span><br />
+                    @enderror
+                </div>
+
                 <div class="form-group">
                     <div class="col-md-6 offset-md-4">
                         <button type="submit" class="btn btn-primary">
@@ -59,12 +67,11 @@
                         </button>
                     </div>
                 </div>
-                <br>
-                <div class="col-md-6 offset-md-4">
-                    <a href="{{ route('responsible.index') }}" class="btn btn-primary mb-3">Volver a la lista</a>
-                </div>
 
             </fieldset>
         </form>
+        <div class="col-md-6 offset-md-4">
+            <a href="{{ route('responsible.index') }}" class="btn btn-primary mb-3">Volver a la lista</a>
+        </div>
     </div>
 @endsection

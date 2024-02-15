@@ -3,6 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+use App\Models\User;
+use App\Models\Company;
 
 class CompanyRequest extends FormRequest
 {
@@ -16,15 +19,34 @@ class CompanyRequest extends FormRequest
         return [
             'name' => 'required|string|max:250',
             'surname' => 'required|string|max:250',
-            'email' => 'required|email',
-            'password' => 'required|string|min:8',
-            'rol' => 'required',
-            'CIF' => 'required|string|size:9',
+            'CIF' => [
+                'required',
+                'string',
+                'size:9',
+                'regex:/^[A-Z]\d{8}$/',
+                Rule::unique('companies', 'CIF'),
+            ],
+            'email' => [
+                'required',
+                'email',
+                Rule::unique('users', 'email'),
+            ],
             'company_name' => 'required|string|max:100',
             'address' => 'required|string|max:250',
             'CP' => 'required|string|size:5',
             'phone' => 'required|string|size:9',
             'web' => 'nullable|string|max:100|url',
+            'password' => [
+                'nullable',
+                'string',
+                'min:8',
+                'regex:/^(?=.*[A-Z])(?=.*\d).{8,}$/'
+            ],
+            'confirmPassword' => [
+                'required_with:password',
+                'same:password',
+            ],
+            'rol' => 'required',
         ];
     }
     public function messages(): array
@@ -40,16 +62,20 @@ class CompanyRequest extends FormRequest
 
             'email.required' => 'El campo email es obligatorio.',
             'email.email' => 'El campo email debe ser una dirección de correo electrónico válida.',
+            'email.exists' => 'El email proporcionado no existe en nuestra base de datos.',
 
             'password.required' => 'El campo contraseña es obligatorio.',
             'password.string' => 'El campo contraseña debe ser una cadena de texto.',
             'password.min' => 'La contraseña debe tener al menos 8 caracteres.',
+            'password.regex' => 'La contraseña debe tener al menos 8 caracteres, una mayúscula y un número.',
 
             'rol.required' => 'El campo rol es obligatorio.',
 
             'CIF.required' => 'El campo CIF es obligatorio.',
             'CIF.string' => 'El campo CIF debe ser una cadena de texto.',
             'CIF.size' => 'El campo CIF debe tener 9 caracteres.',
+            'CIF.regex' => 'El CIF debe tener el formato correcto (una letra seguida de ocho números).',
+            'CIF.exists' => 'El CIF proporcionado no existe en nuestra base de datos.',
 
             'company_name.required' => 'El campo nombre de la empresa es obligatorio.',
             'company_name.string' => 'El campo nombre de la empresa debe ser una cadena de texto.',
