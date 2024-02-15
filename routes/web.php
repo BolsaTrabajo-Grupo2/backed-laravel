@@ -41,13 +41,15 @@ Route::middleware('auth')->group(function () {
 Route::middleware('auth:sanctum')->group( function () {
     Route::resource('student', StudentController::class)->middleware('rol:RESP,ADM');
     Route::resource('responsible', ResponsibleController::class)->middleware('rol:ADM');
-    Route::resource('offers', OfferController::class)->middleware('rol:RESP,ADM');
+    Route::resource('offer', OfferController::class)->middleware('rol:RESP,ADM');
     Route::resource('company', CompanyController::class)->middleware('rol:ADM');
     Route::get('/cycles', [CycleController::class, 'index'])->name('cycles.index')->middleware('rol:ADM');
 });
+
 Route::fallback(function () {
     return redirect()->route('login');
 });
+
 Route::get('/reset-password/{email}', [\App\Http\Controllers\ResetPasswordController::class,'showResetForm'])->name('password.reset');
 Route::post('/password', [\App\Http\Controllers\ResetPasswordController::class, 'reset'])->name('password.update');
 
