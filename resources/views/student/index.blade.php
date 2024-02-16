@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <h1>Listado de Estudiantes</h1>
-        <hr>
+        <a href="{{ route('student.create') }}" class="btn btn-primary mb-3">Crear Nuevo Alumno</a>
         <div class="table-responsive">
             <table class="table table-bordered">
                 <thead>
