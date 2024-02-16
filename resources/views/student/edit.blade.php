@@ -27,7 +27,11 @@
                         <div class="input-group">
                             <select v-model="cycleField.selectedCycle" class="form-control" @change="addCycleField(index)">
                                 <option value="">Seleccionar ciclo</option>
-                                <option v-for="cycle in cycles" :key="cycle.id" :value="cycle.id">{{ cycle.title }}</option>
+                                @foreach ($cycles as $cycle)
+                                    <option value="{{ $cycle->code }}" {{ $module->code == $book->module_id ? 'selected' : '' }}>
+                                        {{ $module->cliteral }}
+                                    </option>
+                                @endforeach
                             </select>
                             <input type="date" v-model="cycleField.date" class="form-control" />
                             <button @click="removeCycleField(index)">Eliminar</button>

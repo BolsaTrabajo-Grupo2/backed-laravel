@@ -38,7 +38,7 @@ class CheckOfferStatus extends Command
             $currentDate = Carbon::now();
             $differenceInMonths = $activationDate->diffInMonths($currentDate);
             $differenceInDays = $activationDate->diffInDays($currentDate);
-            if($differenceInDays > 31){
+            if($differenceInDays > 32){
                 $offer->status = 0;
                 $offer->save();
             }else if ($differenceInMonths >= 1 && $offer->last_notification_sent < $currentDate->subMonth()) {
