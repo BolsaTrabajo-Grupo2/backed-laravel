@@ -8,7 +8,9 @@ use App\Http\Resources\UserCollection;
 use App\Http\Resources\UserResource;
 use App\Mail\ResetPasswordMail;
 use App\Models\Company;
+use App\Models\Student;
 use App\Models\User;
+use App\Notifications\ActivedNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -87,5 +89,13 @@ class UserApiController extends Controller
         }
         Mail::to($user->email)->send(new ResetPasswordMail($user));
 
+    }
+
+    public function active($id){
+        $user = User::findOrFail($id);
+        $user->accept = true;
+        $user->save();
+        $user->notify(new ActivedNotification());
+        return view('users.actived');
     }
 }

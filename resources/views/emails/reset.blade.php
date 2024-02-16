@@ -50,7 +50,7 @@
     </style>
 </head>
 <body>
-<form method="POST" action="{{ route('password.update') }}">
+<form method="POST" action="{{ route('password.actualizar') }}">
     @csrf
     <input type="hidden" name="email" value="{{ $email }}">
     <label for="password">Nueva contraseña:</label><br>

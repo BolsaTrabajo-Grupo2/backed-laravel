@@ -7,6 +7,7 @@ use App\Http\Requests\StudentRequest;
 use App\Http\Requests\StudentUpdateRquest;
 use App\Models\Apply;
 use App\Models\Cycle;
+use App\Models\Offer;
 use App\Models\Student;
 use App\Models\Study;
 use App\Models\User;
@@ -28,7 +29,20 @@ class StudentController extends Controller
             ->where('studies.id_student', $id)
             ->get();
         $student = Student::find($id);
-        return view('student.show', ['student' => $student],['cursedCycles' => $cursedCycles]);
+        return view('student.show', ['student' => $student,'cursedCycles' => $cursedCycles]);
+    }
+    public function offers($id)
+    {
+        $appliesData = Apply::where('id_student', '=', $id)
+            ->with('offer')
+            ->get();
+        $offersData = $appliesData->pluck('offer');
+        return view('student.offers', ['offers' => $offersData,'idStudent' => $id]);
+    }
+    public function offerShow($id, $idStudent)
+    {
+        $offer = Offer::find($id);
+        return view('student.offersShow', ['offer' => $offer, 'idStudent' => $idStudent]);
     }
     public function create()
     {
