@@ -122,13 +122,21 @@ class OfferApiController extends Controller
             'data' => $offer
         ], 200);
     }
-    public  function getOfferByCIF($cif){
-        $offersPaginate = $this->index();
-        $filteredCollection = $offersPaginate->filter(function ($item) use ($cif) {
-            return $item->CIF == $cif;
-        });
+    public  function getOfferByCP($cp){
+        $offersPaginated = $this->index();
 
-        return $filteredCollection;
+        $filteredOffersPaginated = $offersPaginated->filter(function ($item) use ($cp) {
+            return $item->company->CP == $cp;
+        });
+        $paginator = new \Illuminate\Pagination\LengthAwarePaginator(
+            $filteredOffersPaginated->forPage(\Illuminate\Pagination\Paginator::resolveCurrentPage(), 10),
+            $filteredOffersPaginated->count(),
+            10,
+            \Illuminate\Pagination\Paginator::resolveCurrentPage(),
+            ['path' => \Illuminate\Pagination\Paginator::resolveCurrentPath()]
+        );
+
+        return new OfferCollection($paginator);
     }
     public function verificate($idOffer){
         $offer = Offer::findOrFail($idOffer);
