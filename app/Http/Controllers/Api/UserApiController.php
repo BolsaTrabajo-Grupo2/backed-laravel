@@ -55,7 +55,6 @@ class UserApiController extends Controller
         if($request->get('password') != '' ){
             $user->password = Hash::make($request->get('password'));
         }
-        $user->rol = $request->get('rol');
 
         $user->save();
 

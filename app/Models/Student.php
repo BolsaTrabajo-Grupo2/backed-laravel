@@ -12,7 +12,7 @@ class Student extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'user_id',
+        'id_user',
         'address',
         'cv_link',
         'accept',
@@ -31,11 +31,12 @@ class Student extends Model
 
     public function cycles()
     {
-        return $this->hasMany(Cycle::class, 'id_student', 'user_id');
+        return $this->hasMany(Cycle::class, 'id_student', 'id_user');
     }
 
     public function applies()
     {
-        return $this->hasMany(Apply::class, 'id_student', 'user_id');
+        return $this->hasMany(Apply::class, 'id_student');
     }
 }
+

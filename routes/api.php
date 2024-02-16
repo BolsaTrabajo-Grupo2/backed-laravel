@@ -23,17 +23,13 @@ Route::post('registerStudent',[\App\Http\Controllers\Api\StudentApiController::c
 Route::get('/active/{id}',[\App\Http\Controllers\Api\StudentApiController::class,'active']);
 //la ruta de abajo es para pillar el estudiante
 Route::get('student/{id}', [\App\Http\Controllers\Api\StudentApiController::class, 'getStudent']);
-Route::get('studentEmail/{email}', [\App\Http\Controllers\Api\StudentApiController::class, 'getStudentByEmail']);
-Route::delete('studentDelete/{id}', [\App\Http\Controllers\Api\StudentApiController::class, 'delete']);
-//la ruta de abajo es para pillar los ciclos de un estudiante
-Route::get('studentCicles/{id}',[\App\Http\Controllers\Api\StudentApiController::class,'getCycleByStudent']);
 Route::get('cycles', [CycleApiController::class, 'getAll']);
 //la ruta para comprobar el email
+Route::delete('offersDelete/{id}', [\App\Http\Controllers\Api\OfferApiController::class, 'delete']);
+Route::put('/offersDeactivate/{id}', [\App\Http\Controllers\Api\OfferApiController::class, 'deactivate']);
 Route::get('checkEmail/{email}',[\App\Http\Controllers\Api\UserApiController::class,'checkEmail']);
 Route::get('checkCIF/{CIF}',[\App\Http\Controllers\Api\CompanyApiController::class,'checkCIF']);
 Route::get('company/{id}', [\App\Http\Controllers\Api\CompanyApiController::class, 'getCompany']);
-Route::get('companyEmail/{email}', [\App\Http\Controllers\Api\CompanyApiController::class, 'getCompanyByEmail']);
-Route::delete('companyDelete/{id}', [\App\Http\Controllers\Api\CompanyApiController::class, 'delete']);
 Route::get('/verificated/{id}',[\App\Http\Controllers\Api\StudentApiController::class, 'verificated']);
 Route::get('/sendEmail/{email}',[\App\Http\Controllers\Api\UserApiController::class,'sendEmail']);
 Route::get('/verificateOffer/{idOffer}',[\App\Http\Controllers\Api\OfferApiController::class,'verificate']);
@@ -54,5 +50,10 @@ Route::middleware('auth:sanctum')->group( function () {
     Route::get('user/company ',[\App\Http\Controllers\Api\CompanyApiController::class, 'show'])->middleware('rol:COMP,RESP,ADM');
     Route::put('user/company/update/{id}', [\App\Http\Controllers\Api\CompanyApiController::class, 'update'])->middleware('rol:COMP,RESP,ADM');
     Route::get('offerByCP/{cp}',[\App\Http\Controllers\Api\OfferApiController::class,'getOfferByCP'])->middleware('rol:STU,COMP');
+    Route::get('studentEmail/{email}', [\App\Http\Controllers\Api\StudentApiController::class, 'getStudentByEmail']);
+    Route::delete('studentDelete/{id}', [\App\Http\Controllers\Api\StudentApiController::class, 'delete']);
+    Route::get('studentCicles/{id}',[\App\Http\Controllers\Api\StudentApiController::class,'getCycleByStudent']);
+    Route::get('companyEmail/{email}', [\App\Http\Controllers\Api\CompanyApiController::class, 'getCompanyByEmail']);
+    Route::delete('companyDelete/{id}', [\App\Http\Controllers\Api\CompanyApiController::class, 'delete']);
 });
 

@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Http\Controllers\Api;
-
 use App\Http\Controllers\Controller;
 use App\Http\Requests\OfferRequest;
 use App\Http\Resources\OfferCollection;
@@ -44,7 +42,6 @@ class OfferApiController extends Controller
             if ($student) {
                 $studyCycles = Study::where('id_student', $student->id)->get();
                 $studyCyclesIds = $studyCycles->pluck('id_cycle')->toArray();
-
                 $assignedOffers = Assigned::where('id_cycle', $studyCyclesIds)->get();
                 $assignedOfferIds = $assignedOffers->pluck('id_offer')->toArray();
 
@@ -58,7 +55,6 @@ class OfferApiController extends Controller
     {
         return new OfferResource(Offer::find($id));
     }
-
     public function store(OfferRequest $offerRequest)
     {
         $userAutenticate = Auth::user();
@@ -88,32 +84,42 @@ class OfferApiController extends Controller
         }
         return new OfferResource($offer);
     }
-
     public function update(OfferRequest $offerRequest, $id)
     {
         $offer = Offer::findOrFail($id);
-
         $offer->description = $offerRequest->get('description');
         $offer->duration = $offerRequest->get('duration');
         $offer->responsible_name = $offerRequest->get('responsibleName');
         $offer->inscription_method = $offerRequest->get('inscriptionMethod');
         $offer->status = $offerRequest->get('status');
         $offer->save();
-
         return new OfferResource($offer);
+    }
+    public function deactivate($id)
+    {
+        $offer = Offer::findOrFail($id);
+
+        $offer->status = false;
+        $offer->save();
+
+        return response()->json([
+            'message' => 'La oferta con id:' . $id . ' ha sido desactivada con éxito',
+            'data' => $offer
+        ], 200);
     }
     public function delete($id)
     {
-        DB::beginTransaction();
+        $offer = Offer::findOrFail($id);
 
-        DB::table('assigneds')->where('id_offer', $id)->delete();
-        DB::table('applies')->where('id_offer', $id)->delete();
+        $offer->status = false;
+        $offer->save();
 
-        Offer::destroy($id);
-        DB::commit();
+
+        Assigned::where('id_offer', $id)->delete();
+
         return response()->json([
-            'message' => 'La oferta con id:' . $id . ' ha sido borrada con éxito',
-            'data' => $id
+            'message' => 'La oferta con id:' . $id . ' ha sido marcada como "borrada" con éxito',
+            'data' => $offer
         ], 200);
     }
     public  function getOfferByCP($cp){
