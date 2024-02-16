@@ -50,7 +50,7 @@ Route::fallback(function () {
     return redirect()->route('login');
 });
 
-Route::get('/reset-password/{email}', [\App\Http\Controllers\ResetPasswordController::class,'showResetForm'])->name('password.reset');
+Route::get('/reset-password/{email}', [\App\Http\Controllers\ResetPasswordController::class,'showResetForm'])->name('password.reseteo');
 Route::post('/password', [\App\Http\Controllers\ResetPasswordController::class, 'reset'])->name('password.update');
 
 require __DIR__.'/auth.php';
