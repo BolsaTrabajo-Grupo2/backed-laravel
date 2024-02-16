@@ -28,6 +28,7 @@ class UserFactory extends Factory
             'surname'     => $this->faker->lastName(),
             'email'     => $this->faker->email,
             'password'  => static::$password ??= Hash::make('password'),
+            'accept'  => true,
             'remember_token' => Str::random(10),
             'created_at' => now(),
             'updated_at' => now(),

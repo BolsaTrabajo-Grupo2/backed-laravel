@@ -51,6 +51,6 @@ Route::fallback(function () {
 });
 
 Route::get('/reset-password/{email}', [\App\Http\Controllers\ResetPasswordController::class,'showResetForm'])->name('password.reseteo');
-Route::post('/password', [\App\Http\Controllers\ResetPasswordController::class, 'reset'])->name('password.update');
+Route::post('/password', [\App\Http\Controllers\ResetPasswordController::class, 'reset'])->name('password.actualizar');
 
 require __DIR__.'/auth.php';

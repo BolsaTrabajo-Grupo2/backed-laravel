@@ -8,6 +8,7 @@ require 'recipe/laravel.php';
 set('repository', 'git@github.com:BolsaTrabajo-Grupo2/backed-laravel.git');
 
 set('git_tty', true);
+set('composer_options' , '--ignore-platform-req=ext-mysql_xdevapi');
 add('shared_files', ['.env']);
 add('shared_dirs', ['storage','bootstrap/cache']);
 add('writable_dirs', ['storage','bootstrap/cache']);
