@@ -25,4 +25,8 @@ class Offer extends Model
     {
         return $this->hasMany(Assigned::class, 'id_offer');
     }
+    public function company()
+    {
+        return $this->belongsTo(Company::class, 'CIF', 'CIF');
+    }
 }
