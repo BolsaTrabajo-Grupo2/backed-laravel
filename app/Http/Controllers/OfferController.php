@@ -37,15 +37,18 @@ class OfferController extends Controller
     public function show($id)
     {
         $offer = Offer::find($id);
-        return view('offer.show', ['offer' => $offer]);
+        $cycleOffer = Assigned::where('id_offer',$offer->id)->get();
+        return view('offer.show', ['offer' => $offer,'cycles' => $cycleOffer]);
     }
     public function create()
     {
         $cicles = Cycle::all();
-        return view('offer.create',compact("cicles"));
+        $companyes = Company::all();
+        return view('offer.create',['cicles' => $cicles, 'companies' => $companyes]);
     }
     public function store(OfferBackendRequest $offerRequest)
     {
+
         $userAutenticate = Auth::user();
         $offer = new Offer();
         $offer->description = $offerRequest->get('description');
@@ -55,10 +58,17 @@ class OfferController extends Controller
         }else{
             $offer->responsible_name = $userAutenticate->name;
         }
-        $offer->inscription_method = $offerRequest->get('inscription_method');
-        $empresa = Company::where('id_user', $userAutenticate->id)->first();
-        $offer->CIF = $empresa->CIF;
+        if($offerRequest->get('inscription_method')){
+            $offer->inscription_method = $offerRequest->get('inscription_method');
+        }else{
+            $offer->inscription_method = false;
+        }
+        $empresa = Company::where('CIF', $offerRequest->get('CIF'))->first();
+        if($empresa){
+            $offer->CIF = $empresa->CIF;
+        }
         $offer->status = true;
+        $offer->verified = true;
         $offer->save();
         $ciclosSelecionados = $offerRequest->get('selectedCycles');
         foreach ($ciclosSelecionados as $cycleId){
@@ -76,19 +86,31 @@ class OfferController extends Controller
         if (!$offer) {
             return abort(404);
         }
+        $cycles = Cycle::all();
+        $companies = Company::all();
+        $cyclesOffer = Assigned::where('id_offer',$offer->id)->get();
 
-        return view('offer.update', compact('offer'));
+        return view('offer.update', ['offer' => $offer,'cyclesOffer'=>$cyclesOffer,'cycles'=>$cycles,'companies' => $companies]);
     }
     public function update(OfferRequest $offerRequest, $id)
     {
-
         $offer = Offer::findOrFail($id);
 
         $offer->description = $offerRequest->get('description');
         $offer->duration = $offerRequest->get('duration');
-        $offer->responsible_name = $offerRequest->get('responsibleName');
-        $offer->inscription_method = $offerRequest->get('inscriptionMethod');
-        $offer->status = $offerRequest->get('status');
+        $offer->responsible_name = $offerRequest->get('responsible_name');
+        $offer->inscription_method = $offerRequest->get('inscription_method');
+        $selectedCycles = $offerRequest->get('selectedCycles');
+        $cyclosOferta = Assigned::where('id_offer',$offer->id)->get();
+        foreach ($cyclosOferta as $cOffert){
+            $cOffert->delete();
+        }
+        foreach ($selectedCycles as $cycle) {
+            $assigned = new Assigned();
+            $assigned->id_offer = $offer->id;
+            $assigned->id_cycle = $cycle;
+            $assigned->save();
+        }
         $offer->save();
 
         return redirect()->route('offer.show', $offer->id)->with('success', 'Offer actualizada correctamente.');

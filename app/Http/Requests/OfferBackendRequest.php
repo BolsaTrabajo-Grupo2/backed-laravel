@@ -37,6 +37,7 @@ class OfferBackendRequest extends FormRequest
                 'size:9',
                 'regex:/^[A-Z]\d{8}$/',
             ],
+            'selectedCycles' => 'required|array|min:1',
         ];
     }
 
