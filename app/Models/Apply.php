@@ -19,5 +19,8 @@ class Apply extends Model
     {
         return $this->belongsTo(Student::class, 'id_user');
     }
+    public function offer() {
+        return $this->belongsTo('App\Models\Offer', 'id_offer');
+    }
 
 }
