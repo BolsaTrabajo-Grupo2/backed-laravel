@@ -12,6 +12,8 @@ add('shared_files', ['.env']);
 add('shared_dirs', ['storage','bootstrap/cache']);
 add('writable_dirs', ['storage','bootstrap/cache']);
 
+set('composer_options', '{{composer_action}} --verbose --prefer-dist --no-progress --no-interaction --optimize-autoloader --ignore-platform-req=ext-mysql_xdevapi');
+
 host('18.208.14.230')
     ->set('remote_user','bolsa_user')
     ->set('identity_file','~/.ssh/id_rsa')
