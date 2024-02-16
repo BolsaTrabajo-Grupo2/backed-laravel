@@ -56,6 +56,9 @@
                 </table>
             <dt class="col-sm-3">Link Curriculum:</dt>
             <dd class="col-sm-9">{{ $student->cv_link }}</dd>
+            <a class="col-sm-3" href="{{ route('offersStudent', ['id' => $student->id]) }}">Ofertas a las que ha aplicado el Estudiante</a>
+            <br>
+            <a href="{{ route('student.index') }}" class="btn btn-primary">Volver al Listado</a>
         </dl>
     </div>
 @endsection
