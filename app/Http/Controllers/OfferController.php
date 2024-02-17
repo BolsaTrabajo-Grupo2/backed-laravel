@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\OfferBackendRequest;
 use App\Http\Requests\OfferRequest;
+use App\Models\Apply;
 use App\Models\Assigned;
 use App\Models\Company;
 use App\Models\Cycle;
 use App\Models\Offer;
+use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -38,7 +40,15 @@ class OfferController extends Controller
     {
         $offer = Offer::find($id);
         $cycleOffer = Assigned::where('id_offer',$offer->id)->get();
-        return view('offer.show', ['offer' => $offer,'cycles' => $cycleOffer]);
+        $studentsApplies = [];
+        if ($offer->inscription_method){
+            $students = Apply::where('id_offer',$offer->id)->get();
+            foreach ($students as $student){
+                $stu = Student::findOrFail($student->id_student);
+                $studentsApplies[] = $stu;
+            }
+        }
+        return view('offer.show', ['offer' => $offer,'cycles' => $cycleOffer,'students'=>$studentsApplies]);
     }
     public function create()
     {
@@ -118,13 +128,11 @@ class OfferController extends Controller
     public function destroy($id)
     {
         try {
-            DB::beginTransaction();
+            $offer = Offer::findOrFail($id);
 
-            DB::table('assigneds')->where('id_offer', $id)->delete();
-            DB::table('applies')->where('id_offer', $id)->delete();
+            $offer->status = false;
+            $offer->save();
 
-            Offer::destroy($id);
-            DB::commit();
             return redirect()->route('offer.index', $id)->with('success', 'Offer eliminada correctamente.');
         } catch (\Exception $e) {
             DB::rollBack();

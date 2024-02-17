@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('address', 100);
             $table->string('CP',5);
             $table->string('phone', 9);
-            $table->string('web', 100)->nullable();
+            $table->string('web', 250)->nullable();
             $table->string('observations',250)->nullable();
             $table->timestamps();
             $table->primary('CIF');
