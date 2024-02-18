@@ -63,7 +63,7 @@
                 @enderror
             </div>
 
-            <<div class="form-group">
+            <div class="form-group">
                 <label for="CIF">Selecciona la empresa a la que pertenece la oferta:</label><br />
                 <select name="CIF" id="CIF" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                     @foreach ($companies as $company)
@@ -80,9 +80,7 @@
 
             <button type="submit" class="btn btn-primary">Guardar Cambios</button>
         </fieldset>
-    </form>
-    <div class="col-md-6 offset-md-4">
         <a href="{{ route('offer.index') }}" class="btn btn-primary mb-3">Volver a la lista</a>
-    </div>
+    </form>
 </div>
 @endsection

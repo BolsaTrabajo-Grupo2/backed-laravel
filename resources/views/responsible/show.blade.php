@@ -3,9 +3,7 @@
 @section('content')
     <div class="container">
         <div class="card">
-            <div class="card-header">
-                <h5 class="mb-0">Detalles del Responsable</h5>
-            </div>
+            <legend>Detalle del Responsable: {{ $responsible->name }}</legend>
 
             <div class="card-body">
                 <div class="row mb-2">
@@ -63,7 +61,7 @@
                 </div>
 
                 <div class="text-center">
-                    <a href="{{ route('responsible.index') }}" class="btn btn-secondary">Volver a la lista</a>
+                    <a href="{{ route('responsible.index') }}" class="btn btn-primary mb-3">Volver a la lista</a>
                 </div>
             </div>
         </div>

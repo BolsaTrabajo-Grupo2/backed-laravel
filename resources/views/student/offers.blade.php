@@ -29,7 +29,7 @@
         </tbody>
     </table>
     @else
-        <h1>El estudiante no tiene ofertas registradas</h1>
+        <legend>El estudiante no tiene ofertas registradas</legend>
     @endif
     <a href="{{ route('student.show',$idStudent) }}" class="btn btn-primary">Volver a los detalles</a>
 </div>

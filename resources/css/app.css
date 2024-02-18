@@ -5,56 +5,97 @@
 .table {
     margin-bottom: 1rem;
 }
-
 .table th,
 .table td {
     padding: 0.75rem;
 }
 
-/* resources/css/app.css */
-
-/* Estilos para los enlaces */
 a {
-    color: #3490dc; /* Cambia el color del texto de los enlaces */
-    text-decoration: none; /* Elimina el subrayado predeterminado de los enlaces */
-    transition: color 0.3s; /* Agrega una transición suave al color del texto */
+    color: #3490dc;
+    text-decoration: none;
+    transition: color 0.3s;
 }
-
 a:hover {
-    color: #1e4e7e; /* Cambia el color del texto cuando el cursor se desplaza sobre el enlace */
+    color: #1e4e7e;
 }
 
-/* resources/css/app.css */
-
-/* resources/css/app.css */
-
-/* Estilos para centrar el contenido */
 .container {
-    max-width: 960px; /* Establece el ancho máximo del contenedor para evitar que se extienda demasiado */
-    margin: 0 auto; /* Centra el contenido horizontalmente */
+    max-width: 960px;
+    margin: 0 auto;
 }
 
 .form-horizontal {
-    margin: 0 auto; /* Centra el formulario horizontalmente */
-    width: 70%; /* Establece el ancho del formulario, ajusta según sea necesario */
+    margin: 0 auto;
+    width: 70%;
 }
-
-/* resources/css/app.css */
-
-/* Estilos para centrar el formulario */
 form {
-    margin: 0 auto; /* Centra el formulario horizontalmente */
-    max-width: 600px; /* Establece un ancho máximo para el formulario */
+    margin: 0 auto;
+    max-width: 600px;
 }
-/* resources/css/app.css */
 
-/* Estilos para los títulos */
 legend {
-    font-size: 24px; /* Tamaño de fuente más grande */
-    font-weight: bold; /* Texto en negrita */
-    color: #333; /* Color del texto */
-    border-bottom: 2px solid #333; /* Línea inferior */
-    padding-bottom: 10px; /* Espacio inferior */
-    margin-bottom: 20px; /* Margen inferior */
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    border-bottom: 2px solid #333;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+button[type="submit"] {
+    padding: 0.5rem 1rem;
+    background-color: #3490dc;
+    color: #fff;
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: #86b2d9;
+}
+
+.card {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 0.25rem;
+    margin-top: 2rem;
+}
+
+.card legend {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background-color: #343a40;
+    color: #fff;
+    border-radius: 0.25rem 0.25rem 0 0;
+}
+
+.card-body {
+    padding: 1rem;
+}
+
+.card-body .row {
+    margin-bottom: 1rem;
+}
+
+.card-body strong {
+    font-weight: bold;
+}
+
+.btn-secondary {
+    padding: 0.5rem 1rem;
+    background-color: #6c757d;
+    color: #fff;
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-secondary:hover {
+    background-color: #495057;
 }
 

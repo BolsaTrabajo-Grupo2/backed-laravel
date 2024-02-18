@@ -84,9 +84,7 @@
 
             <button type="submit" class="btn btn-primary">Guardar</button>
         </fieldset>
-    </form>
-    <div class="col-md-6 offset-md-4">
         <a href="{{ route('offer.index') }}" class="btn btn-primary mb-3">Volver a la lista</a>
-    </div>
+    </form>
 </div>
 @endsection

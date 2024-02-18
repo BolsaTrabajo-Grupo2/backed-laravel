@@ -4,8 +4,8 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">Lista de Responsables</div>
+                <div>
+                    <legend>Lista de Responsables</legend>
 
                     <div class="card-body">
                         <a href="{{ route('responsible.create') }}" class="btn btn-primary mb-3">Crear Nuevo
