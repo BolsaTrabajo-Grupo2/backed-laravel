@@ -2,12 +2,12 @@
     <form method="POST" action="{{ route('company.store') }}">
         @csrf
         <fieldset>
-            <legend>Crear una nueva Emrpesa</legend>
+            <legend>Crear una nueva Empresa</legend>
 
             <div>
                 <div>
                     <label for="name">Nombre:</label><br />
-                    <input name="name" type="text" /><br />
+                    <input name="name" type="text" value="{{ old('name') }}" /><br />
                     @error('name')
                     <span class="validate-error">{{ $message }}</span><br />
                     @enderror
@@ -15,7 +15,7 @@
 
                 <div>
                     <label for="surname">Apellidos:</label><br />
-                    <input name="surname" type="text"/><br />
+                    <input name="surname" type="text" value="{{ old('surname') }}" /><br />
                     @error('surname')
                     <span class="validate-error">{{ $message }}</span><br />
                     @enderror
@@ -23,7 +23,7 @@
 
                 <div>
                     <label for="phone">Teléfono:</label><br />
-                    <input name="phone" type="text" /><br />
+                    <input name="phone" type="text" value="{{ old('phone') }}" /><br />
                     @error('phone')
                     <span class="validate-error">{{ $message }}</span><br />
                     @enderror
@@ -31,7 +31,7 @@
 
                 <div>
                     <label for="email">Email:</label><br />
-                    <input name="email" type="text"/><br />
+                    <input name="email" type="text" value="{{ old('email') }}" /><br />
                     @error('email')
                     <span class="validate-error">{{ $message }}</span><br />
                     @enderror
@@ -55,7 +55,7 @@
 
                 <div>
                     <label for="CIF">CIF:</label><br />
-                    <input name="CIF" type="text"/><br />
+                    <input name="CIF" type="text" value="{{ old('CIF') }}" /><br />
                     @error('CIF')
                     <span class="validate-error">{{ $message }}</span><br />
                     @enderror
@@ -63,7 +63,7 @@
 
                 <div>
                     <label for="company_name">Nombre Empresa:</label><br />
-                    <input name="company_name" type="text"/><br />
+                    <input name="company_name" type="text" value="{{ old('company_name') }}" /><br />
                     @error('companyName')
                     <span class="validate-error">{{ $message }}</span><br />
                     @enderror
@@ -71,7 +71,7 @@
 
                 <div>
                     <label for="web">Web:</label><br />
-                    <input name="web" type="text"/><br />
+                    <input name="web" type="text" value="{{ old('web') }}" /><br />
                     @error('web')
                     <span class="validate-error">{{ $message }}</span><br />
                     @enderror
@@ -79,7 +79,7 @@
 
                 <div>
                     <label for="address">Dirección:</label><br />
-                    <input name="address" type="text"/><br />
+                    <input name="address" type="text" value="{{ old('address') }}" /><br />
                     @error('address')
                     <span class="validate-error">{{ $message }}</span><br />
                     @enderror
@@ -87,7 +87,7 @@
 
                 <div>
                     <label for="CP">CP:</label><br />
-                    <input name="CP" type="text"/><br />
+                    <input name="CP" type="text" value="{{ old('CP') }}" /><br />
                     @error('CP')
                     <span class="validate-error">{{ $message }}</span><br />
                     @enderror

@@ -27,7 +27,7 @@ class CompanyFactory extends Factory
             'address'     => $faker->streetAddress(),
             'CP' => $this->generateCP(),
             'phone' => $faker->numerify('#########'),
-            'web'  => $faker->url(),
+            'web'  => $faker->regexify('^https?://(www\.)?[a-zA-Z0-9]{1,100}\.[a-z]{2,4}$'),
             'created_at' => now(),
             'updated_at' => now(),
         ];
