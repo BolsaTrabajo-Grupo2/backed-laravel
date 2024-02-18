@@ -26,6 +26,6 @@ class LoginController extends Controller
         $user = User::where('email', $request->email)->firstOrFail();
         $token = $user->createToken('api-token')->plainTextToken;
 
-        return response()->json(['name' => $user->name, 'email' => $user->email, 'rol' => $user->rol, 'token' => $token], 200);
+        return response()->json(['name' => $user->name, 'email' => $user->email, 'accept' => $user->accept, 'rol' => $user->rol, 'token' => $token], 200);
     }
 }
