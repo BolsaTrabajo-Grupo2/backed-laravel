@@ -109,22 +109,20 @@ class StudentApiController extends Controller
     }
     public function delete($id)
     {
-        $student = Student::find($id);
-
+        $student = Student::where('id_user', $id)->first();
+        $studentId = $student->id;
         if (!$student) {
             return response()->json(['error' => 'No se ha encontrado el estudiante'], 404);
         }
 
-        $userId = $student->id_user;
-
-        Apply::where('id_student', $id)->delete();
+        Apply::where('id_student', $studentId)->delete();
 
         $student->delete();
 
-        User::where('id', $userId)->delete();
+        User::where('id', $id)->delete();
         return response()->json([
-            'message' => 'El estudiante con id:' . $id . ' ha sido borrado con éxito',
-            'data' => $id
+            'message' => 'El estudiante con id:' . $studentId . ' ha sido borrado con éxito',
+            'data' => $studentId
         ], 200);
     }
     public function getStudent($id) {

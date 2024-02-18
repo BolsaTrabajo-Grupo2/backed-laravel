@@ -54,6 +54,6 @@ Route::middleware('auth:sanctum')->group( function () {
     Route::delete('studentDelete/{id}', [\App\Http\Controllers\Api\StudentApiController::class, 'delete']);
     Route::get('studentCicles/{id}',[\App\Http\Controllers\Api\StudentApiController::class,'getCycleByStudent']);
     Route::get('companyEmail/{email}', [\App\Http\Controllers\Api\CompanyApiController::class, 'getCompanyByEmail']);
-    Route::delete('companyDelete/{id}', [\App\Http\Controllers\Api\CompanyApiController::class, 'delete']);
+    Route::delete('companyDelete/{CIF}', [\App\Http\Controllers\Api\CompanyApiController::class, 'delete']);
 });
 
