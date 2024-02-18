@@ -20,7 +20,6 @@ class StudentFactory extends Factory
 
         return [
             'address'     => $faker->streetAddress(),
-            'accept'  => true,
             'created_at' => now(),
             'updated_at' => now(),
         ];

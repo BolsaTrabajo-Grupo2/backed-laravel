@@ -20,7 +20,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('login',[\App\Http\Controllers\Api\LoginController::class, 'login']);
 Route::post('registerCompany',[\App\Http\Controllers\Api\CompanyApiController::class, 'store']);
 Route::post('registerStudent',[\App\Http\Controllers\Api\StudentApiController::class, 'store']);
-Route::get('/active/{id}',[\App\Http\Controllers\Api\StudentApiController::class,'active']);
+Route::get('/active/{id}',[\App\Http\Controllers\Api\UserApiController::class,'active']);
 //la ruta de abajo es para pillar el estudiante
 Route::get('student/{id}', [\App\Http\Controllers\Api\StudentApiController::class, 'getStudent']);
 Route::get('cycles', [CycleApiController::class, 'getAll']);

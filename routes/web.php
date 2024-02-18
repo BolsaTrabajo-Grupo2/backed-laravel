@@ -7,6 +7,7 @@ use App\Http\Controllers\ResponsibleController;
 use App\Http\Controllers\OfferController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\CycleController;
+use Illuminate\Support\Facades\View;
 
 
 /*
@@ -44,13 +45,17 @@ Route::middleware('auth:sanctum')->group( function () {
     Route::resource('offer', OfferController::class)->middleware('rol:RESP,ADM');
     Route::resource('company', CompanyController::class)->middleware('rol:ADM');
     Route::get('/cycles', [CycleController::class, 'index'])->name('cycles.index')->middleware('rol:ADM');
+    Route::get('/offersStudent/{id}', [StudentController::class, 'offers'])->name('offersStudent')->middleware('rol:ADM,RESP');
+    Route::get('/offerShow/{id}/{idStudent}', [StudentController::class, 'offerShow'])->name('offerShow')->middleware('rol:ADM,RESP');
+
 });
+
 
 Route::fallback(function () {
     return redirect()->route('login');
 });
 
-Route::get('/reset-password/{email}', [\App\Http\Controllers\ResetPasswordController::class,'showResetForm'])->name('password.reset');
-Route::post('/password', [\App\Http\Controllers\ResetPasswordController::class, 'reset'])->name('password.update');
+Route::get('/reset-password/{email}', [\App\Http\Controllers\ResetPasswordController::class,'showResetForm'])->name('password.reseteo');
+Route::post('/password', [\App\Http\Controllers\ResetPasswordController::class, 'reset'])->name('password.actualizar');
 
 require __DIR__.'/auth.php';
