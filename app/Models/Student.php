@@ -15,7 +15,6 @@ class Student extends Model
         'id_user',
         'address',
         'cv_link',
-        'accept',
         'observations'
     ];
 

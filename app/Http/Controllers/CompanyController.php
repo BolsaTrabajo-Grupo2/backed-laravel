@@ -3,11 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Api\UserApiController;
+use App\Http\Requests\CompanyRequest;
 use App\Http\Requests\CompanyUpdateBackendRequest;
-use App\Http\Requests\CompanyUpdateRequest;
 use App\Models\Company;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class CompanyController extends Controller
@@ -27,7 +26,7 @@ class CompanyController extends Controller
     {
         return view('company.create');
     }
-    public function store(Request $request)
+    public function store(CompanyRequest $request)
     {
         $userResponse = UserApiController::register($request);
         $user = $userResponse->getOriginalContent()['user'];

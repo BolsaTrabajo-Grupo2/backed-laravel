@@ -10,6 +10,7 @@ use App\Http\Resources\CompanyResource;
 use App\Models\Company;
 use App\Models\Student;
 use App\Models\User;
+use App\Notifications\NewStudentOrCompanyNotification;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
@@ -41,6 +42,7 @@ class CompanyApiController extends Controller
         $company->created_at = Carbon::now();
         $company->updated_at = Carbon::now();
         $company->save();
+        $user->notify(new NewStudentOrCompanyNotification($user));
         return response()->json(['token' => $token], 201);
     }
 

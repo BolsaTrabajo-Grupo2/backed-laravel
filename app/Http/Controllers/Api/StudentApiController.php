@@ -57,7 +57,7 @@ class StudentApiController extends Controller
             }
         }
         $studies = Study::where('id_student', $student->id)->get();
-        $user->notify(new NewStudentOrCompanyNotification($student, $studies));
+        $user->notify(new NewStudentOrCompanyNotification($user, $studies));
         return response()->json(['token' => $token], 201);
     }
 
@@ -126,14 +126,6 @@ class StudentApiController extends Controller
             'message' => 'El estudiante con id:' . $id . ' ha sido borrado con éxito',
             'data' => $id
         ], 200);
-    }
-    public function active($id){
-        $student = Student::findOrFail($id);
-        $student->accept = true;
-        $student->save();
-        $user = User::findOrFail($student->id_user);
-        $user->notify(new ActivedNotification());
-        return view('users.actived');
     }
     public function getStudent($id) {
         $user = User::findOrFail($id);

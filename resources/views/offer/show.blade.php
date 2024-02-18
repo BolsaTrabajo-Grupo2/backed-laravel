@@ -9,6 +9,22 @@
             @if($offer->observations)
                 <p class="card-text"><strong>Observaciones:</strong> {{ $offer->observations }}</p>
             @endif
+            <p class="card-text"><strong>Ciclos que requiere</strong></p>
+            <ul>
+                @forelse($cycles as $cycle)
+                    <li>{{  $cycle->cycle->cliteral }}</li>
+                @empty
+                    <li>No hay ciclos</li>
+                @endforelse
+            </ul>
+            @if($offer->inscription_method == 1)
+                <p class="card-text"><strong>Los alumnos que han aplicado son: </strong></p>
+                @forelse($students as $student)
+                    <li>{{  $student->user->name }} {{ $student->user->surname }} {{$student->user->email}}</li>
+                @empty
+                    <li>No han apliacado alumnos aun</li>
+                @endforelse
+            @endif
             <a href="{{ route('offer.index') }}" class="btn btn-primary">Volver al Listado</a>
         </div>
     </div>

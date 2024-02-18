@@ -115,8 +115,6 @@ class OfferApiController extends Controller
         $offer->save();
 
 
-        Assigned::where('id_offer', $id)->delete();
-
         return response()->json([
             'message' => 'La oferta con id:' . $id . ' ha sido marcada como "borrada" con éxito',
             'data' => $offer
