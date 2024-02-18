@@ -1,5 +1,8 @@
+@extends('layouts.app')
+
+@section('content')
 <div class="container">
-    <h1>Detalles de la Oferta</h1>
+    <legend>Detalles de la Oferta</legend>
     <div class="card">
         <div class="card-body">
             <h5 class="card-title">{{ $offer->description }}</h5>
@@ -29,3 +32,4 @@
         </div>
     </div>
 </div>
+@endsection

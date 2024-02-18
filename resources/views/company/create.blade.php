@@ -1,3 +1,6 @@
+@extends('layouts.app')
+
+@section('content')
 <div class="row">
     <form method="POST" action="{{ route('company.store') }}">
         @csrf
@@ -111,3 +114,4 @@
     </form>
     <a href="{{ route('company.index') }}" class="btn btn-primary mb-3">Volver a la lista</a>
 </div>
+@endsection

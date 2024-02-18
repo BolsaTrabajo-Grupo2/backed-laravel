@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <h1>Editar Empresa</h1>
+        <legend>Editar Empresa</legend>
         <hr>
         <div class="row">
             <form method="POST" action="{{ route('company.update', ['company' => $company->id_user]) }}">

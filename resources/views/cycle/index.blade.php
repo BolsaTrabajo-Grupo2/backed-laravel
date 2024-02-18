@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <h1>Listado de Ciclos</h1>
+        <legend>Listado de Ciclos</legend>
         <canvas id="myChart"></canvas>
     </div>
 

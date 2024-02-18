@@ -1,3 +1,60 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.table {
+    margin-bottom: 1rem;
+}
+
+.table th,
+.table td {
+    padding: 0.75rem;
+}
+
+/* resources/css/app.css */
+
+/* Estilos para los enlaces */
+a {
+    color: #3490dc; /* Cambia el color del texto de los enlaces */
+    text-decoration: none; /* Elimina el subrayado predeterminado de los enlaces */
+    transition: color 0.3s; /* Agrega una transición suave al color del texto */
+}
+
+a:hover {
+    color: #1e4e7e; /* Cambia el color del texto cuando el cursor se desplaza sobre el enlace */
+}
+
+/* resources/css/app.css */
+
+/* resources/css/app.css */
+
+/* Estilos para centrar el contenido */
+.container {
+    max-width: 960px; /* Establece el ancho máximo del contenedor para evitar que se extienda demasiado */
+    margin: 0 auto; /* Centra el contenido horizontalmente */
+}
+
+.form-horizontal {
+    margin: 0 auto; /* Centra el formulario horizontalmente */
+    width: 70%; /* Establece el ancho del formulario, ajusta según sea necesario */
+}
+
+/* resources/css/app.css */
+
+/* Estilos para centrar el formulario */
+form {
+    margin: 0 auto; /* Centra el formulario horizontalmente */
+    max-width: 600px; /* Establece un ancho máximo para el formulario */
+}
+/* resources/css/app.css */
+
+/* Estilos para los títulos */
+legend {
+    font-size: 24px; /* Tamaño de fuente más grande */
+    font-weight: bold; /* Texto en negrita */
+    color: #333; /* Color del texto */
+    border-bottom: 2px solid #333; /* Línea inferior */
+    padding-bottom: 10px; /* Espacio inferior */
+    margin-bottom: 20px; /* Margen inferior */
+}
+

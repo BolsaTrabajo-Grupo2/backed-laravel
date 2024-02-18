@@ -1,24 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-    <style>
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
-
-        th, td {
-            border: 1px solid #dddddd;
-            text-align: left;
-            padding: 8px;
-        }
-
-        th {
-            background-color: #f2f2f2;
-        }
-    </style>
     <div class="container">
-        <h1>Detalles del Estudiante</h1>
+        <legend>Detalles del Estudiante</legend>
         <hr>
         <dl class="row">
             <dt class="col-sm-3">Nombre:</dt>

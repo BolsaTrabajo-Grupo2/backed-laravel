@@ -3,52 +3,70 @@
 @section('content')
     <div class="container">
         <div class="card">
-            <div class="card-header">Detalles del Responsable</div>
+            <div class="card-header">
+                <h5 class="mb-0">Detalles del Responsable</h5>
+            </div>
 
             <div class="card-body">
-                <div class="form-group row">
-                    <label for="name" class="col-md-4 col-form-label text-md-right">ID</label>
+                <div class="row mb-2">
+                    <div class="col-md-4 text-md-right">
+                        <strong>ID:</strong>
+                    </div>
                     <div class="col-md-6">
-                        <p>{{ $responsible->id }}</p>
+                        {{ $responsible->id }}
                     </div>
                 </div>
 
-                <div class="form-group row">
-                    <label for="name" class="col-md-4 col-form-label text-md-right">Nombre</label>
+                <div class="row mb-2">
+                    <div class="col-md-4 text-md-right">
+                        <strong>Nombre:</strong>
+                    </div>
                     <div class="col-md-6">
-                        <p>{{ $responsible->name }}</p>
+                        {{ $responsible->name }}
                     </div>
                 </div>
 
-                <div class="form-group row">
-                    <label for="surname" class="col-md-4 col-form-label text-md-right">Apellido</label>
+                <div class="row mb-2">
+                    <div class="col-md-4 text-md-right">
+                        <strong>Apellido:</strong>
+                    </div>
                     <div class="col-md-6">
-                        <p>{{ $responsible->surname }}</p>
+                        {{ $responsible->surname }}
                     </div>
                 </div>
 
-                <div class="form-group row">
-                    <label for="email" class="col-md-4 col-form-label text-md-right">Email</label>
+                <div class="row mb-2">
+                    <div class="col-md-4 text-md-right">
+                        <strong>Email:</strong>
+                    </div>
                     <div class="col-md-6">
-                        <p>{{ $responsible->email }}</p>
+                        {{ $responsible->email }}
                     </div>
                 </div>
 
-                <div class="form-group row">
-                    <label for="created_at" class="col-md-4 col-form-label text-md-right">Creado</label>
+                <div class="row mb-2">
+                    <div class="col-md-4 text-md-right">
+                        <strong>Creado:</strong>
+                    </div>
                     <div class="col-md-6">
-                        <p>{{ $responsible->created_at->format('d/m/Y H:i:s') }}</p>
+                        {{ $responsible->created_at->format('d/m/Y H:i:s') }}
                     </div>
                 </div>
 
-                <div class="form-group row">
-                    <label for="updated_at" class="col-md-4 col-form-label text-md-right">Actualizado</label>
+                <div class="row mb-2">
+                    <div class="col-md-4 text-md-right">
+                        <strong>Actualizado:</strong>
+                    </div>
                     <div class="col-md-6">
-                        <p>{{ $responsible->updated_at->format('d/m/Y H:i:s') }}</p>
+                        {{ $responsible->updated_at->format('d/m/Y H:i:s') }}
                     </div>
                 </div>
-                <a href="{{ route('responsible.index') }}" class="btn btn-primary mb-3">Volver a la lista</a>
+
+                <div class="text-center">
+                    <a href="{{ route('responsible.index') }}" class="btn btn-secondary">Volver a la lista</a>
+                </div>
             </div>
         </div>
     </div>
 @endsection
+

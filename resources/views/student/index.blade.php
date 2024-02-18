@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <h1>Listado de Estudiantes</h1>
+        <legend>Listado de Estudiantes</legend>
         <hr>
         <div class="table-responsive">
             <table class="table table-bordered">

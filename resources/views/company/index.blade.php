@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <h1>Listado de Empresas</h1>
+        <legend>Listado de Empresas</legend>
         <hr>
         <div class="table-responsive">
             <a href="{{ route('company.create') }}" class="btn btn-primary mb-3">Crear Nueva
