@@ -62,9 +62,9 @@ class CompanyApiController extends Controller
         return new CompanyResource($company);
     }
 
-    public function delete($id)
+    public function delete($cif)
     {
-        $company = Company::find($id);
+        $company = Company::where('CIF',$cif)->first();
         if (!$company) {
             return abort(404);
         }
@@ -79,14 +79,14 @@ class CompanyApiController extends Controller
             DB::table('users')->where('id', $userId)->delete();
             DB::commit();
             return response()->json([
-                'message' => 'La empresa con id:' . $id . ' ha sido borrada con éxito',
-                'data' => $id
+                'message' => 'La empresa con id:' . $userId . ' ha sido borrada con éxito',
+                'data' => $userId
             ], 200);
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json([
-                'message' => 'La empresa con id:' . $id . ' no se ha podido borrar',
-                'data' => $id
+                'message' => 'La empresa con id:' . $userId . ' no se ha podido borrar',
+                'data' => $userId
             ], (500));
         }
 
