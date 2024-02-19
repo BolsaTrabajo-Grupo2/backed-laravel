@@ -36,10 +36,6 @@ class StudentRequest extends FormRequest
                 'min:8',
                 'regex:/^(?=.*[A-Z])(?=.*\d).{8,}$/'
             ],
-            'confirmPassword' => [
-                'required_with:password',
-                'same:password',
-            ],
             'rol' => 'required',
             'address' => 'required|string|max:100',
             'CVLink' => 'string|max:75',
@@ -64,9 +60,6 @@ class StudentRequest extends FormRequest
             'password.string' => 'The password field must be a string.',
             'password.min' => 'The password must be at least 8 characters.',
             'password.regex' => 'The password must contain at least one uppercase letter and one digit.',
-
-            'confirmPassword.required_with' => 'The confirmation password field is required when a password is present.',
-            'confirmPassword.same' => 'The confirmation password and password must match.',
 
             'address.required' => 'The address field is required.',
             'address.string' => 'The address field must be a string.',
