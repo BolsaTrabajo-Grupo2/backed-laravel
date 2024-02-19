@@ -32,12 +32,12 @@ Route::get('checkCIF/{CIF}',[\App\Http\Controllers\Api\CompanyApiController::cla
 Route::get('company/{id}', [\App\Http\Controllers\Api\CompanyApiController::class, 'getCompany']);
 Route::get('/verificated/{id}',[\App\Http\Controllers\Api\StudentApiController::class, 'verificated']);
 Route::get('/sendEmail/{email}',[\App\Http\Controllers\Api\UserApiController::class,'sendEmail']);
-Route::get('/verificateOffer/{idOffer}',[\App\Http\Controllers\Api\OfferApiController::class,'verificate']);
-Route::get('/spread/{idOffer}',[\App\Http\Controllers\Api\OfferApiController::class,'spread']);
+Route::post('/verificateOffer/{idOffer}',[\App\Http\Controllers\Api\OfferApiController::class,'verificate']);
+Route::put('/spread/{idOffer}',[\App\Http\Controllers\Api\OfferApiController::class,'spread']);
 Route::middleware('auth:sanctum')->group( function () {
     Route::get('companyCIF/{CIF}', [\App\Http\Controllers\Api\CompanyApiController::class, 'getCompanyCIF']);
     Route::get('userOffert/{id}',[\App\Http\Controllers\Api\StudentApiController::class,'showUserApplie'])->middleware('rol:COMP');
-    Route::post('apply/{idOffer}',[\App\Http\Controllers\Api\StudentApiController::class,'signUp'])->middleware('rol:STU');
+    Route::post('apply/{idOffer}',[\App\Http\Controllers\Api\StudentApiController::class,'apply'])->middleware('rol:STU');
     Route::apiResource('company',\App\Http\Controllers\Api\CompanyApiController::class)->middleware('rol:ADM,RESP,COMP');
     Route::delete('student/delete/{id}',[\App\Http\Controllers\Api\UserApiController::class, 'delete'])->middleware('rol:ADM,RESP,STU');
     Route::apiResource('responsible',\App\Http\Controllers\Api\UserApiController::class)->middleware('rol:RESP');

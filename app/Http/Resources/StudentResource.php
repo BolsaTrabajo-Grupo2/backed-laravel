@@ -19,7 +19,6 @@ class StudentResource extends JsonResource
             'idUser' => $this->user->id,
             'address' => $this->address,
             'CVLink' => $this->CVLink,
-            'accept' => $this->accept,
         ];
     }
 }
