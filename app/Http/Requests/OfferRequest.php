@@ -27,4 +27,20 @@ class OfferRequest extends FormRequest
             'responsibleName' => 'string|max:100',
         ];
     }
+    public function messages()
+    {
+        return [
+            'description.required' => 'The description is required.',
+            'description.string' => 'The description must be a string.',
+            'description.max' => 'The description cannot exceed 200 characters.',
+
+            'duration.required' => 'The duration is required.',
+            'duration.string' => 'The duration must be a string.',
+            'duration.max' => 'The duration cannot exceed 50 characters.',
+
+            'responsibleName.string' => 'The responsible name must be a string.',
+            'responsibleName.max' => 'The responsible name cannot exceed 100 characters.',
+        ];
+    }
+
 }

@@ -1,140 +1,124 @@
-@extends('layouts.app')
+<div class="row">
+    <form method="POST" action="{{ route('student.store') }}" id="studentForm">
+        @csrf
+        <fieldset>
+            <legend>Crear una nuevo Estudiante</legend>
 
-@section('content')
-    <div class="container">
-        <form class="form-horizontal" method="POST" action="{{ route('student.store') }}">
-            @csrf
-            <fieldset>
-                <legend>Registrarse</legend>
+            <div>
+                <div>
+                    <label for="name">Nombre:</label><br />
+                    <input name="name" type="text" /><br />
+                    @error('name')
+                    <span class="validate-error">{{ $message }}</span><br />
+                    @enderror
+                </div>
 
-            <div class="form-group">
-                <label class="col-md-4 control-label">Nombre</label>
-                <div class="col-md-4 inputGroupContainer">
-                    <div class="input-group">
-                        <input name="nombre" placeholder="nombre" class="form-control" type="text"
-                               value="{{ old('nombre') }}" />
-                        @error('nombre')
-                        <span class="error">{{ $message }}</span>
-                        @enderror
+                <div>
+                    <label for="surname">Apellidos:</label><br />
+                    <input name="surname" type="text"/><br />
+                    @error('surname')
+                    <span class="validate-error">{{ $message }}</span><br />
+                    @enderror
+                </div>
+
+                <div>
+                    <label for="email">Email:</label><br />
+                    <input name="email" type="text"/><br />
+                    @error('email')
+                    <span class="validate-error">{{ $message }}</span><br />
+                    @enderror
+                </div>
+
+                <div>
+                    <label for="password">Contraseña:</label><br />
+                    <input name="password" type="password" /><br />
+                    @error('password')
+                    <span class="validate-error">{{ $message }}</span><br />
+                    @enderror
+                </div>
+
+                <div>
+                    <label for="confirmPassword">Repetir Contraseña:</label><br />
+                    <input name="confirmPassword" type="password" /><br />
+                    @error('confirmPassword')
+                    <span class="validate-error">{{ $message }}</span><br />
+                    @enderror
+                </div>
+
+                <div class="form-group" id="app">
+                    <label for="ciclo">Ciclo:</label>
+                    <div class="cycle-container">
+                        <div class="input-group cycle-field">
+                            <select name="cycles[]" class="form-control" onchange="addCycleField(this)">
+                                <option value="">Seleccionar ciclo</option>
+                                @foreach ($cycles as $cycle)
+                                    <option value="{{ $cycle->id }}">{{ $cycle->title }}</option>
+                                @endforeach
+                            </select>
+                            <input type="date" name="dates[]" class="form-control" />
+                            <button type="button" onclick="removeCycleField(this)">Eliminar</button>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="form-group">
-                <label class="col-md-4 control-label">Apellido</label>
-                <div class="col-md-4 inputGroupContainer">
-                    <div class="input-group">
-                        <input name="apellidos" placeholder="apellido" class="form-control" type="text"
-                               value="{{ old('apellidos') }}" />
-                        @error('apellidos')
-                        <span class="error">{{ $message }}</span>
-                        @enderror
-                    </div>
+                <div>
+                    <label for="address">Direccion:</label><br />
+                    <input name="address" type="text"/><br />
+                    @error('address')
+                    <span class="validate-error">{{ $message }}</span><br />
+                    @enderror
                 </div>
-            </div>
 
-            <div class="form-group">
-                <label class="col-md-4 control-label">E-Mail</label>
-                <div class="col-md-4 inputGroupContainer">
-                    <div class="input-group">
-                        <input name="email" placeholder="email" class="form-control" type="email"
-                               value="{{ old('email') }}" />
-                        @error('email')
-                        <span class="error">{{ $message }}</span>
-                        @enderror
-                    </div>
+                <div>
+                    <label for="observations">Observaciones:</label><br />
+                    <input name="observations" type="text" /><br />
+                    @error('observation')
+                    <span class="validate-error">{{ $message }}</span><br />
+                    @enderror
                 </div>
-            </div>
 
-            <div class="form-group">
-                <label class="col-md-4 control-label">Contraseña</label>
-                <div class="col-md-4 inputGroupContainer">
-                    <div class="input-group">
-                        <input name="contraseña" placeholder="contraseña" class="form-control" type="password" />
-                        @error('contraseña')
-                        <span class="error">{{ $message }}</span>
-                        @enderror
-                    </div>
+                <div>
+                    <label for="CVLink">Linck Curriculum:</label><br />
+                    <input name="CVLink" type="text"/><br />
                 </div>
-            </div>
 
-            <div class="form-group">
-                <label class="col-md-4 control-label">Repetir Contraseña</label>
-                <div class="col-md-4 inputGroupContainer">
-                    <div class="input-group">
-                        <input name="repetirContraseña" placeholder="repetir contraseña" class="form-control"
-                               type="password" />
-                        @error('repetirContraseña')
-                        <span class="error">{{ $message }}</span>
-                        @enderror
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group" v-for="(cycleField, index) in cycleFields" :key="index">
-                <label class="col-md-4 control-label">Ciclo</label>
-                <div class="col-md-4 inputGroupContainer">
-                    <div class="input-group">
-                        <select v-model="cycleField.selectedCycle" class="form-control" @change="addCycleField(index)">
-                            <option value="">Seleccionar ciclo</option>
-                            <option v-for="cycle in cycles" :key="cycle.id" :value="cycle.id">{{ cycle.title }}</option>
-                        </select>
-                        <input type="date" v-model="cycleField.date" class="form-control" />
-                        <button @click="removeCycleField(index)">Eliminar</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="col-md-4 control-label">Dirección</label>
-                <div class="col-md-4 inputGroupContainer">
-                    <div class="input-group">
-                        <input name="direccion" placeholder="direccion" class="form-control" type="text"
-                               value="{{ old('direccion') }}" />
-                        @error('direccion')
-                        <span class="error">{{ $message }}</span>
-                        @enderror
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="col-md-4 control-label">Link Curriculum</label>
-                <div class="col-md-4 inputGroupContainer">
-                    <div class="input-group">
-                        <input name="cv" placeholder="cv" class="form-control" type="text"
-                               value="{{ old('cv') }}" />
-                        @error('cv')
-                        <span class="error">{{ $message }}</span>
-                        @enderror
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="col-md-4 control-label">Términos y Condiciones</label>
-                <div class="col-md-4 inputGroupContainer">
-                    <div class="input-group">
-                        <input name="aceptar" type="checkbox" class="form-check-input" />
-                        <label class="form-check-label" for="aceptar">Acepto los términos y condiciones</label>
-                    </div>
+                <div>
+                    <input name="aceptar" type="checkbox" value="1" />
+                    <span class="form-check-label"> Acepto los términos y condiciones</span><br />
                     @error('aceptar')
-                    <span class="error">{{ $message }}</span>
+                    <span class="validate-error">{{ $message }}</span><br />
                     @enderror
                 </div>
             </div>
 
-                <div>
-                    <input type="hidden" name="rol" value="STU" />
-                </div>
-
-            <div class="form-group">
-                <label class="col-md-4 control-label"></label>
-                <div class="col-md-4">
-                    <button type="submit" class="btn btn-warning">Registrarse <span
-                            class="glyphicon glyphicon-send"></span></button>
-                </div>
+            <div>
+                <input type="hidden" name="rol" value="COMP" />
             </div>
+            <button type="submit" class="btn btn-default btn-primary">Crear</button>
         </fieldset>
     </form>
+    <a href="{{ route('company.index') }}" class="btn btn-primary mb-3">Volver a la lista</a>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        function addCycleField(select) {
+            var selectedCycle = $(select).val();
+
+            if (selectedCycle) {
+                var container = $(select).closest('.cycle-container');
+                var clone = container.find('.cycle-field:first').clone();
+                clone.find('select').val('');
+                clone.find('input').val('');
+                container.append(clone);
+            }
+        }
+
+        function removeCycleField(button) {
+            var cycleFields = $(button).closest('.cycle-field');
+
+            if (cycleFields.siblings('.cycle-field').length > 0) {
+                cycleFields.remove();
+            }
+        }
+
+    </script>
 </div>

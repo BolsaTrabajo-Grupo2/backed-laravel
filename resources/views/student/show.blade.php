@@ -40,7 +40,6 @@
                         {{ $student->address }}
                     </div>
                 </div>
-
                 <div class="row mb-2">
                     <div class="col-md-3 text-md-right">
                         <strong>Ciclos Cursados:</strong>
@@ -78,6 +77,17 @@
                             <p>El estudiante no tiene CV</p>
                         @endif
                         {{ $student->cv_link }}
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-md-3 text-md-right">
+                        <strong>Observaciones:</strong>
+                    </div>
+                    <div class="col-md-9">
+                        @if($student->observations == null)
+                            <p>El estudiante no tiene Observaciones</p>
+                        @endif
+                        {{ $student->observations }}
                     </div>
                 </div>
 

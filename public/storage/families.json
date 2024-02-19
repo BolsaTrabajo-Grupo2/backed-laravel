@@ -1,0 +1,20 @@
+[
+{"id":"1","cliteral":"INGLES","vliteral":"ANGLES","depcurt":"Ang","didactico":"1"},
+{"id":"2","cliteral":"SERVICIOS A LA COMUNIDAD","vliteral":"SERVEIS A LA COMUNITAT","depcurt":"SCo","didactico":"1"},
+{"id":"3","cliteral":"IMAGEN PERSONAL","vliteral":"IMATGE PERSONAL","depcurt":"Img","didactico":"1"},
+{"id":"4","cliteral":"PROGRAMAS DE GARANTIA SOCIAL","vliteral":"PROGRAMES DE GARANTIA SOCIAL","depcurt":"Pgs","didactico":"0"},
+{"id":"5","cliteral":"DEPARTAMENTO ADMINISTRATIVO","vliteral":"DEPARTAMENT ADMINISTRACIÓ","depcurt":"Adm","didactico":"1"},
+{"id":"6","cliteral":"DEPARTAMENTO SANITARIO","vliteral":"DEPARTAMENT SANITARI","depcurt":"San","didactico":"1"},
+{"id":"9","cliteral":"EXTENSION CULTURAL","vliteral":"EXTENSIO CULTURAL","depcurt":"Cul","didactico":"0"},
+{"id":"10","cliteral":"HOSTELERIA Y TURISMO","vliteral":"HOSTELERIA I TURISME","depcurt":"Hos","didactico":"1"},
+{"id":"12","cliteral":"FORMACION Y ORIENTACION LABORA","vliteral":"FORMACIO I ORIENTACIO LABORAL","depcurt":"Fol","didactico":"1"},
+{"id":"14","cliteral":"FRANCES","vliteral":"FRANCES","depcurt":"Fra","didactico":"0"},
+{"id":"18","cliteral":"ORIENTACION","vliteral":"ORIENTACIO","depcurt":"Ori","didactico":"1"},
+{"id":"22","cliteral":"CICLOS FORMATIVOS","vliteral":"CICLES FORMATIUS","depcurt":"Cf","didactico":"0"},
+{"id":"23","cliteral":"FCT","vliteral":"FCT","depcurt":"Fct","didactico":"0"},
+{"id":"24","cliteral":"DEPARTAMENTO INFORMATICA","vliteral":"DEPARTAMENT INFORMÀTICA","depcurt":"Inf","didactico":"1"},
+{"id":"25","cliteral":"Seguridad y Medio Ambiente","vliteral":"Seguretat i Medi Ambient","depcurt":"SMA","didactico":"1"},
+{"id":"90","cliteral":"Personal No Docente","vliteral":"Personal No Docent","depcurt":"PND","didactico":"0"},
+{"id":"91","cliteral":"Personal Limpieza","vliteral":"Personal Neteja","depcurt":"NET","didactico":"0"},
+{"id":"99","cliteral":"Desconegut","vliteral":"Desconegut","depcurt":"???","didactico":"0"}
+]

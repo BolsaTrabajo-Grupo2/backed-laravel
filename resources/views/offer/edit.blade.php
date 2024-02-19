@@ -1,6 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</head>
+<body>
 <div class="row">
     <form method="POST" action="{{ route('offer.update', $offer->id) }}">
         @csrf
@@ -32,15 +40,21 @@
                 @enderror
             </div>
 
-            <div class="form-group">
-                <label for="selectedCycles">Seleccione los ciclos de la oferta:</label><br />
-                <select name="selectedCycles[]" id="selectedCycles" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" multiple>
-                    @foreach ($cycles as $cycle)
-                        <option value="{{ $cycle->id }}" @if($cyclesOffer->contains('id_cycle', $cycle->id)) selected @endif>
-                            {{ $cycle->cliteral }}
-                        </option>
-                    @endforeach
-                </select>
+            <div class="form-group" id="app">
+                <label for="selectedCycles">Seleccione los ciclos de la oferta:</label>
+                <div class="cycle-container">
+                    <div class="input-group cycle-field" v-for="(cycle, index) in selectedCycles" :key="index">
+                        <select name="selectedCycles[]" class="form-control" v-model="cycle.id" @change="addCycleField(index)">
+                            <option value="">Seleccionar ciclo</option>
+                            @foreach ($cycles as $cycleOption)
+                                <option value="{{ $cycleOption->id }}" @if($cyclesOffer->contains('id_cycle', $cycleOption->id)) selected @endif>
+                                    {{ $cycleOption->cliteral }}
+                                </option>
+                            @endforeach
+                        </select>
+                        <button type="button" @click="removeCycleField(index)">Eliminar</button>
+                    </div>
+                </div>
                 @error('selectedCycles')
                 <span class="validate-error">{{ $message }}</span>
                 @enderror
@@ -83,4 +97,42 @@
         <a href="{{ route('offer.index') }}" class="btn btn-primary mb-3">Volver a la lista</a>
     </form>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            selectedCycles: [{ id: '' }],
+        },
+        mounted() {
+
+            this.selectedCycles = {!! json_encode($cyclesOffer->pluck('id_cycle')) !!}.map(id => ({ id }));
+
+            if (this.selectedCycles.length === 0) {
+                this.selectedCycles.push({ id: '' });
+            }
+
+            if (this.selectedCycles.every(cycle => cycle.id !== '')) {
+                this.selectedCycles.push({ id: '' });
+            }
+        },
+        methods: {
+            addCycleField(index) {
+                if (index === this.selectedCycles.length - 1 && this.selectedCycles[index].id !== '') {
+                    this.selectedCycles.push({ id: '' });
+                }
+            },
+            removeCycleField(index) {
+
+                this.selectedCycles.splice(index, 1);
+
+                if (this.selectedCycles.length === 0) {
+                    this.selectedCycles.push({ id: '' });
+                }
+            },
+        },
+    });
+</script>
+</body>
+</html>
 @endsection

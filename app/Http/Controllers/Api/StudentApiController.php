@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StudentRequest;
-use App\Http\Requests\StudentUpdateRquest;
+use App\Http\Requests\StudentUpdateRequest;
 use App\Http\Resources\StudentCollection;
 use App\Http\Resources\StudentResource;
 use App\Models\Apply;
@@ -266,7 +266,7 @@ class StudentApiController extends Controller
      * )
      */
 
-    public function update(StudentUpdateRquest $studentRequest, $id){
+    public function update(StudentUpdateRequest $studentRequest, $id){
         $userApi = new UserApiController();
         $userResponse = $userApi->update($studentRequest,$id);
         $student = Student::where('id_user', $id)->firstOrFail();

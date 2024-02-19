@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Api\UserApiController;
 use App\Http\Requests\StudentRequest;
-use App\Http\Requests\StudentUpdateRquest;
+use App\Http\Requests\StudentUpdateBackendRequest;
+use App\Http\Requests\StudentUpdateRequest;
 use App\Models\Apply;
 use App\Models\Cycle;
 use App\Models\Offer;
@@ -46,36 +47,36 @@ class StudentController extends Controller
     }
     public function create()
     {
-        return view('student.create');
+        $cycles = Cycle::all();
+        return view('student.create', compact('cycles'));
     }
     public function store(StudentRequest $studentRequest)
     {
-
         $userResponse = UserApiController::register($studentRequest);
         $user = $userResponse->getOriginalContent()['user'];
-        $token = $userResponse->getOriginalContent()['token'];
         $student = new Student();
         $student->id_user = $user->id;
         $student->address = $studentRequest->get("address");
         $student->cv_link = $studentRequest->get("CVLink");
+        $student->observations = $studentRequest->get('observations');
         $student->created_at = Carbon::now();
         $student->updated_at = Carbon::now();
+        $student->accept = true;
         $student->save();
-        foreach ($studentRequest->get('cycle') as $cycle) {
-            if (!empty($cycle['selectedCycle'])) {
+        $cycles = $studentRequest->get('cycles');
+        $dates = $studentRequest->get('dates');
+        foreach ($cycles as $index => $cycle) {
+            if (!empty($cycle)) {
                 $study = new Study();
                 $study->id_student = $student->id;
-                $study->id_cycle = $cycle['selectedCycle'];
-                $study->date = $cycle['date'];
+                $study->id_cycle = $cycle;
+                $study->date = $dates[$index];
+                $study->verified = true;
                 $study->save();
-                $cycle = Cycle::findOrFail($study->id_cycle);
-                $responsible = User::findOrFail($cycle->id_responsible);
-                $responsible->notify(new CycleValidationRequest($study, $user->name));
+                $cycleModel = Cycle::findOrFail($study->id_cycle);
+                $responsible = User::findOrFail($cycleModel->id_responsible);
             }
         }
-        $studies = Study::where('id_student', $student->id)->get();
-        $user->notify(new NewStudentOrCompanyNotification($student, $studies));
-
         return redirect()->route('student.index')->with('success', 'Studiante añadido correctamente.');
     }
 
@@ -88,43 +89,50 @@ class StudentController extends Controller
         }
         return view('student.edit', compact('student','cycles'));
     }
-    public function update(StudentUpdateRquest $studentRequest, $id)
+    public function update(StudentUpdateBackendRequest $studentRequest, $id)
     {
         $userApi = new UserApiController();
-        $userResponse = $userApi->update($studentRequest,$id);
+        $userResponse = $userApi->update($studentRequest, $id);
+
         $student = Student::where('id_user', $id)->firstOrFail();
-        $student->address = $studentRequest->get("address");
-        $student->cv_link = $studentRequest->get("CVLink");
-        $student->observations = $studentRequest->get('observations');
-        $student->updated_at = Carbon::now();
+        $student->address = $studentRequest->input("address");
+        $student->cv_link = $studentRequest->input("CVLink");
+        $student->observations = $studentRequest->input('observations');
+        $student->updated_at = now();
+        $student->accept = true;
         $student->save();
-        $studies = Study::where('id_student', $student->id)->pluck('id_cycle')->toArray();
-        foreach ($studentRequest->get('cycle') as $cycle) {
-            $selectedCycle = $cycle['selectedCycle'];
+
+        $existingStudies = Study::where('id_student', $student->id)->pluck('id_cycle')->toArray();
+        $sentCycles = $studentRequest->input('cycles');
+
+        $cyclesToDelete = array_diff($existingStudies, $sentCycles);
+
+        Study::where('id_student', $student->id)
+            ->whereIn('id_cycle', $cyclesToDelete)
+            ->delete();
+
+        foreach ($studentRequest->input('cycles') as $index => $selectedCycle) {
             if (!empty($selectedCycle)) {
-                if (in_array($selectedCycle, $studies)) {
-                    $existingStudy = Study::where('id_student', $student->id)
-                        ->where('id_cycle', $selectedCycle)
-                        ->first();
-                    if ($existingStudy) {
-                        $existingStudy->date = $cycle['date'];
-                        $existingStudy->save();
-                    }
-                } else {
-                    $study = new Study();
-                    $study->id_student = $student->id;
-                    $study->id_cycle = $selectedCycle;
-                    $study->date = $cycle['date'];
-                    $study->save();
+                $existingStudy = Study::updateOrCreate(
+                    ['id_student' => $student->id, 'id_cycle' => $selectedCycle],
+                    ['date' => $studentRequest->input('dates')[$index]],
+                    ['verified' => true]
+                );
+
+
+                if (!in_array($selectedCycle, $existingStudies)) {
                     $cycleModel = Cycle::findOrFail($selectedCycle);
                     $responsible = User::findOrFail($cycleModel->id_responsible);
-                    $responsible->notify(new CycleValidationRequest($study, $userResponse->name));
                 }
             }
         }
 
-        return redirect()->route('student.show', $student->id)->with('success', 'Student actualizado correctamente.');
+        return redirect()->route('student.show', $student->id)
+            ->with('success', 'Estudiante actualizado correctamente.');
     }
+
+
+
     public function destroy($id)
     {
         $student = Student::find($id);

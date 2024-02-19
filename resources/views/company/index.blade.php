@@ -40,9 +40,8 @@
                 @endforeach
                 </tbody>
             </table>
-            <div class="text-left">
-                {{ $companies->links() }}
-            </div>
         </div>
+
+        {{ $companies->links() }}
     </div>
 @endsection
