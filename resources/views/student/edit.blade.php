@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Page Title</title>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 </head>
 <body>
@@ -112,7 +111,6 @@
                     <button type="submit" class="btn btn-default btn-primary">Editar</button>
                 </fieldset>
             </form>
-            <a href="{{ route('student.index') }}" class="btn btn-primary mb-3">Volver a la lista</a>
         </div>
     <script>
         $(document).ready(function() {

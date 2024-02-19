@@ -79,6 +79,17 @@
                         {{ $student->cv_link }}
                     </div>
                 </div>
+                <div class="row mb-2">
+                    <div class="col-md-3 text-md-right">
+                        <strong>Observaciones:</strong>
+                    </div>
+                    <div class="col-md-9">
+                        @if($student->observations == null)
+                            <p>El estudiante no tiene Observaciones</p>
+                        @endif
+                        {{ $student->observations }}
+                    </div>
+                </div>
 
                 <div class="text-center">
                     <a href="{{ route('offersStudent', ['id' => $student->id]) }}" class="btn btn-primary col-sm-3">Ofertas a las que ha aplicado el Estudiante</a>

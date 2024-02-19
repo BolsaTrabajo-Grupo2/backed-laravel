@@ -40,5 +40,6 @@
             @endforeach
             </tbody>
         </table>
+        {{ $offers->links() }}
     </div>
 @endsection

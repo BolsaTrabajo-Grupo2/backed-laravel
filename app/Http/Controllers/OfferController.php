@@ -81,11 +81,13 @@ class OfferController extends Controller
         $offer->verified = true;
         $offer->save();
         $ciclosSelecionados = $offerRequest->get('selectedCycles');
-        foreach ($ciclosSelecionados as $cycleId){
-            $assigned = new Assigned();
-            $assigned->id_offer = $offer->id;
-            $assigned->id_cycle = $cycleId;
-            $assigned->save();
+        foreach ($ciclosSelecionados as $cycleId) {
+            if (!empty($cycleId)) {
+                $assigned = new Assigned();
+                $assigned->id_offer = $offer->id;
+                $assigned->id_cycle = $cycleId;
+                $assigned->save();
+            }
         }
         return redirect()->route('offer.index')->with('success', 'Oferta añadida correctamente.');
     }
@@ -109,17 +111,23 @@ class OfferController extends Controller
         $offer->description = $offerRequest->get('description');
         $offer->duration = $offerRequest->get('duration');
         $offer->responsible_name = $offerRequest->get('responsible_name');
-        $offer->inscription_method = $offerRequest->get('inscription_method');
+        if($offerRequest->get('inscription_method')){
+            $offer->inscription_method = $offerRequest->get('inscription_method');
+        }else{
+            $offer->inscription_method = false;
+        }
         $selectedCycles = $offerRequest->get('selectedCycles');
         $cyclosOferta = Assigned::where('id_offer',$offer->id)->get();
         foreach ($cyclosOferta as $cOffert){
             $cOffert->delete();
         }
-        foreach ($selectedCycles as $cycle) {
-            $assigned = new Assigned();
-            $assigned->id_offer = $offer->id;
-            $assigned->id_cycle = $cycle;
-            $assigned->save();
+        foreach ($selectedCycles as $cycleId) {
+            if (!empty($cycleId)) {
+                $assigned = new Assigned();
+                $assigned->id_offer = $offer->id;
+                $assigned->id_cycle = $cycleId;
+                $assigned->save();
+            }
         }
         $offer->save();
 
