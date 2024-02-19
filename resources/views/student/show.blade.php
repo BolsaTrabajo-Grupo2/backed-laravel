@@ -1,75 +1,93 @@
 @extends('layouts.app')
 
 @section('content')
-    <style>
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
-
-        th, td {
-            border: 1px solid #dddddd;
-            text-align: left;
-            padding: 8px;
-        }
-
-        th {
-            background-color: #f2f2f2;
-        }
-    </style>
     <div class="container">
-        <h1>Detalles del Estudiante</h1>
-        <hr>
-        <dl class="row">
-            <dt class="col-sm-3">Nombre:</dt>
-            <dd class="col-sm-9">{{ $student->user->name }}</dd>
+        <div class="card">
+            <legend>Detalles del Estudiante</legend>
+            <div class="card-body">
+                <div class="row mb-2">
+                    <div class="col-md-3 text-md-right">
+                        <strong>Nombre:</strong>
+                    </div>
+                    <div class="col-md-9">
+                        {{ $student->user->name }}
+                    </div>
+                </div>
 
-            <dt class="col-sm-3">Apellidos:</dt>
-            <dd class="col-sm-9">{{ $student->user->surname }}</dd>
+                <div class="row mb-2">
+                    <div class="col-md-3 text-md-right">
+                        <strong>Apellidos:</strong>
+                    </div>
+                    <div class="col-md-9">
+                        {{ $student->user->surname }}
+                    </div>
+                </div>
 
-            <dt class="col-sm-3">Email:</dt>
-            <dd class="col-sm-9">{{ $student->user->email }}</dd>
+                <div class="row mb-2">
+                    <div class="col-md-3 text-md-right">
+                        <strong>Email:</strong>
+                    </div>
+                    <div class="col-md-9">
+                        {{ $student->user->email }}
+                    </div>
+                </div>
 
-            <dt class="col-sm-3">Dirección:</dt>
-            <dd class="col-sm-9">{{ $student->address }}</dd>
+                <div class="row mb-2">
+                    <div class="col-md-3 text-md-right">
+                        <strong>Dirección:</strong>
+                    </div>
+                    <div class="col-md-9">
+                        {{ $student->address }}
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-md-3 text-md-right">
+                        <strong>Ciclos Cursados:</strong>
+                    </div>
+                    <div class="col-md-9">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>Ciclo</th>
+                                <th>Título</th>
+                                <th>Familia</th>
+                                <th>CLiteral</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach ($cursedCycles as $cycle)
+                                <tr>
+                                    <td>{{ $cycle->cycle }}</td>
+                                    <td>{{ $cycle->title }}</td>
+                                    <td>{{ $cycle->family->cliteral }}</td>
+                                    <td>{{ $cycle->cliteral }}</td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
 
-            <dt class="col-sm-3">Ciclos Cursados:</dt>
-                <table>
-                    <thead>
-                    <tr>
-                        <th>Ciclo</th>
-                        <th>Titulo</th>
-                        <th>Familia</th>
-                        <th>CLiteral</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @foreach ($cursedCycles as $cycle)
-                    <tr>
-                        <td>{{$cycle->cycle}}</td>
-                        <td>{{$cycle->title}}</td>
-                        <td>{{$cycle->family->cliteral}}</td>
-                        <td>{{$cycle->cliteral}}</td>
-                    </tr>
-                    @endforeach
-                    </tbody>
-                </table>
-            @if($student->cv_link)
-            <dt class="col-sm-3">Link Curriculum:</dt>
-            <dd class="col-sm-9">{{ $student->cv_link }}</dd>
-            @endif
-            @if($student->observations)
-            <div>
-                <label for="observations">Observaciones:</label><br />
-                <input name="observations" type="text" value="{{ $student->observations }}" readonly/><br />
-                @error('observation')
-                <span class="validate-error">{{ $message }}</span><br />
-                @enderror
+                <div class="row mb-2">
+                    <div class="col-md-3 text-md-right">
+                        <strong>Link Curriculum:</strong>
+                    </div>
+                    <div class="col-md-9">
+                        @if($student->cv_link == null)
+                            <p>El estudiante no tiene CV</p>
+                        @endif
+                        {{ $student->cv_link }}
+                    </div>
+                </div>
+
+                <div class="text-center">
+                    <a href="{{ route('offersStudent', ['id' => $student->id]) }}" class="btn btn-primary col-sm-3">Ofertas a las que ha aplicado el Estudiante</a>
+                </div>
+
+                <div class="text-center">
+                    <a href="{{ route('student.index') }}" class="btn btn-primary">Volver al Listado</a>
+                </div>
             </div>
-            @endif
-            <a class="col-sm-3" href="{{ route('offersStudent', ['id' => $student->id]) }}">Ofertas a las que ha aplicado el Estudiante</a>
-            <br>
-            <a href="{{ route('student.index') }}" class="btn btn-primary">Volver al Listado</a>
-        </dl>
+        </div>
     </div>
 @endsection

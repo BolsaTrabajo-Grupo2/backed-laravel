@@ -13,10 +13,10 @@ add('shared_files', ['.env']);
 add('shared_dirs', ['storage','bootstrap/cache']);
 add('writable_dirs', ['storage','bootstrap/cache']);
 
-host('18.208.14.230')
+host('35.172.75.164')
     ->set('remote_user','bolsa_user')
     ->set('identity_file','~/.ssh/id_rsa')
-    ->set('deploy_path', '/var/www/proyecto-bolsa-laravel/html');
+    ->set('deploy_path', '/var/www/bolsa-trabajo/html');
 
 task('build', function () {
     run('cd {{release_path}} && build');
@@ -25,4 +25,3 @@ task('build', function () {
 after('deploy:failed', 'deploy:unlock');
 
 before('deploy:symlink', 'artisan:migrate');
-

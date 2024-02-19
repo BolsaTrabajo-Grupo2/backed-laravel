@@ -135,6 +135,11 @@
             });
         });
     </script>
+
+                </div>
+            </fieldset>
+            <a href="{{ route('student.index') }}" class="btn btn-primary mb-3">Volver a la lista</a>
+        </form>
     </div>
 </body>
 </html>
