@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <h1>Editar Empresa</h1>
+        <legend>Editar Empresa</legend>
         <hr>
         <div class="row">
             <form method="POST" action="{{ route('company.update', ['company' => $company->id_user]) }}">
@@ -100,8 +100,8 @@
                     </div>
                     <button type="submit" class="btn btn-default btn-primary">Editar</button>
                 </fieldset>
+                <a href="{{ route('company.index') }}" class="btn btn-primary mb-3">Volver a la lista</a>
             </form>
-            <a href="{{ route('company.index') }}" class="btn btn-primary mb-3">Volver a la lista</a>
         </div>
     </div>
 @endsection

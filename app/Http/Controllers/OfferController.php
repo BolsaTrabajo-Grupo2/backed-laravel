@@ -52,9 +52,9 @@ class OfferController extends Controller
     }
     public function create()
     {
-        $cicles = Cycle::all();
+        $cycles = Cycle::all();
         $companyes = Company::all();
-        return view('offer.create',['cicles' => $cicles, 'companies' => $companyes]);
+        return view('offer.create',['cycles' => $cycles, 'companies' => $companyes]);
     }
     public function store(OfferBackendRequest $offerRequest)
     {
@@ -100,7 +100,7 @@ class OfferController extends Controller
         $companies = Company::all();
         $cyclesOffer = Assigned::where('id_offer',$offer->id)->get();
 
-        return view('offer.update', ['offer' => $offer,'cyclesOffer'=>$cyclesOffer,'cycles'=>$cycles,'companies' => $companies]);
+        return view('offer.edit', ['offer' => $offer,'cyclesOffer'=>$cyclesOffer,'cycles'=>$cycles,'companies' => $companies]);
     }
     public function update(OfferRequest $offerRequest, $id)
     {

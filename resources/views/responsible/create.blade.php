@@ -67,9 +67,7 @@
                     </div>
                 </div>
             </fieldset>
-        </form>
-        <div class="col-md-6 offset-md-4">
             <a href="{{ route('responsible.index') }}" class="btn btn-primary mb-3">Volver a la lista</a>
-        </div>
+        </form>
     </div>
 @endsection
