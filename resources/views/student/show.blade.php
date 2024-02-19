@@ -54,8 +54,19 @@
                     @endforeach
                     </tbody>
                 </table>
+            @if($student->cv_link)
             <dt class="col-sm-3">Link Curriculum:</dt>
             <dd class="col-sm-9">{{ $student->cv_link }}</dd>
+            @endif
+            @if($student->observations)
+            <div>
+                <label for="observations">Observaciones:</label><br />
+                <input name="observations" type="text" value="{{ $student->observations }}" readonly/><br />
+                @error('observation')
+                <span class="validate-error">{{ $message }}</span><br />
+                @enderror
+            </div>
+            @endif
             <a class="col-sm-3" href="{{ route('offersStudent', ['id' => $student->id]) }}">Ofertas a las que ha aplicado el Estudiante</a>
             <br>
             <a href="{{ route('student.index') }}" class="btn btn-primary">Volver al Listado</a>

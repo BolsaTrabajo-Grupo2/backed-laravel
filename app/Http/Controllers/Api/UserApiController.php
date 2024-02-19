@@ -48,7 +48,6 @@ class UserApiController extends Controller
     public function update(Request $request, $id)
     {
         $user = User::findOrFail($id);
-
         $user->name = $request->get('name');
         $user->surname = $request->get('surname');
         if($request->get('email')){
@@ -57,9 +56,7 @@ class UserApiController extends Controller
         if($request->get('password') != '' ){
             $user->password = Hash::make($request->get('password'));
         }
-
         $user->save();
-
         return new UserResource($user);
     }
 

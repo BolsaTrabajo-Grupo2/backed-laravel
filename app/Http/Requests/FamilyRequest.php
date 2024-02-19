@@ -27,4 +27,21 @@ class FamilyRequest extends FormRequest
             'depcurt' => 'required|string|max:30',
         ];
     }
+    public function messages()
+    {
+        return [
+            'cliteral.required' => 'The cliteral field is required.',
+            'cliteral.string' => 'The cliteral field must be a string.',
+            'cliteral.max' => 'The cliteral field cannot exceed 100 characters.',
+
+            'vliteral.required' => 'The vliteral field is required.',
+            'vliteral.string' => 'The vliteral field must be a string.',
+            'vliteral.max' => 'The vliteral field cannot exceed 100 characters.',
+
+            'depcurt.required' => 'The depcurt field is required.',
+            'depcurt.string' => 'The depcurt field must be a string.',
+            'depcurt.max' => 'The depcurt field cannot exceed 30 characters.',
+        ];
+    }
+
 }

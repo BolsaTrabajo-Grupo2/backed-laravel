@@ -22,14 +22,6 @@
                 </div>
 
                 <div>
-                    <label for="phone">Teléfono:</label><br />
-                    <input name="phone" type="text" /><br />
-                    @error('phone')
-                    <span class="validate-error">{{ $message }}</span><br />
-                    @enderror
-                </div>
-
-                <div>
                     <label for="email">Email:</label><br />
                     <input name="email" type="text"/><br />
                     @error('email')
@@ -73,6 +65,14 @@
                     <label for="address">Direccion:</label><br />
                     <input name="address" type="text"/><br />
                     @error('address')
+                    <span class="validate-error">{{ $message }}</span><br />
+                    @enderror
+                </div>
+
+                <div>
+                    <label for="observations">Observaciones:</label><br />
+                    <input name="observations" type="text" /><br />
+                    @error('observation')
                     <span class="validate-error">{{ $message }}</span><br />
                     @enderror
                 </div>
