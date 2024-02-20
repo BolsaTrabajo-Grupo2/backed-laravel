@@ -32,7 +32,7 @@ Route::get('checkCIF/{CIF}',[\App\Http\Controllers\Api\CompanyApiController::cla
 Route::get('company/{id}', [\App\Http\Controllers\Api\CompanyApiController::class, 'getCompany']);
 Route::get('/verificated/{id}',[\App\Http\Controllers\Api\StudentApiController::class, 'verificated']);
 Route::get('/sendEmail/{email}',[\App\Http\Controllers\Api\UserApiController::class,'sendEmail']);
-Route::post('/verificateOffer/{idOffer}',[\App\Http\Controllers\Api\OfferApiController::class,'verificate']);
+Route::get('/verificateOffer/{idOffer}',[\App\Http\Controllers\Api\OfferApiController::class,'verificate']);
 Route::put('/spread/{idOffer}',[\App\Http\Controllers\Api\OfferApiController::class,'spread']);
 Route::middleware('auth:sanctum')->group( function () {
     Route::get('companyCIF/{CIF}', [\App\Http\Controllers\Api\CompanyApiController::class, 'getCompanyCIF']);
