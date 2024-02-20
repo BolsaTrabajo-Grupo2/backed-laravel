@@ -45,6 +45,9 @@ Route::middleware('auth:sanctum')->group( function () {
     Route::resource('offer', OfferController::class)->middleware('rol:RESP,ADM');
     Route::resource('company', CompanyController::class)->middleware('rol:ADM');
     Route::get('/cycles', [CycleController::class, 'index'])->name('cycles.index')->middleware('rol:ADM');
+    Route::get('/mod-responsible/{id}',[CycleController::class, 'modResponsible'])->name('modResponsible')->middleware('rol:ADM');
+    Route::put('/updateResponsible/{id}',[CycleController::class, 'updateResponsible'])->name('updateResponsible')->middleware('rol:ADM');
+    Route::get('cycles/statistics',[CycleController::class, 'statics'])->name('staticsCycles')->middleware('rol:ADM');
     Route::get('/offersStudent/{id}', [StudentController::class, 'offers'])->name('offersStudent')->middleware('rol:ADM,RESP');
     Route::get('/offerShow/{id}/{idStudent}', [StudentController::class, 'offerShow'])->name('offerShow')->middleware('rol:ADM,RESP');
 

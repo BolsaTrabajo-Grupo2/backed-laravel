@@ -5,12 +5,14 @@ use App\Http\Requests\CycleRequest;
 use App\Http\Requests\OfferRequest;
 use App\Models\Cycle;
 use App\Models\Family;
+use App\Models\User;
+use Illuminate\Http\Request;
 
 class CycleController extends Controller
 {
     public function index()
     {
-        $cycles = Cycle::with('assigneds')->get();
+        $cycles = Cycle::paginate(10);
         return view('cycle.index', compact('cycles'));
     }
     public function show($id)
@@ -72,5 +74,23 @@ class CycleController extends Controller
         $cycle->delete();
 
         return redirect()->route('cycle.index')->with('success', 'Ciclo eliminado correctamente.');
+    }
+    public function statics(){
+        $cycles = Cycle::with('assigneds')->get();
+        return view('cycle.statistics', compact('cycles'));
+    }
+    public function modResponsible($id){
+        $responsibles = User::where('rol','RESP')->get();
+        $cycle = Cycle::findOrFail($id);
+        return view('cycle.modResp', compact('responsibles', 'cycle'));
+    }
+    public function updateResponsible(Request $request, $id){
+        $request->validate([
+            'responsible' => 'required'
+        ]);
+        $cycle = Cycle::findOrFail($id);
+        $cycle->id_responsible = $request->get('responsible');
+        $cycle->save();
+        return redirect()->route('cycles.index')->with('success', 'Responsable modificado con exito.');
     }
 }

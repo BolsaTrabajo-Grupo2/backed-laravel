@@ -2,37 +2,36 @@
 
 @section('content')
     <div class="container">
+        <a href="{{ route('staticsCycles') }}"
+           class="btn btn-sm btn-info">Ver estadisticas</a>
         <legend>Listado de Ciclos</legend>
-        <canvas id="myChart"></canvas>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Ciclo</th>
+                <th>Titulo</th>
+                <th>Familia</th>
+                <th>Responsable</th>
+                <th>CLiteral</th>
+                <th>Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach ($cycles as $cycle)
+                <tr>
+                    <td>{{ $cycle->cycle }}</td>
+                    <td>{{ $cycle->title }}</td>
+                    <td>{{ $cycle->family->cliteral }}</td>
+                    <td>{{ $cycle->user->name }}</td>
+                    <td>{{ $cycle->cliteral }}</td>
+                    <td>
+                        <a href="{{ route('modResponsible', $cycle->id) }}"
+                           class="btn btn-sm btn-info">Cambiar responsable</a>
+                    </td>
+                </tr>
+            @endforeach
+            </tbody>
+        </table>
+        {{ $cycles->links() }}
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-        const ctx = document.getElementById('myChart');
-        const cycles = {!! json_encode($cycles->pluck('cycle')) !!};
-        const assignmentsCounts = {!! json_encode($cycles->map(function ($cycle) {
-            return $cycle->assigneds->count();
-        })) !!};
-
-        new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: cycles,
-                datasets: [{
-                    label: 'Cantidad de Ofertas',
-                    data: assignmentsCounts,
-                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                    borderColor: 'rgba(255, 99, 132, 1)',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
-    </script>
 @endsection
