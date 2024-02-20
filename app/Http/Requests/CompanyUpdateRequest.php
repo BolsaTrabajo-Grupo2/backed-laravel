@@ -23,7 +23,7 @@ class CompanyUpdateRequest extends FormRequest
             'address' => 'required|string|max:250',
             'CP' => 'required|string|size:5',
             'phone' => 'required|string|size:9',
-            'web' => 'nullable|string|max:100|url',
+            'web' => 'nullable|string|max:250|url',
         ];
     }
 

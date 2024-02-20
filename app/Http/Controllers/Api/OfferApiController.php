@@ -94,12 +94,13 @@ class OfferApiController extends Controller
             if ($student) {
                 $studyCycles = Study::where('id_student', $student->id)->get();
                 $studyCyclesIds = $studyCycles->pluck('id_cycle')->toArray();
-                $assignedOffers = Assigned::where('id_cycle', $studyCyclesIds)->get();
-                $assignedOfferIds = $assignedOffers->pluck('id_offer')->toArray();
-
-                $offers = Offer::whereIn('id', $assignedOfferIds)->where('status', 1)->where('verified',1)->paginate(10);
+                $assignedOfferIds = [];
+                foreach ($studyCyclesIds as $cycleId){
+                    $assignedOffers = Assigned::where('id_cycle', $cycleId)->pluck('id_offer')->toArray();
+                    $assignedOfferIds = array_merge($assignedOfferIds, $assignedOffers);
+                }
+                $offers = Offer::whereIn('id', $assignedOfferIds)->where('status', 1)->where('verified', 1)->paginate(10);
             }
-
         }
         return new OfferCollection($offers);
     }
@@ -489,7 +490,7 @@ class OfferApiController extends Controller
         $offer->save();
         $cycleOffers = Assigned::where('id_offer',$offer->id)->get();
         foreach ($cycleOffers as $cycle) {
-            $studentsCycle = Study::where('id_cycle',$cycle->id)->get();
+            $studentsCycle = Study::where('id_cycle',$cycle->id_cycle)->get();
             $c = Cycle::findOrFail($cycle->id_cycle);
             foreach ($studentsCycle as $student){
                 $s = Student::findOrFail($student->id_student);

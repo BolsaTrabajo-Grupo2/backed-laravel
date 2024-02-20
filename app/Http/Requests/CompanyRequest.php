@@ -37,14 +37,9 @@ class CompanyRequest extends FormRequest
             'phone' => 'required|string|size:9',
             'web' => 'nullable|string|max:100|url',
             'password' => [
-                'nullable',
                 'string',
                 'min:8',
                 'regex:/^(?=.*[A-Z])(?=.*\d).{8,}$/'
-            ],
-            'confirmPassword' => [
-                'required_with:password',
-                'same:password',
             ],
             'rol' => 'required',
         ];
