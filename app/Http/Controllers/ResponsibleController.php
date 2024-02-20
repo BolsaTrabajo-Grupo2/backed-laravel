@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UserRequest;
 use App\Http\Requests\UserUpdateRequest;
+use App\Models\Cycle;
 use App\Models\User;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
@@ -18,8 +19,10 @@ class ResponsibleController extends Controller
     }
     public function show($id)
     {
+        $cycles = Cycle::where('id_responsible', $id)
+        ->get();
         $responsible = User::find($id);
-        return view('responsible.show', ['responsible' => $responsible]);
+        return view('responsible.show', ['responsible' => $responsible,'cycles' => $cycles]);
     }
     public function create()
     {

@@ -42,7 +42,7 @@ class StudentBackendRequest extends FormRequest
             ],
             'rol' => 'required',
             'address' => 'required|string|max:100',
-            'CVLink' => 'string|max:75',
+            'CVLink' => 'nullable|string|max:75',
         ];
     }
     public function messages()

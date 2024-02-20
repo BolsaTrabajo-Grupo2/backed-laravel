@@ -73,6 +73,7 @@ class OfferController extends Controller
         }else{
             $offer->inscription_method = false;
         }
+        $offer->observations = $offerRequest->get('observations');
         $empresa = Company::where('CIF', $offerRequest->get('CIF'))->first();
         if($empresa){
             $offer->CIF = $empresa->CIF;

@@ -4,6 +4,7 @@
     <div class="container">
         <legend>Estadisticas de Ciclos</legend>
         <canvas id="myChart"></canvas>
+        <a href="{{ route('cycles.index') }}" class="btn btn-primary mb-3">Volver a la lista</a>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

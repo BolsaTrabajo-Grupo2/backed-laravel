@@ -43,6 +43,34 @@
                 </div>
 
                 <div class="row mb-2">
+                    <div class="col-md-3 text-md-right">
+                        <strong>Ciclos de los que es responsable:</strong>
+                    </div>
+                    <div class="col-md-9">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>Ciclo</th>
+                                <th>Título</th>
+                                <th>Familia</th>
+                                <th>CLiteral</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach ($cycles as $cycle)
+                                <tr>
+                                    <td>{{ $cycle->cycle }}</td>
+                                    <td>{{ $cycle->title }}</td>
+                                    <td>{{ $cycle->family->cliteral }}</td>
+                                    <td>{{ $cycle->cliteral }}</td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="row mb-2">
                     <div class="col-md-4 text-md-right">
                         <strong>Creado:</strong>
                     </div>
