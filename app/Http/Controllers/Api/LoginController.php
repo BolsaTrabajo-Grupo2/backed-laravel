@@ -10,7 +10,7 @@ use Illuminate\Validation\ValidationException;
 
 /**
  * @OA\Post(
- *     path="/login",
+ *     path="/api/login",
  *     summary="Iniciar sesión",
  *     description="Inicio de sesión por correo electrónico y contraseña",
  *     operationId="authLogin",
