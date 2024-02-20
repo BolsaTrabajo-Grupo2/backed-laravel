@@ -22,7 +22,8 @@ class OfferResource extends JsonResource
             'inscriptionMethod' => $this->inscription_method,
             'status' => $this->status,
             'verified' => $this->verified,
-            'CIF' => $this->CIF
+            'CIF' => $this->CIF,
+            'created_at' => $this->created_at,
         ];
     }
 }
