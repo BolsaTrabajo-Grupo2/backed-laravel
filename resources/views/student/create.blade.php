@@ -1,99 +1,113 @@
-<div class="row">
+@extends('layouts.app')
+
+@section('content')
+    <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<body>
+<div class="container mt-5">
     <form method="POST" action="{{ route('student.store') }}" id="studentForm">
         @csrf
         <fieldset>
-            <legend>Crear una nuevo Estudiante</legend>
+            <legend>Crear un nuevo Estudiante</legend>
 
-            <div>
-                <div>
-                    <label for="name">Nombre:</label><br />
-                    <input name="name" type="text" /><br />
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="name">Nombre:</label>
+                    <input name="name" type="text" class="form-control" />
                     @error('name')
-                    <span class="validate-error">{{ $message }}</span><br />
+                    <span class="validate-error">{{ $message }}</span>
                     @enderror
                 </div>
 
-                <div>
-                    <label for="surname">Apellidos:</label><br />
-                    <input name="surname" type="text"/><br />
+                <div class="form-group col-md-6">
+                    <label for="surname">Apellidos:</label>
+                    <input name="surname" type="text" class="form-control" />
                     @error('surname')
-                    <span class="validate-error">{{ $message }}</span><br />
+                    <span class="validate-error">{{ $message }}</span>
                     @enderror
                 </div>
+            </div>
 
-                <div>
-                    <label for="email">Email:</label><br />
-                    <input name="email" type="text"/><br />
-                    @error('email')
-                    <span class="validate-error">{{ $message }}</span><br />
-                    @enderror
-                </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input name="email" type="text" class="form-control" />
+                @error('email')
+                <span class="validate-error">{{ $message }}</span>
+                @enderror
+            </div>
 
-                <div>
-                    <label for="password">Contraseña:</label><br />
-                    <input name="password" type="password" /><br />
-                    @error('password')
-                    <span class="validate-error">{{ $message }}</span><br />
-                    @enderror
-                </div>
+            <div class="form-group">
+                <label for="password">Contraseña:</label>
+                <input name="password" type="password" class="form-control" />
+                @error('password')
+                <span class="validate-error">{{ $message }}</span>
+                @enderror
+            </div>
 
-                <div>
-                    <label for="confirmPassword">Repetir Contraseña:</label><br />
-                    <input name="confirmPassword" type="password" /><br />
-                    @error('confirmPassword')
-                    <span class="validate-error">{{ $message }}</span><br />
-                    @enderror
-                </div>
+            <div class="form-group">
+                <label for="confirmPassword">Repetir Contraseña:</label>
+                <input name="confirmPassword" type="password" class="form-control" />
+                @error('confirmPassword')
+                <span class="validate-error">{{ $message }}</span>
+                @enderror
+            </div>
 
-                <div class="form-group" id="app">
-                    <label for="ciclo">Ciclo:</label>
-                    <div class="cycle-container">
-                        <div class="input-group cycle-field">
-                            <select name="cycles[]" class="form-control" onchange="addCycleField(this)">
-                                <option value="">Seleccionar ciclo</option>
-                                @foreach ($cycles as $cycle)
-                                    <option value="{{ $cycle->id }}">{{ $cycle->title }}</option>
-                                @endforeach
-                            </select>
-                            <input type="date" name="dates[]" class="form-control" />
-                            <button type="button" onclick="removeCycleField(this)">Eliminar</button>
-                        </div>
+            <div class="form-group" id="app">
+                <label for="ciclo">Ciclo:</label>
+                <div class="cycle-container">
+                    <div class="input-group cycle-field">
+                        <select name="cycles[]" class="form-control" onchange="addCycleField(this)">
+                            <option value="">Seleccionar ciclo</option>
+                            @foreach ($cycles as $cycle)
+                                <option value="{{ $cycle->id }}">{{ $cycle->title }}</option>
+                            @endforeach
+                        </select>
+                        <input type="date" name="dates[]" class="form-control" />
+                        <button type="button" onclick="removeCycleField(this)">Eliminar</button>
                     </div>
                 </div>
-
-                <div>
-                    <label for="address">Direccion:</label><br />
-                    <input name="address" type="text"/><br />
-                    @error('address')
-                    <span class="validate-error">{{ $message }}</span><br />
-                    @enderror
-                </div>
-
-                <div>
-                    <label for="observations">Observaciones:</label><br />
-                    <input name="observations" type="text" /><br />
-                    @error('observation')
-                    <span class="validate-error">{{ $message }}</span><br />
-                    @enderror
-                </div>
-
-                <div>
-                    <label for="CVLink">Linck Curriculum:</label><br />
-                    <input name="CVLink" type="text"/><br />
-                </div>
-
-                <div>
-                    <input name="aceptar" type="checkbox" value="1" />
-                    <span class="form-check-label"> Acepto los términos y condiciones</span><br />
-                    @error('aceptar')
-                    <span class="validate-error">{{ $message }}</span><br />
-                    @enderror
-                </div>
             </div>
 
-            <div>
+            <div class="form-group">
+                <label for="address">Dirección:</label>
+                <input name="address" type="text" class="form-control" />
+                @error('address')
+                <span class="validate-error">{{ $message }}</span>
+                @enderror
+            </div>
+
+            <div class="form-group">
+                <label for="observations">Observaciones:</label>
+                <input name="observations" type="text" class="form-control" />
+                @error('observations')
+                <span class="validate-error">{{ $message }}</span>
+                @enderror
+            </div>
+
+            <div class="form-group">
+                <label for="CVLink">Enlace al Curriculum:</label>
+                <input name="CVLink" type="text" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <input name="aceptar" type="checkbox" value="1" />
+                <span class="form-check-label"> Acepto los términos y condiciones</span>
+                @error('aceptar')
+                <span class="validate-error">{{ $message }}</span>
+                @enderror
+            </div>
+
+            <div class="form-group">
                 <input type="hidden" name="rol" value="COMP" />
             </div>
+
             <button type="submit" class="btn btn-default btn-primary">Crear</button>
         </fieldset>
     </form>
@@ -119,6 +133,9 @@
                 cycleFields.remove();
             }
         }
-
     </script>
 </div>
+</body>
+
+</html>
+@endsection
