@@ -1,0 +1,3590 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Batoi Bolsa  ApplicationAPI",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/company": {
+            "get": {
+                "tags": [
+                    "Company"
+                ],
+                "summary": "Obtener lista de empresas",
+                "description": "Devuelve una lista de empresas paginada",
+                "operationId": "getCompanyIndex",
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "pagination": {
+                                            "$ref": "#/components/schemas/CompanyPagination"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No autorizado"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Company"
+                ],
+                "summary": "Crear una nueva empresa",
+                "description": "Crea una nueva empresa con los datos proporcionados",
+                "operationId": "createCompany",
+                "requestBody": {
+                    "description": "Datos de la empresa a crear",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CompanyRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Empresa creada exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "token": {
+                                            "type": "string",
+                                            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Datos de entrada no válidos"
+                    }
+                }
+            }
+        },
+        "/api/company/{id}": {
+            "get": {
+                "tags": [
+                    "Company"
+                ],
+                "summary": "Obtener detalles de una empresa",
+                "description": "Devuelve los detalles de una empresa específica",
+                "operationId": "getCompany",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la empresa",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Company"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Empresa no encontrada"
+                    },
+                    "401": {
+                        "description": "No autorizado"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Company"
+                ],
+                "summary": "Actualizar una empresa",
+                "description": "Actualiza una empresa existente con los datos proporcionados",
+                "operationId": "updateCompany",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la empresa a actualizar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Datos de la empresa a actualizar",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CompanyUpdateRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Empresa actualizada exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Company"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Empresa no encontrada"
+                    },
+                    "401": {
+                        "description": "No autorizado"
+                    }
+                }
+            }
+        },
+        "/api/company/{cif}": {
+            "delete": {
+                "tags": [
+                    "Company"
+                ],
+                "summary": "Eliminar una empresa",
+                "description": "Elimina una empresa por su CIF",
+                "operationId": "deleteCompany",
+                "parameters": [
+                    {
+                        "name": "cif",
+                        "in": "path",
+                        "description": "CIF de la empresa a eliminar",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Empresa eliminada exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "La empresa ha sido borrada con éxito"
+                                        },
+                                        "data": {
+                                            "type": "integer",
+                                            "example": 123
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Empresa no encontrada"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    },
+                    "401": {
+                        "description": "No autorizado"
+                    }
+                }
+            }
+        },
+        "/api/company/{idUser}": {
+            "get": {
+                "tags": [
+                    "Company"
+                ],
+                "summary": "Obtener empresa por ID de usuario",
+                "description": "Obtiene los detalles de una empresa por el ID de usuario",
+                "operationId": "getCompanyByIdUser",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del usuario",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "description": "ID del usuario",
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "name": {
+                                            "description": "Nombre del usuario",
+                                            "type": "string",
+                                            "example": "John Doe"
+                                        },
+                                        "email": {
+                                            "description": "Correo electrónico del usuario",
+                                            "type": "string",
+                                            "example": "john@example.com"
+                                        },
+                                        "accept": {
+                                            "description": "Acepta",
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "rol": {
+                                            "description": "Rol del usuario",
+                                            "type": "string",
+                                            "example": "admin"
+                                        },
+                                        "CIF": {
+                                            "description": "Número de identificación fiscal de la empresa",
+                                            "type": "string",
+                                            "example": "ABC123"
+                                        },
+                                        "company_name": {
+                                            "description": "Nombre de la empresa",
+                                            "type": "string",
+                                            "example": "Empresa XYZ"
+                                        },
+                                        "address": {
+                                            "description": "Dirección de la empresa",
+                                            "type": "string",
+                                            "example": "Calle Principal 123"
+                                        },
+                                        "CP": {
+                                            "description": "Código Postal de la empresa",
+                                            "type": "string",
+                                            "example": "12345"
+                                        },
+                                        "phone": {
+                                            "description": "Teléfono de la empresa",
+                                            "type": "string",
+                                            "example": "123-456-7890"
+                                        },
+                                        "web": {
+                                            "description": "Sitio web de la empresa",
+                                            "type": "string",
+                                            "example": "https://www.empresa.com"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Usuario no encontrado"
+                    }
+                }
+            }
+        },
+        "/api/checkCIF/{CIF}": {
+            "get": {
+                "tags": [
+                    "Company"
+                ],
+                "summary": "Verificar CIF de la empresa",
+                "description": "Verifica si el CIF proporcionado pertenece a alguna empresa registrada",
+                "operationId": "checkCIF",
+                "parameters": [
+                    {
+                        "name": "CIF",
+                        "in": "path",
+                        "description": "Número de identificación fiscal (CIF) de la empresa",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Indica si el CIF pertenece a una empresa registrada (true) o no (false)",
+                                    "type": "boolean"
+                                },
+                                "example": true
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No autorizado"
+                    }
+                }
+            }
+        },
+        "/api/companyCIF/{CIF}": {
+            "get": {
+                "tags": [
+                    "Company"
+                ],
+                "summary": "Obtener empresa por CIF",
+                "description": "Obtiene los detalles de una empresa basándose en su CIF",
+                "operationId": "getCompanyCIF",
+                "parameters": [
+                    {
+                        "name": "CIF",
+                        "in": "path",
+                        "description": "CIF (Código de Identificación Fiscal) de la empresa",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Company"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Empresa no encontrada para el CIF proporcionado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No autorizado"
+                    }
+                }
+            }
+        },
+        "/api/companyEmail/{email}": {
+            "get": {
+                "tags": [
+                    "Company"
+                ],
+                "summary": "Obtener empresa por correo electrónico del usuario",
+                "description": "Obtiene los detalles de una empresa basándose en el correo electrónico del usuario asociado",
+                "operationId": "getCompanyByEmail",
+                "parameters": [
+                    {
+                        "name": "email",
+                        "in": "path",
+                        "description": "Correo electrónico del usuario asociado a la empresa",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "email"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": "1"
+                                        },
+                                        "CIF": {
+                                            "type": "string",
+                                            "example": "ABC123"
+                                        },
+                                        "companyName": {
+                                            "type": "string",
+                                            "example": "Empresa XYZ"
+                                        },
+                                        "direccion": {
+                                            "type": "string",
+                                            "example": "Calle Principal 123"
+                                        },
+                                        "CP": {
+                                            "type": "string",
+                                            "example": "12345"
+                                        },
+                                        "telefono": {
+                                            "type": "string",
+                                            "example": "123-456-7890"
+                                        },
+                                        "web": {
+                                            "type": "string",
+                                            "example": "https://www.empresa.com"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "No se encontró ninguna empresa para el correo electrónico proporcionado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No autorizado"
+                    }
+                }
+            }
+        },
+        "/api/cyclesPaginate": {
+            "get": {
+                "tags": [
+                    "Cycles"
+                ],
+                "summary": "Obtener lista de ciclos",
+                "description": "Devuelve una lista paginada de ciclos",
+                "operationId": "getCyclesIndex",
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "current_page": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "total_pages": {
+                                            "type": "integer",
+                                            "example": 5
+                                        },
+                                        "per_page": {
+                                            "type": "integer",
+                                            "example": 10
+                                        },
+                                        "total_records": {
+                                            "type": "integer",
+                                            "example": 50
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "nombre": {
+                                                        "type": "string",
+                                                        "example": "Nombre del ciclo"
+                                                    },
+                                                    "idFamilia": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "idResponsable": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "links": {
+                                            "properties": {
+                                                "prev": {
+                                                    "type": "string",
+                                                    "example": "url_pagina_anterior"
+                                                },
+                                                "next": {
+                                                    "type": "string",
+                                                    "example": "url_pagina_siguiente"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No autorizado"
+                    }
+                }
+            }
+        },
+        "/api/cycles/{id}": {
+            "get": {
+                "tags": [
+                    "Cycles"
+                ],
+                "summary": "Obtener detalles de un ciclo",
+                "description": "Devuelve los detalles de un ciclo específico",
+                "operationId": "getCycle",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del ciclo a obtener",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "nombre": {
+                                            "type": "string",
+                                            "example": "Nombre del ciclo"
+                                        },
+                                        "idFamilia": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "idResponsable": {
+                                            "type": "integer",
+                                            "example": 1
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Ciclo no encontrado"
+                    },
+                    "401": {
+                        "description": "No autorizado"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Cycles"
+                ],
+                "summary": "Actualizar un ciclo existente",
+                "description": "Actualiza un ciclo existente con la información proporcionada",
+                "operationId": "updateCycle",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del ciclo a actualizar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Datos actualizados del ciclo",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "cycle",
+                                    "title",
+                                    "idFamily",
+                                    "idResponsible",
+                                    "vliteral",
+                                    "cliteral"
+                                ],
+                                "properties": {
+                                    "cycle": {
+                                        "type": "string",
+                                        "example": "2023-2024"
+                                    },
+                                    "title": {
+                                        "type": "string",
+                                        "example": "Título actualizado del ciclo"
+                                    },
+                                    "idFamily": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "idResponsible": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "vliteral": {
+                                        "type": "string",
+                                        "example": "Valor literal actualizado del ciclo"
+                                    },
+                                    "cliteral": {
+                                        "type": "string",
+                                        "example": "Color literal actualizado del ciclo"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ciclo actualizado exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "cycle": {
+                                            "type": "string",
+                                            "example": "2023-2024"
+                                        },
+                                        "title": {
+                                            "type": "string",
+                                            "example": "Título actualizado del ciclo"
+                                        },
+                                        "idFamily": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "idResponsible": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "vliteral": {
+                                            "type": "string",
+                                            "example": "Valor literal actualizado del ciclo"
+                                        },
+                                        "cliteral": {
+                                            "type": "string",
+                                            "example": "Color literal actualizado del ciclo"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Ciclo no encontrado"
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    },
+                    "401": {
+                        "description": "No autorizado"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Cycles"
+                ],
+                "summary": "Eliminar un ciclo existente",
+                "description": "Elimina un ciclo existente según su ID",
+                "operationId": "deleteCycle",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del ciclo a eliminar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ciclo eliminado exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "El ciclo con id: 1 ha sido borrado con éxito"
+                                        },
+                                        "data": {
+                                            "type": "integer",
+                                            "example": 1
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Ciclo no encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "No se ha encontrado el ciclo"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No autorizado"
+                    }
+                }
+            }
+        },
+        "/api/cycles": {
+            "get": {
+                "tags": [
+                    "Cycles"
+                ],
+                "summary": "Obtener todos los ciclos",
+                "description": "Obtiene todos los ciclos disponibles",
+                "operationId": "getAllCyclesSinCollction",
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Cycle"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No autorizado"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Cycles"
+                ],
+                "summary": "Crear un nuevo ciclo",
+                "description": "Crea un nuevo ciclo con la información proporcionada",
+                "operationId": "createCycle",
+                "requestBody": {
+                    "description": "Datos del nuevo ciclo",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "cycle",
+                                    "title",
+                                    "idFamily",
+                                    "idResponsible",
+                                    "vliteral",
+                                    "cliteral"
+                                ],
+                                "properties": {
+                                    "cycle": {
+                                        "type": "string",
+                                        "example": "2023-2024"
+                                    },
+                                    "title": {
+                                        "type": "string",
+                                        "example": "Título del ciclo"
+                                    },
+                                    "idFamily": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "idResponsible": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "vliteral": {
+                                        "type": "string",
+                                        "example": "Valor literal del ciclo"
+                                    },
+                                    "cliteral": {
+                                        "type": "string",
+                                        "example": "Color literal del ciclo"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Ciclo creado exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "cycle": {
+                                            "type": "string",
+                                            "example": "2023-2024"
+                                        },
+                                        "title": {
+                                            "type": "string",
+                                            "example": "Título del ciclo"
+                                        },
+                                        "idFamily": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "idResponsible": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "vliteral": {
+                                            "type": "string",
+                                            "example": "Valor literal del ciclo"
+                                        },
+                                        "cliteral": {
+                                            "type": "string",
+                                            "example": "Color literal del ciclo"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    },
+                    "401": {
+                        "description": "No autorizado"
+                    }
+                }
+            }
+        },
+        "/api/families": {
+            "get": {
+                "tags": [
+                    "Families"
+                ],
+                "summary": "Obtener lista de familias",
+                "description": "Devuelve una lista paginada de familias",
+                "operationId": "getFamilyIndex",
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "current_page": {
+                                            "type": "integer"
+                                        },
+                                        "total_pages": {
+                                            "type": "integer"
+                                        },
+                                        "per_page": {
+                                            "type": "integer"
+                                        },
+                                        "total_records": {
+                                            "type": "integer"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Family"
+                                            }
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "links": {
+                                            "properties": {
+                                                "prev": {
+                                                    "type": "string",
+                                                    "nullable": true
+                                                },
+                                                "next": {
+                                                    "type": "string",
+                                                    "nullable": true
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No se encontraron familias"
+                    },
+                    "401": {
+                        "description": "No autorizado"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Families"
+                ],
+                "summary": "Crear una nueva familia",
+                "description": "Crea una nueva familia con los datos proporcionados",
+                "operationId": "createFamily",
+                "requestBody": {
+                    "description": "Datos de la nueva familia",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "cliteral",
+                                    "vliteral",
+                                    "depcurt"
+                                ],
+                                "properties": {
+                                    "cliteral": {
+                                        "type": "string",
+                                        "example": "Valor cliteral"
+                                    },
+                                    "vliteral": {
+                                        "type": "string",
+                                        "example": "Valor vliteral"
+                                    },
+                                    "depcurt": {
+                                        "type": "string",
+                                        "example": "Valor depcurt"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Familia creada exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Family"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    },
+                    "401": {
+                        "description": "No autorizado"
+                    }
+                }
+            }
+        },
+        "/api/families/{family}": {
+            "get": {
+                "tags": [
+                    "Families"
+                ],
+                "summary": "Obtener detalles de una familia",
+                "description": "Devuelve los detalles de una familia específica",
+                "operationId": "getFamily",
+                "parameters": [
+                    {
+                        "name": "family",
+                        "in": "path",
+                        "description": "ID de la familia",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Family"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No se encontró la familia"
+                    },
+                    "401": {
+                        "description": "No autorizado"
+                    }
+                }
+            }
+        },
+        "/api/families/{id}": {
+            "put": {
+                "tags": [
+                    "Families"
+                ],
+                "summary": "Actualizar detalles de una familia",
+                "description": "Actualiza los detalles de una familia existente",
+                "operationId": "updateFamily",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la familia a actualizar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Datos actualizados de la familia",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "cliteral",
+                                    "vliteral",
+                                    "depcurt"
+                                ],
+                                "properties": {
+                                    "cliteral": {
+                                        "type": "string",
+                                        "example": "Nuevo valor cliteral"
+                                    },
+                                    "vliteral": {
+                                        "type": "string",
+                                        "example": "Nuevo valor vliteral"
+                                    },
+                                    "depcurt": {
+                                        "type": "string",
+                                        "example": "Nuevo valor depcurt"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Familia actualizada exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Family"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No se encontró la familia"
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    },
+                    "401": {
+                        "description": "No autorizado"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Families"
+                ],
+                "summary": "Eliminar una familia",
+                "description": "Elimina una familia por su ID",
+                "operationId": "deleteFamily",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la familia a eliminar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Familia eliminada exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "La familia con id: 1 ha sido borrada con éxito"
+                                        },
+                                        "data": {
+                                            "type": "integer",
+                                            "example": 1
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No se encontró la familia"
+                    },
+                    "401": {
+                        "description": "No autorizado"
+                    }
+                }
+            }
+        },
+        "/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Iniciar sesión",
+                "description": "Inicio de sesión por correo electrónico y contraseña",
+                "operationId": "authLogin",
+                "requestBody": {
+                    "description": "Pasar credenciales de usuario",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "user1@mail.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "Password12345"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "422": {
+                        "description": "Respuesta de credenciales incorrectas",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lo siento, dirección de correo electrónico o contraseña incorrecta. Por favor, inténtalo de nuevo."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "Respuesta exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "name": {
+                                            "type": "string",
+                                            "example": "John Doe"
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "example": "john@example.com"
+                                        },
+                                        "accept": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "rol": {
+                                            "type": "string",
+                                            "example": "admin"
+                                        },
+                                        "token": {
+                                            "type": "string",
+                                            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/offers": {
+            "get": {
+                "tags": [
+                    "Offers"
+                ],
+                "summary": "Obtener todas las ofertas",
+                "description": "Obtiene todas las ofertas disponibles según el rol del usuario autenticado",
+                "operationId": "getAllOffers",
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "current_page": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "total_pages": {
+                                            "type": "integer",
+                                            "example": 5
+                                        },
+                                        "per_page": {
+                                            "type": "integer",
+                                            "example": 10
+                                        },
+                                        "total_records": {
+                                            "type": "integer",
+                                            "example": 50
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Offer"
+                                            }
+                                        },
+                                        "links": {
+                                            "properties": {
+                                                "prev": {
+                                                    "type": "string",
+                                                    "example": "http://example.com/api/offers?page=1"
+                                                },
+                                                "next": {
+                                                    "type": "string",
+                                                    "example": "http://example.com/api/offers?page=3"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No autorizado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Offers"
+                ],
+                "summary": "Crear una nueva oferta",
+                "description": "Crea una nueva oferta y la guarda en la base de datos",
+                "operationId": "createOffer",
+                "requestBody": {
+                    "description": "Datos de la oferta a crear",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "description",
+                                    "duration",
+                                    "inscription_method",
+                                    "selectedCycles"
+                                ],
+                                "properties": {
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Descripción de la oferta"
+                                    },
+                                    "duration": {
+                                        "description": "Duración de la oferta",
+                                        "type": "string",
+                                        "example": "6 meses"
+                                    },
+                                    "responsibleName": {
+                                        "description": "Nombre del responsable de la oferta",
+                                        "type": "string",
+                                        "example": "John Doe"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Oferta creada exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/Offer"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Datos de entrada no válidos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unprocessable Entity"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No autorizado"
+                    }
+                }
+            }
+        },
+        "/api/offers/{id}": {
+            "get": {
+                "tags": [
+                    "Offers"
+                ],
+                "summary": "Obtener detalles de una oferta",
+                "description": "Obtiene los detalles de una oferta según su ID",
+                "operationId": "getOfferById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la oferta",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Offer"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "La oferta no se encontró"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No autorizado"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Offers"
+                ],
+                "summary": "Actualizar una oferta existente",
+                "description": "Actualiza los datos de una oferta existente en la base de datos",
+                "operationId": "updateOffer",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la oferta a actualizar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Datos actualizados de la oferta",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "description",
+                                    "duration"
+                                ],
+                                "properties": {
+                                    "description": {
+                                        "type": "string",
+                                        "maxLength": 200,
+                                        "example": "Nueva descripción de la oferta"
+                                    },
+                                    "duration": {
+                                        "description": "Nueva duración de la oferta (máx. 50 caracteres)",
+                                        "type": "string",
+                                        "example": "24 meses"
+                                    },
+                                    "responsibleName": {
+                                        "type": "string",
+                                        "maxLength": 100,
+                                        "example": "Nuevo nombre del responsable de la oferta (opcional)"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Oferta actualizada exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/Offer"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Oferta no encontrada"
+                    },
+                    "422": {
+                        "description": "Datos de entrada no válidos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unprocessable Entity"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No autorizado"
+                    }
+                }
+            }
+        },
+        "/api/offersDeactivate/{id}": {
+            "put": {
+                "tags": [
+                    "Offers"
+                ],
+                "summary": "Desactivar una oferta",
+                "description": "Desactiva una oferta existente en la base de datos cambiando su estado a inactivo",
+                "operationId": "deactivateOffer",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la oferta a desactivar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Oferta desactivada exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "La oferta con ID: {id} ha sido desactivada con éxito"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Offer"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Oferta no encontrada"
+                    },
+                    "401": {
+                        "description": "No autorizado"
+                    }
+                }
+            }
+        },
+        "/api/offersDelete/{id}": {
+            "delete": {
+                "tags": [
+                    "Offers"
+                ],
+                "summary": "Borrar oferta",
+                "description": "Marca una oferta como 'borrada' cambiando su estado a inactivo",
+                "operationId": "deleteOffer",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la oferta a marcar como 'borrada'",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Oferta marcada como 'borrada' exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "La oferta con ID: {id} ha sido marcada como 'borrada' con éxito"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Offer"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Oferta no encontrada"
+                    },
+                    "401": {
+                        "description": "No autorizado"
+                    }
+                }
+            }
+        },
+        "/api/offerByCP/{cp}": {
+            "get": {
+                "tags": [
+                    "Offers"
+                ],
+                "summary": "Obtener ofertas por código postal",
+                "description": "Obtiene una lista paginada de ofertas filtradas por código postal de la empresa asociada",
+                "operationId": "getOfferByCP",
+                "parameters": [
+                    {
+                        "name": "cp",
+                        "in": "path",
+                        "description": "Código postal para filtrar las ofertas",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "cp_format"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "current_page": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "total_pages": {
+                                            "type": "integer",
+                                            "example": 5
+                                        },
+                                        "per_page": {
+                                            "type": "integer",
+                                            "example": 10
+                                        },
+                                        "total_records": {
+                                            "type": "integer",
+                                            "example": 50
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Offer"
+                                            }
+                                        },
+                                        "links": {
+                                            "properties": {
+                                                "prev": {
+                                                    "type": "string",
+                                                    "example": "http://example.com/api/offers?page=1"
+                                                },
+                                                "next": {
+                                                    "type": "string",
+                                                    "example": "http://example.com/api/offers?page=3"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No se encontraron ofertas para el código postal proporcionado"
+                    },
+                    "401": {
+                        "description": "No autorizado"
+                    }
+                }
+            }
+        },
+        "/api/verificateOffer/{idOffer}": {
+            "post": {
+                "tags": [
+                    "Offers"
+                ],
+                "summary": "Verificar oferta",
+                "description": "Verifica una oferta específica y notifica a los estudiantes asignados a los ciclos asociados",
+                "operationId": "verifyOffer",
+                "parameters": [
+                    {
+                        "name": "idOffer",
+                        "in": "path",
+                        "description": "ID de la oferta a verificar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Oferta no encontrada"
+                    }
+                }
+            }
+        },
+        "/api/spread/{idOffer}": {
+            "put": {
+                "tags": [
+                    "Offers"
+                ],
+                "summary": "Extender oferta",
+                "description": "Extiende la fecha de creación de una oferta específica.",
+                "operationId": "spreadOffer",
+                "parameters": [
+                    {
+                        "name": "idOffer",
+                        "in": "path",
+                        "description": "ID de la oferta a extender",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "La fecha de creación de la oferta se ha extendido con éxito"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Oferta no encontrada"
+                    }
+                }
+            }
+        },
+        "/api/students": {
+            "get": {
+                "tags": [
+                    "Students"
+                ],
+                "summary": "Obtener todos los estudiantes",
+                "description": "Obtiene todos los estudiantes disponibles",
+                "operationId": "getAllStudents",
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "current_page": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "total_pages": {
+                                            "type": "integer",
+                                            "example": 5
+                                        },
+                                        "per_page": {
+                                            "type": "integer",
+                                            "example": 10
+                                        },
+                                        "total_records": {
+                                            "type": "integer",
+                                            "example": 50
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Student"
+                                            }
+                                        },
+                                        "links": {
+                                            "properties": {
+                                                "prev": {
+                                                    "type": "string",
+                                                    "example": "url_prev_page"
+                                                },
+                                                "next": {
+                                                    "type": "string",
+                                                    "example": "url_next_page"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No autorizado"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Students"
+                ],
+                "summary": "Crear un nuevo estudiante",
+                "description": "Crea un nuevo estudiante en el sistema.",
+                "operationId": "storeStudent",
+                "requestBody": {
+                    "description": "Datos del estudiante a crear",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "surname",
+                                    "email",
+                                    "password",
+                                    "rol",
+                                    "address"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "maxLength": 250,
+                                        "example": "John"
+                                    },
+                                    "surname": {
+                                        "type": "string",
+                                        "maxLength": 250,
+                                        "example": "Doe"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "john@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "minLength": 8,
+                                        "example": "password123"
+                                    },
+                                    "rol": {
+                                        "type": "string",
+                                        "example": "STU"
+                                    },
+                                    "address": {
+                                        "type": "string",
+                                        "maxLength": 100,
+                                        "example": "123 Main St"
+                                    },
+                                    "CVLink": {
+                                        "type": "string",
+                                        "maxLength": 75,
+                                        "example": "https://example.com/cv"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Estudiante creado exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "token": {
+                                            "type": "string",
+                                            "example": "generated_token"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error de validación",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Los datos de entrada no son válidos"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            }
+        },
+        "/api/students/{id}": {
+            "get": {
+                "tags": [
+                    "Students"
+                ],
+                "summary": "Obtener detalles de un estudiante",
+                "description": "Devuelve los detalles de un estudiante específico.",
+                "operationId": "getStudentById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del estudiante a obtener detalles",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Student"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Estudiante no encontrado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No autorizado"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Students"
+                ],
+                "summary": "Actualizar estudiante",
+                "description": "Actualiza los datos de un estudiante existente en el sistema.",
+                "operationId": "updateStudent",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del estudiante a actualizar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Datos actualizados del estudiante",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "surname",
+                                    "rol",
+                                    "address"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "maxLength": 250,
+                                        "example": "John"
+                                    },
+                                    "surname": {
+                                        "type": "string",
+                                        "maxLength": 250,
+                                        "example": "Doe"
+                                    },
+                                    "rol": {
+                                        "type": "string",
+                                        "example": "STU"
+                                    },
+                                    "address": {
+                                        "type": "string",
+                                        "maxLength": 100,
+                                        "example": "123 Main St"
+                                    },
+                                    "CVLink": {
+                                        "type": "string",
+                                        "maxLength": 75,
+                                        "example": "https://example.com/cv"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Estudiante actualizado exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/StudentResource"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Estudiante no encontrado"
+                    },
+                    "422": {
+                        "description": "Error de validación",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Los datos de entrada no son válidos"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    },
+                    "401": {
+                        "description": "No autorizado"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Students"
+                ],
+                "summary": "Eliminar estudiante",
+                "description": "Elimina un estudiante y su usuario asociado",
+                "operationId": "deleteStudent",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del estudiante a eliminar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "El estudiante con id: 1 ha sido borrado con éxito"
+                                        },
+                                        "data": {
+                                            "description": "ID del estudiante eliminado",
+                                            "type": "integer",
+                                            "example": 1
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "No se ha encontrado el estudiante"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No autorizado"
+                    }
+                }
+            }
+        },
+        "/api/students/{idUser}": {
+            "get": {
+                "tags": [
+                    "Students"
+                ],
+                "summary": "Obtener estudiante por ID de usuario",
+                "description": "Obtiene los detalles de un estudiante basándose en su ID de usuario",
+                "operationId": "getStudentByIdUser",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del usuario asociado al estudiante",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "description": "ID del estudiante",
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "idUser": {
+                                            "description": "ID del usuario asociado al estudiante",
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "address": {
+                                            "description": "Dirección del estudiante",
+                                            "type": "string",
+                                            "example": "Calle Principal 123"
+                                        },
+                                        "CVLink": {
+                                            "description": "Enlace al CV del estudiante",
+                                            "type": "string",
+                                            "example": "https://example.com/cv"
+                                        },
+                                        "accept": {
+                                            "description": "Aceptación del estudiante",
+                                            "type": "string",
+                                            "example": "true"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "No se ha encontrado el estudiante"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No autorizado"
+                    }
+                }
+            }
+        },
+        "/api/studentCicles/{id}": {
+            "get": {
+                "tags": [
+                    "Students"
+                ],
+                "summary": "Obtener ciclos por estudiante",
+                "description": "Obtiene los ciclos en los que está inscrito un estudiante basándose en su ID de usuario",
+                "operationId": "getCyclesByStudent",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del usuario asociado al estudiante",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "description": "ID del ciclo",
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "selectedCycle": {
+                                                "description": "ID del ciclo seleccionado",
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "date": {
+                                                "description": "Fecha de inscripción en el ciclo",
+                                                "type": "string",
+                                                "example": "2024-02-20"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "No se ha encontrado el estudiante"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No autorizado"
+                    }
+                }
+            }
+        },
+        "/api/verificated/{id}": {
+            "put": {
+                "tags": [
+                    "Students"
+                ],
+                "summary": "Verificar estudio",
+                "description": "Marca un estudio como verificado",
+                "operationId": "verifyStudy",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del estudio a verificar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Mensaje de confirmación de verificación exitosa",
+                                    "type": "string"
+                                },
+                                "example": "verificado con exito"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "No se ha encontrado el estudio"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/apply/{idOffer}": {
+            "post": {
+                "tags": [
+                    "Students"
+                ],
+                "summary": "Aplicar a una oferta",
+                "description": "Aplica a una oferta específica",
+                "operationId": "applyToOffer",
+                "parameters": [
+                    {
+                        "name": "idOffer",
+                        "in": "path",
+                        "description": "ID de la oferta a la que se desea aplicar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Aplicación creada con éxito",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Aplicación creada con éxito"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Ya has aplicado a esta oferta"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No autorizado"
+                    }
+                }
+            }
+        },
+        "/api/userOffert/{id}": {
+            "get": {
+                "tags": [
+                    "Students"
+                ],
+                "summary": "Mostrar usuarios que aplicaron a una oferta",
+                "description": "Muestra los usuarios que han aplicado a una oferta específica",
+                "operationId": "showUsersAppliedToOffer",
+                "parameters": [
+                    {
+                        "name": "idOffer",
+                        "in": "path",
+                        "description": "ID de la oferta para la cual se desean ver los usuarios que aplicaron",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/User"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "No se encontraron usuarios que aplicaran a esta oferta"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No autorizado"
+                    }
+                }
+            }
+        },
+        "/api/studentEmail/{email}": {
+            "get": {
+                "tags": [
+                    "Students"
+                ],
+                "summary": "Obtener estudiante por correo electrónico",
+                "description": "Obtiene los detalles de un estudiante basándose en su correo electrónico",
+                "operationId": "getStudentByEmail",
+                "parameters": [
+                    {
+                        "name": "email",
+                        "in": "path",
+                        "description": "Correo electrónico del estudiante",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "email"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": "1"
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "John"
+                                        },
+                                        "surname": {
+                                            "type": "string",
+                                            "example": "Doe"
+                                        },
+                                        "address": {
+                                            "type": "string",
+                                            "example": "123 Main St"
+                                        },
+                                        "cv_link": {
+                                            "type": "string",
+                                            "example": "https://example.com/cv"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date-time"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "date-time"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "No se encontró ningún estudiante para el correo electrónico proporcionado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No autorizado"
+                    }
+                }
+            }
+        },
+        "/api/users": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Obtener una lista paginada de usuarios",
+                "description": "Este endpoint devuelve una lista paginada de usuarios.",
+                "operationId": "index",
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserCollection"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No autorizado"
+                    }
+                }
+            }
+        },
+        "/api/users/{user}": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Obtener detalles de una empresa",
+                "description": "Este endpoint devuelve los detalles de una empresa específica.",
+                "operationId": "showCompany",
+                "parameters": [
+                    {
+                        "name": "users",
+                        "in": "path",
+                        "description": "ID del usuario",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No autorizado"
+                    },
+                    "404": {
+                        "description": "No encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Empresa no encontrada"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/register": {
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Registrar un nuevo usuario",
+                "description": "Este endpoint permite registrar un nuevo usuario en el sistema.",
+                "operationId": "registerUser",
+                "requestBody": {
+                    "description": "Datos del usuario a registrar",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "surname",
+                                    "email",
+                                    "password",
+                                    "rol"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "John"
+                                    },
+                                    "surname": {
+                                        "type": "string",
+                                        "example": "Doe"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "john.doe@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "password123"
+                                    },
+                                    "rol": {
+                                        "type": "string",
+                                        "example": "ADM"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Usuario registrado exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "token": {
+                                            "description": "Token de acceso generado para el usuario",
+                                            "type": "string",
+                                            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+                                        },
+                                        "user": {
+                                            "$ref": "#/components/schemas/User"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Datos de entrada inválidos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Los datos de entrada son inválidos o están incompletos."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/users/{id}": {
+            "put": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Actualizar usuario por ID",
+                "description": "Actualiza los detalles de un usuario basándose en su ID",
+                "operationId": "updateUser",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del usuario a actualizar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Datos del usuario a actualizar",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "surname"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "description": "Nuevo nombre del usuario",
+                                        "type": "string",
+                                        "example": "John"
+                                    },
+                                    "surname": {
+                                        "description": "Nuevo apellido del usuario",
+                                        "type": "string",
+                                        "example": "Doe"
+                                    },
+                                    "email": {
+                                        "description": "Nuevo correo electrónico del usuario",
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "john.doe@example.com"
+                                    },
+                                    "password": {
+                                        "description": "Nueva contraseña del usuario",
+                                        "type": "string",
+                                        "example": "nuevapassword"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "El usuario no fue encontrado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Eliminar usuario por ID",
+                "description": "Elimina un usuario basándose en su ID",
+                "operationId": "deleteUser",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del usuario a eliminar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "El usuario con id: {id} ha sido borrado con éxito"
+                                        },
+                                        "data": {
+                                            "description": "ID del usuario borrado",
+                                            "type": "integer",
+                                            "example": "{id}"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "No se ha encontrado el usuario"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/checkEmail/{email}": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Verificar si existe un usuario con el correo electrónico dado",
+                "description": "Comprueba si hay un usuario registrado con el correo electrónico proporcionado",
+                "operationId": "checkEmail",
+                "parameters": [
+                    {
+                        "name": "email",
+                        "in": "path",
+                        "description": "Correo electrónico del usuario a verificar",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "email"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Indica si existe un usuario con el correo electrónico proporcionado",
+                                    "type": "boolean"
+                                },
+                                "example": "true"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/sendEmail/{email}": {
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Enviar correo electrónico de restablecimiento de contraseña",
+                "description": "Envía un correo electrónico de restablecimiento de contraseña al usuario con el correo electrónico proporcionado.",
+                "operationId": "sendEmail",
+                "requestBody": {
+                    "description": "Datos de entrada",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "description": "Correo electrónico del usuario",
+                                        "type": "string",
+                                        "format": "email"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Correo electrónico enviado exitosamente"
+                    },
+                    "404": {
+                        "description": "Usuario no encontrado"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            }
+        },
+        "/api/active/{id}": {
+            "put": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Activar usuario",
+                "description": "Activa un usuario con el ID proporcionado.",
+                "operationId": "activateUser",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del usuario a activar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Usuario activado exitosamente"
+                    },
+                    "404": {
+                        "description": "Usuario no encontrado"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "CompanyUpdateRequest": {
+                "title": "Company Update Request",
+                "description": "Esquema para los datos requeridos al actualizar una empresa",
+                "required": [
+                    "name",
+                    "surname",
+                    "CIF",
+                    "company_name",
+                    "address",
+                    "CP",
+                    "phone"
+                ],
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "maxLength": 250,
+                        "example": "Nombre de la empresa"
+                    },
+                    "surname": {
+                        "type": "string",
+                        "maxLength": 250,
+                        "example": "Apellido de la empresa"
+                    },
+                    "CIF": {
+                        "type": "string",
+                        "maxLength": 9,
+                        "example": "ABC123456"
+                    },
+                    "company_name": {
+                        "type": "string",
+                        "maxLength": 100,
+                        "example": "Nombre completo de la empresa"
+                    },
+                    "address": {
+                        "type": "string",
+                        "maxLength": 250,
+                        "example": "Dirección de la empresa"
+                    },
+                    "CP": {
+                        "type": "string",
+                        "maxLength": 5,
+                        "example": "12345"
+                    },
+                    "phone": {
+                        "type": "string",
+                        "maxLength": 9,
+                        "example": "123456789"
+                    },
+                    "web": {
+                        "type": "string",
+                        "format": "url",
+                        "example": "http://www.empresa.com"
+                    }
+                },
+                "type": "object"
+            },
+            "CompanyRequest": {
+                "title": "Company Request",
+                "description": "Esquema para los datos requeridos al crear una nueva empresa",
+                "required": [
+                    "name",
+                    "surname",
+                    "CIF",
+                    "email",
+                    "company_name",
+                    "address",
+                    "CP",
+                    "phone",
+                    "rol"
+                ],
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "maxLength": 250,
+                        "example": "Nombre de la empresa"
+                    },
+                    "surname": {
+                        "type": "string",
+                        "maxLength": 250,
+                        "example": "Apellido de la empresa"
+                    },
+                    "CIF": {
+                        "type": "string",
+                        "maxLength": 9,
+                        "pattern": "^[A-Z]\\d{8}$",
+                        "example": "ABC123456"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "example": "empresa@example.com"
+                    },
+                    "company_name": {
+                        "type": "string",
+                        "maxLength": 100,
+                        "example": "Nombre completo de la empresa"
+                    },
+                    "address": {
+                        "type": "string",
+                        "maxLength": 250,
+                        "example": "Dirección de la empresa"
+                    },
+                    "CP": {
+                        "type": "string",
+                        "maxLength": 5,
+                        "example": "12345"
+                    },
+                    "phone": {
+                        "type": "string",
+                        "maxLength": 9,
+                        "example": "123456789"
+                    },
+                    "web": {
+                        "type": "string",
+                        "format": "url",
+                        "example": "http://www.empresa.com"
+                    },
+                    "password": {
+                        "type": "string",
+                        "minLength": 8,
+                        "pattern": "^(?=.*[A-Z])(?=.*\\d).{8,}$",
+                        "example": "Password123"
+                    },
+                    "confirmPassword": {
+                        "type": "string",
+                        "example": "Password123"
+                    },
+                    "rol": {
+                        "type": "string",
+                        "example": "admin"
+                    }
+                },
+                "type": "object"
+            },
+            "Company": {
+                "title": "Company",
+                "description": "Esquema para los datos de una empresa",
+                "properties": {
+                    "idUsuario": {
+                        "description": "ID del usuario propietario de la empresa",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "CIF": {
+                        "description": "Número de identificación fiscal de la empresa",
+                        "type": "string",
+                        "example": "ABC123"
+                    },
+                    "companyName": {
+                        "description": "Nombre de la empresa",
+                        "type": "string",
+                        "example": "Empresa XYZ"
+                    },
+                    "direccion": {
+                        "description": "Dirección de la empresa",
+                        "type": "string",
+                        "example": "Calle Principal 123"
+                    },
+                    "CP": {
+                        "description": "Código Postal de la empresa",
+                        "type": "string",
+                        "example": "12345"
+                    },
+                    "telefono": {
+                        "description": "Teléfono de la empresa",
+                        "type": "string",
+                        "example": "123-456-7890"
+                    },
+                    "web": {
+                        "description": "Sitio web de la empresa",
+                        "type": "string",
+                        "example": "https://www.empresa.com"
+                    }
+                },
+                "type": "object"
+            },
+            "CompanyPagination": {
+                "title": "Company Pagination",
+                "description": "Esquema para la colección paginada de empresas",
+                "properties": {
+                    "current_page": {
+                        "description": "Número de la página actual",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "total_pages": {
+                        "description": "Número total de páginas",
+                        "type": "integer",
+                        "example": 5
+                    },
+                    "per_page": {
+                        "description": "Número de elementos por página",
+                        "type": "integer",
+                        "example": 10
+                    },
+                    "total_records": {
+                        "description": "Número total de registros",
+                        "type": "integer",
+                        "example": 47
+                    },
+                    "data": {
+                        "description": "Datos de las empresas",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Company"
+                        }
+                    },
+                    "status": {
+                        "description": "Estado de la respuesta",
+                        "type": "string",
+                        "example": "success"
+                    },
+                    "links": {
+                        "properties": {
+                            "prev": {
+                                "description": "Enlace a la página anterior",
+                                "type": "string",
+                                "example": "http://example.com/api/company?page=1"
+                            },
+                            "next": {
+                                "description": "Enlace a la página siguiente",
+                                "type": "string",
+                                "example": "http://example.com/api/company?page=3"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "Cycle": {
+                "title": "Cycle",
+                "description": "Esquema para los datos de un ciclo",
+                "required": [
+                    "cycle",
+                    "title",
+                    "id_family",
+                    "id_responsible",
+                    "vliteral",
+                    "cliteral"
+                ],
+                "properties": {
+                    "cycle": {
+                        "description": "Descripción del ciclo",
+                        "type": "string",
+                        "example": "cycle_value"
+                    },
+                    "title": {
+                        "description": "Título del ciclo",
+                        "type": "string",
+                        "example": "title_value"
+                    },
+                    "id_family": {
+                        "description": "ID de la familia del ciclo",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "id_responsible": {
+                        "description": "ID del responsable del ciclo",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "vliteral": {
+                        "description": "Valor literal del ciclo",
+                        "type": "string",
+                        "example": "vliteral_value"
+                    },
+                    "cliteral": {
+                        "description": "Código literal del ciclo",
+                        "type": "string",
+                        "example": "cliteral_value"
+                    }
+                },
+                "type": "object"
+            },
+            "Family": {
+                "title": "Family",
+                "description": "Esquema para los datos de una familia",
+                "properties": {
+                    "id": {
+                        "description": "ID de la familia",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "cliteral": {
+                        "description": "Valor cliteral",
+                        "type": "string",
+                        "example": "cliteral_value"
+                    },
+                    "vliteral": {
+                        "description": "Valor vliteral",
+                        "type": "string",
+                        "example": "vliteral_value"
+                    },
+                    "depcurt": {
+                        "description": "Valor depcurt",
+                        "type": "string",
+                        "example": "depcurt_value"
+                    }
+                },
+                "type": "object"
+            },
+            "Offer": {
+                "title": "Offer",
+                "description": "Esquema para los datos de una oferta",
+                "required": [
+                    "description",
+                    "duration",
+                    "responsible_name",
+                    "inscription_method",
+                    "status",
+                    "verified",
+                    "CIF"
+                ],
+                "properties": {
+                    "description": {
+                        "description": "Descripción de la oferta",
+                        "type": "string",
+                        "example": "Descripción de la oferta"
+                    },
+                    "duration": {
+                        "description": "Duración de la oferta en meses",
+                        "type": "integer",
+                        "example": 6
+                    },
+                    "responsible_name": {
+                        "description": "Nombre del responsable de la oferta",
+                        "type": "string",
+                        "example": "John Doe"
+                    },
+                    "inscription_method": {
+                        "description": "Método de inscripción",
+                        "type": "string",
+                        "example": "Online"
+                    },
+                    "status": {
+                        "description": "Estado de la oferta",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "verified": {
+                        "description": "Verificación de la oferta",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "CIF": {
+                        "description": "Número de identificación fiscal de la empresa",
+                        "type": "string",
+                        "example": "ABC123"
+                    }
+                },
+                "type": "object"
+            },
+            "Student": {
+                "title": "Student",
+                "description": "Esquema para los datos de un estudiante",
+                "required": [
+                    "id_user",
+                    "address"
+                ],
+                "properties": {
+                    "id_user": {
+                        "description": "ID del usuario asociado al estudiante",
+                        "type": "integer"
+                    },
+                    "address": {
+                        "description": "Dirección del estudiante",
+                        "type": "string"
+                    },
+                    "cv_link": {
+                        "description": "Enlace al curriculum vitae del estudiante",
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "observations": {
+                        "description": "Observaciones sobre el estudiante",
+                        "type": "string",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "StudentResource": {
+                "title": "Student",
+                "description": "Esquema para los datos de un estudiante",
+                "required": [
+                    "id",
+                    "idUser",
+                    "address",
+                    "CVLink",
+                    "accept"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "ID del estudiante",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "idUser": {
+                        "description": "ID del usuario asociado",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "address": {
+                        "description": "Dirección del estudiante",
+                        "type": "string",
+                        "maxLength": 100,
+                        "example": "123 Main St"
+                    },
+                    "CVLink": {
+                        "description": "Enlace al currículum vitae del estudiante",
+                        "type": "string",
+                        "maxLength": 75,
+                        "example": "https://example.com/cv"
+                    }
+                },
+                "type": "object"
+            },
+            "User": {
+                "title": "User",
+                "description": "Esquema para los datos de un usuario",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "John"
+                    },
+                    "surname": {
+                        "type": "string",
+                        "example": "Doe"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "example": "john@example.com"
+                    },
+                    "rol": {
+                        "type": "string",
+                        "example": "ADM"
+                    }
+                },
+                "type": "object"
+            },
+            "UserCollection": {
+                "title": "UserCollection",
+                "description": "Colección de recursos de usuario",
+                "properties": {
+                    "current_page": {
+                        "description": "Número de página actual",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "total_pages": {
+                        "description": "Número total de páginas",
+                        "type": "integer",
+                        "example": 5
+                    },
+                    "per_page": {
+                        "description": "Número de usuarios por página",
+                        "type": "integer",
+                        "example": 10
+                    },
+                    "total_records": {
+                        "description": "Número total de usuarios",
+                        "type": "integer",
+                        "example": 50
+                    },
+                    "data": {
+                        "description": "Lista de usuarios",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/User"
+                        }
+                    },
+                    "status": {
+                        "description": "Estado de la operación",
+                        "type": "string",
+                        "example": "success"
+                    },
+                    "links": {
+                        "properties": {
+                            "prev": {
+                                "description": "Enlace a la página anterior",
+                                "type": "string",
+                                "example": "/api/users?page=1"
+                            },
+                            "next": {
+                                "description": "Enlace a la página siguiente",
+                                "type": "string",
+                                "example": "/api/users?page=3"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "UserResource": {
+                "title": "UserResource",
+                "description": "Esquema para los datos de un usuario",
+                "properties": {
+                    "id": {
+                        "description": "ID único del usuario",
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "name": {
+                        "description": "Nombre del usuario",
+                        "type": "string",
+                        "example": "John"
+                    },
+                    "surname": {
+                        "description": "Apellido del usuario",
+                        "type": "string",
+                        "example": "Doe"
+                    },
+                    "email": {
+                        "description": "Correo electrónico del usuario",
+                        "type": "string",
+                        "format": "email",
+                        "example": "john.doe@example.com"
+                    },
+                    "rol": {
+                        "description": "Rol del usuario",
+                        "type": "string",
+                        "example": "ADM"
+                    }
+                },
+                "type": "object"
+            }
+        }
+    }
+}

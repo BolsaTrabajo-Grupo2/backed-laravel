@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Api\UserApiController;
+use App\Http\Requests\StudentBackendRequest;
 use App\Http\Requests\StudentRequest;
 use App\Http\Requests\StudentUpdateBackendRequest;
 use App\Http\Requests\StudentUpdateRequest;
@@ -50,7 +51,7 @@ class StudentController extends Controller
         $cycles = Cycle::all();
         return view('student.create', compact('cycles'));
     }
-    public function store(StudentRequest $studentRequest)
+    public function store(StudentBackendRequest $studentRequest)
     {
         $userResponse = UserApiController::register($studentRequest);
         $user = $userResponse->getOriginalContent()['user'];
