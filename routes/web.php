@@ -30,8 +30,9 @@ Route::get('auth/google', [App\Http\Controllers\Auth\LoginController::class,'red
 Route::get('auth/google/callback', [App\Http\Controllers\Auth\LoginController::class,'handleGoogleCallback']);
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return redirect()->route('student.index');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
