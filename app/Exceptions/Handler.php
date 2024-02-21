@@ -2,7 +2,12 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Auth\AuthenticationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Validation\UnauthorizedException;
+use Illuminate\Validation\ValidationException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -38,6 +43,8 @@ class Handler extends ExceptionHandler
                     return response()->json(['error' => 'Datos no válidos'], 400);
                 else if ($exception instanceof QueryException)
                     return response()->json(['error' => 'Datos no válidos'], 400);
+                else if($exception instanceof UnauthorizedException)
+                    return response()->json(['error' => 'No tienes permisos suficientes'], 403);
                 else if (isset($exception))
                     return response()->json(['error' => 'Error en la aplicación (' .get_class($exception) . '):' .$exception->getMessage()], 500);
             }
