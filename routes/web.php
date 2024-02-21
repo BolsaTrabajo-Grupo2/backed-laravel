@@ -50,7 +50,9 @@ Route::middleware('auth:sanctum')->group( function () {
     Route::get('cycles/statistics',[CycleController::class, 'statics'])->name('staticsCycles')->middleware('rol:ADM');
     Route::get('/offersStudent/{id}', [StudentController::class, 'offers'])->name('offersStudent')->middleware('rol:ADM,RESP');
     Route::get('/offerShow/{id}/{idStudent}', [StudentController::class, 'offerShow'])->name('offerShow')->middleware('rol:ADM,RESP');
-
+    Route::get('/acceptStudent/{id}',[StudentController::class, 'accept'])->name('acceptStudent')->middleware('rol:RESP, ADM');
+    Route::get('/acceptCompany/{id}',[CompanyController::class, 'accept'])->name('acceptCompany')->middleware('rol:ADM');
+    Route::get('/acceptOffer/{id}',[OfferController::class, 'verificate'])->name('verifiedOffer')->middleware('rol:RESP, ADM');
 });
 
 

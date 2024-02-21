@@ -27,6 +27,9 @@
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger btn-rounded" onclick="return confirm('¿Estás seguro de que deseas eliminar esta empresa?')">Eliminar</button>
                                         </form>
+                                        @if($company->user->accept == 0)
+                                            <a href="{{ route('acceptCompany', $company->id_user) }}" class="btn btn-primary btn-rounded mr-2">Validar</a>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
