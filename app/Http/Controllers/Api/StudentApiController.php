@@ -595,7 +595,7 @@ class StudentApiController extends Controller
         $study = Study::findOrFail($id);
         $study->verified = true;
         $study->update();
-        return 'verificado con exito';
+        return view('cycle.verified');
     }
     /**
      * @OA\Post(
