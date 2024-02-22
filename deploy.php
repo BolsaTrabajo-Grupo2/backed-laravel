@@ -9,7 +9,7 @@ set('repository', 'git@github.com:BolsaTrabajo-Grupo2/backed-laravel.git');
 
 set('git_tty', true);
 set('composer_options' , '--ignore-platform-req=ext-mysql_xdevapi');
-add('shared_files', ['.env']);
+add('shared_files', ['.env', 'docker-compose.yml']);
 add('shared_dirs', ['storage','bootstrap/cache']);
 add('writable_dirs', ['storage','bootstrap/cache']);
 
