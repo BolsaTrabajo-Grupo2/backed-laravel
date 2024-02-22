@@ -3,6 +3,13 @@
 ## Descripción
 Este proyecto está desarrollado para facilitar a los estudiantes del centro a buscar trabajo después de terminar sus estudios. Esta parte está dirigida para los responsables y administradores, ya que se encargarán de todo el mantenimiento de la bolsa. 
 ## Tabla de contenidos:
+- [Tecnologías utilizadas](#tecnologías-utilizadas)
+- [Configuración de Desarrollo](#configuración-de-desarrollo)
+- [Despliegue en Producción](#despliegue-en-producción)
+- [Contribución](#contribución)
+- [Licencia](#licencia)
+- [Autores](#autores)
+
 
 ## Tecnoloǵias utilizadas:
 - PHP
