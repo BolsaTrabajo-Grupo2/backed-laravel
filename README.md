@@ -16,13 +16,13 @@ Este proyecto está desarrollado para facilitar a los estudiantes del centro a b
 
 ## Configuración de Desarrollo
 1. Clona el repositorio del proyecto:
-    
+    ```
     git clone https://github.com/BolsaTrabajo-Grupo2/backed-laravel.git
-    
+    ```
 2. Accede al directorio del proyecto:
-    
+    ```
     cd backed-laravel
-    
+    ```
 3. Instala las dependencias:
     ```
     docker run --rm -v $(pwd):/opt -w /opt laravelsail/php82-composer:latest composer install
