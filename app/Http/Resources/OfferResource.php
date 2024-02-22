@@ -14,6 +14,7 @@ class OfferResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $aplicado = $this->resource->aplicado ?? false;
         return [
             'id' => $this->id,
             'description' => $this->description,
@@ -24,6 +25,7 @@ class OfferResource extends JsonResource
             'verified' => $this->verified,
             'CIF' => $this->CIF,
             'created_at' => $this->created_at,
+            'aplicado' => $aplicado,
         ];
     }
 }

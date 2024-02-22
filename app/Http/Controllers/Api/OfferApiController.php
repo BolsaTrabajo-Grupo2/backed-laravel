@@ -6,6 +6,7 @@ use App\Http\Resources\OfferCollection;
 use App\Http\Resources\OfferResource;
 use App\Mail\NewOfferStudentMail;
 use App\Mail\OfferConfirmationMail;
+use App\Models\Apply;
 use App\Models\Assigned;
 use App\Models\Company;
 use App\Models\Cycle;
@@ -100,6 +101,11 @@ class OfferApiController extends Controller
                     $assignedOfferIds = array_merge($assignedOfferIds, $assignedOffers);
                 }
                 $offers = Offer::whereIn('id', $assignedOfferIds)->where('status', 1)->where('verified', 1)->paginate(10);
+                $applies = Apply::where('id_student',$student->id)->get();
+                $applies = $applies->pluck('id_offer')->toArray();
+                foreach ($offers as $offer){
+                    $offer->aplicado = in_array($offer->id, $applies);
+                }
             }
         }
         return new OfferCollection($offers);
@@ -150,7 +156,18 @@ class OfferApiController extends Controller
 
     public function show($id)
     {
-        return new OfferResource(Offer::find($id));
+        $user = Auth::user();
+        if($user->rol == 'COMP'){
+            return new OfferResource(Offer::find($id));
+        }else if($user->rol == 'STU'){
+            $student = Student::where('id_user',$user->id)->first();
+            $applies = Apply::where('id_student', $student->id)->get();
+            $appliesIdOffer = $applies->pluck('id_offer')->toArray();
+            $aplicado = in_array($id, $appliesIdOffer);
+            $offer = Offer::findOrFail($id);
+            $offer->aplicado = $aplicado;
+            return new OfferResource($offer);
+        }
     }
     /**
      * @OA\Post(

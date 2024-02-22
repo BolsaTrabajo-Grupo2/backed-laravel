@@ -25,6 +25,6 @@ class EnsureUserRol
                 }
             }
         }
-        throw new UnauthorizedException('Forbidden.');
+        return redirect('/');
     }
 }

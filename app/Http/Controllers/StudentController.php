@@ -165,6 +165,12 @@ class StudentController extends Controller
             $user->accept = true;
             $user->save();
             $user->notify(new ActivedNotification());
+            $student = Student::where('id_user',$id)->first();
+            $studies = Study::where('id_student',$student->id)->get();
+            foreach ($studies as $study){
+                $study->verified = true;
+                $study->save();
+            }
             return redirect()->route('student.index')->with('success', 'Estudiante añadido correctamente.');
     }
 }
