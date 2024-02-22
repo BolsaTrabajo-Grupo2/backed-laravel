@@ -25,14 +25,33 @@ Este proyecto está desarrollado para facilitar a los estudiantes del centro a b
     
 3. Instala las dependencias:
     
+    docker run --rm -v $(pwd):/opt -w /opt laravelsail/php82-composer:latest composer install
+    
+4. Copia el fichero .env:
+
+    cp .env.example .env
+    
+5. Ejecuta los servidores con Sail:
+    
+    vendor/bin/sail up -d
+    
+6. Abre tu navegador y accede a http://localhost:8080 y crea la base de datos bolsa-trabajo.
+7. Inicia el terminal del contenedor:
+
+    vendor/bin/sail bash
+
+9. Genera la clave APP.KEY:
+
+    php artisan key:generate
+
+11. Construlle los seeders:
+
+    php artisan migrate:fresh --seed
+
+13. Genera los node_modules
+
     npm install
-    
-4. Configura las variables de entorno si es necesario.
-5. Inicia el servidor de desarrollo:
-    
-    npm run serve
-    
-6. Abre tu navegador y accede a http://localhost:8080 para ver la aplicación en funcionamiento.
+    npm run build
 
 ## Despliegue en Producción
 Para desplegar la aplicación en una máquina virtual utilizando Apache como servidor web, sigue estos pasos:
