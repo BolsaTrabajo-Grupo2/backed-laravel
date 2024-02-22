@@ -63,17 +63,21 @@ Este proyecto está desarrollado para facilitar a los estudiantes del centro a b
     ```
     
 ## Despliegue en Producción
-Para desplegar la aplicación en una máquina virtual utilizando Apache como servidor web, sigue estos pasos:
+Para desplegar de la aplicación en producción, sigue los siguientes pasos:
+1. Instalar en el servidor donde se desplegara el composer.
+2. Instalar las dependencias del framework laravel.
+3. En la máquina del cliente tienes que instalar también el deployer.
+4. Luego se inicializa el Deployer con el siguiente comando:
 
-1. Asegúrate de tener una máquina virtual configurada con Apache instalado y correctamente configurado.
-2. Construye la aplicación para producción:
-    
-    npm run build
-    
-3. Copia los archivos generados en la carpeta dist al directorio raíz de tu servidor Apache.
-4. Reinicia el servidor Apache para aplicar los cambios.
-5. Accede a la dirección IP de tu máquina virtual en un navegador para ver la aplicación desplegada.
+       dep init
 
+5. Configuras el fichero deploy.php para que se conecte con el servidor y se despliegue.
+6. Ahora con el siguiente comando ya podrás desplegar:
+
+   dep deploy
+
+7. Solo faltaría que en el servidor tuviera instalado un servidor web y tener configurado el server block correctamente.
+   
 ## Contribución
 Si quieres contribuir a este proyecto, por favor sigue estos pasos:
 1. Haz un fork del repositorio
