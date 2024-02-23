@@ -13,7 +13,7 @@
             align-items: center;
             justify-content: flex-start;
             height: 100vh;
-            background: url('/fondoHomeBackend.jpg') center/cover no-repeat fixed;
+            background: url('../../public/fondoHomeBackend.jpg') center/cover no-repeat fixed;
         }
 
         h1 {
