@@ -13,7 +13,7 @@ add('shared_files', ['.env']);
 add('shared_dirs', ['storage','bootstrap/cache']);
 add('writable_dirs', ['storage','bootstrap/cache']);
 
-host('35.172.75.164')
+host('34.227.127.232')
     ->set('remote_user','bolsa_user')
     ->set('identity_file','~/.ssh/id_rsa')
     ->set('deploy_path', '/var/www/bolsa-trabajo/html');
