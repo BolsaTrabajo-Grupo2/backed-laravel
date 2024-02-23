@@ -13,16 +13,16 @@
             align-items: center;
             justify-content: flex-start;
             height: 100vh;
-            background: url('../../public/fondoHomeBackend.jpg') center/cover no-repeat fixed;
+            background: url('/fondoHomeBackend.jpg') center/cover no-repeat fixed;
         }
 
         h1 {
-            color: white; /* Cambia el color del texto según el contraste con la imagen */
+            color: white;
             font-size: 300%;
             text-align: center;
             margin-top: 30px;
-            background-color: rgba(0, 0, 0, 0.5); /* Ajusta la opacidad según sea necesario */
-            padding: 10px; /* Ajusta el espaciado interno según sea necesario */
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 10px;
         }
 
         .login-container {
