@@ -31,7 +31,7 @@ Route::get('auth/google/callback', [App\Http\Controllers\Auth\LoginController::c
 
 Route::get('/dashboard', function () {
     return redirect()->route('student.index');
-})->middleware(['auth', 'verified','rol:ADM, RESP'])->name('dashboard');
+})->middleware(['auth', 'verified','rol:ADM,RESP'])->name('dashboard');
 
 
 Route::middleware('auth')->group(function () {
