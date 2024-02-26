@@ -223,7 +223,9 @@ class UserApiController extends Controller
         $user->email = $request->get('email');
         $user->password = Hash::make($request->get('password'));
         $user->rol = $request->get('rol');
-
+        if($request->get('aceptar')){
+            $user->accept = $request->get('aceptar');
+        }
         $user->save();
 
         $token = $user->createToken('api-token')->plainTextToken;

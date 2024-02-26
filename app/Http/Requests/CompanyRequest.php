@@ -42,6 +42,7 @@ class CompanyRequest extends FormRequest
                 'regex:/^(?=.*[A-Z])(?=.*\d).{8,}$/'
             ],
             'rol' => 'required',
+            'aceptar' => 'required'
         ];
     }
     public function messages(): array
@@ -92,6 +93,8 @@ class CompanyRequest extends FormRequest
             'web.string' => 'El campo web debe ser una cadena de texto.',
             'web.max' => 'El campo web no puede superar los 100 caracteres.',
             'web.url' => 'El campo web debe ser una URL válida.',
+
+            'aceptar.required' => 'Tienes que aceptar los terminos y condiciones'
         ];
     }
 }

@@ -73,7 +73,6 @@ class StudentController extends Controller
         $student->observations = $studentRequest->get('observations');
         $student->created_at = Carbon::now();
         $student->updated_at = Carbon::now();
-        $student->accept = true;
         $student->save();
         $cycles = $studentRequest->get('cycles');
         $dates = $studentRequest->get('dates');
@@ -111,7 +110,6 @@ class StudentController extends Controller
         $student->cv_link = $studentRequest->input("CVLink");
         $student->observations = $studentRequest->input('observations');
         $student->updated_at = now();
-        $student->accept = true;
         $student->save();
 
         $existingStudies = Study::where('id_student', $student->id)->pluck('id_cycle')->toArray();

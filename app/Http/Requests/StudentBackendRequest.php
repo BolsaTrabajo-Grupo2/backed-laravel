@@ -43,6 +43,7 @@ class StudentBackendRequest extends FormRequest
             'rol' => 'required',
             'address' => 'required|string|max:100',
             'CVLink' => 'nullable|string|max:75',
+            'aceptar' => 'required'
         ];
     }
     public function messages()
@@ -74,6 +75,8 @@ class StudentBackendRequest extends FormRequest
 
             'CVLink.string' => 'The CVLink field must be a string.',
             'CVLink.max' => 'The CVLink field cannot exceed 75 characters.',
+
+            'aceptar.required' => 'Tienes que aceptar los terminos y condiciones'
         ];
     }
 }

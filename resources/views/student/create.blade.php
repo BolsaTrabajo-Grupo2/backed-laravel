@@ -20,7 +20,7 @@
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="name">Nombre:</label>
-                    <input name="name" type="text" class="form-control" />
+                    <input name="name" type="text" class="form-control" value="{{ old('name') }}"/>
                     @error('name')
                     <span class="validate-error">{{ $message }}</span>
                     @enderror
@@ -28,7 +28,7 @@
 
                 <div class="form-group col-md-6">
                     <label for="surname">Apellidos:</label>
-                    <input name="surname" type="text" class="form-control" />
+                    <input name="surname" type="text" class="form-control" value="{{ old('surname') }}"/>
                     @error('surname')
                     <span class="validate-error">{{ $message }}</span>
                     @enderror
@@ -37,7 +37,7 @@
 
             <div class="form-group">
                 <label for="email">Email:</label>
-                <input name="email" type="text" class="form-control" />
+                <input name="email" type="text" class="form-control" value="{{ old('email') }}"/>
                 @error('email')
                 <span class="validate-error">{{ $message }}</span>
                 @enderror
@@ -66,7 +66,7 @@
                         <select name="cycles[]" class="form-control" onchange="addCycleField(this)">
                             <option value="">Seleccionar ciclo</option>
                             @foreach ($cycles as $cycle)
-                                <option value="{{ $cycle->id }}">{{ $cycle->title }}</option>
+                                <option value="{{ $cycle->id }}">{{ $cycle->title }} "</option>
                             @endforeach
                         </select>
                         <input type="date" name="dates[]" class="form-control" />
@@ -77,7 +77,7 @@
 
             <div class="form-group">
                 <label for="address">Dirección:</label>
-                <input name="address" type="text" class="form-control" />
+                <input name="address" type="text" class="form-control" value="{{ old('address') }}"/>
                 @error('address')
                 <span class="validate-error">{{ $message }}</span>
                 @enderror
@@ -85,7 +85,7 @@
 
             <div class="form-group">
                 <label for="observations">Observaciones:</label>
-                <input name="observations" type="text" class="form-control" />
+                <input name="observations" type="text" class="form-control" value="{{ old('observations') }}" />
                 @error('observations')
                 <span class="validate-error">{{ $message }}</span>
                 @enderror
@@ -93,19 +93,23 @@
 
             <div class="form-group">
                 <label for="CVLink">Enlace al Curriculum:</label>
-                <input name="CVLink" type="text" class="form-control" />
+                <input name="CVLink" type="text" class="form-control" value="{{ old('CVLink') }}"/>
+                @error('CVLink')
+                <span class="validate-error">{{ $message }}</span>
+                @enderror
             </div>
 
             <div class="form-group">
                 <input name="aceptar" type="checkbox" value="1" />
                 <span class="form-check-label"> Acepto los términos y condiciones</span>
                 @error('aceptar')
+                <br>
                 <span class="validate-error">{{ $message }}</span>
                 @enderror
             </div>
 
             <div class="form-group">
-                <input type="hidden" name="rol" value="COMP" />
+                <input type="hidden" name="rol" value="STU" />
             </div>
 
             <button type="submit" class="btn btn-default btn-primary">Crear</button>
