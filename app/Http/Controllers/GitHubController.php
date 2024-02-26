@@ -35,7 +35,7 @@ class GitHubController extends Controller
 
             Auth::login($existingUser);
             $token = $existingUser->createToken('GitHub Token')->plainTextToken;
-            return redirect('http://localhost:5174?name=' . $user->name . '&email=' . $user->email . '&rol=' . $existingUser->rol . '&token=' . $token);
+            return redirect('https://bolsa-trabajo-backend.projecte02.ddaw.es?name=' . $user->name . '&email=' . $user->email . '&rol=' . $existingUser->rol . '&token=' . $token);
 
         } catch (Exception $e) {
             return response()->json(['error' => 'Ha ocurrido un error durante el proceso de autenticación.'], 500);
