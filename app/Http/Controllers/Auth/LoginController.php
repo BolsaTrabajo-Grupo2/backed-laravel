@@ -19,12 +19,13 @@ class LoginController
         try {
             $user = Socialite::driver('google')->user();
             $localUser = User::where('email', $user->email)->first();
-            Auth::login($localUser);
-            $token = $localUser->createToken('Personal Access Token')->plainTextToken;
+            if($localUser){
+                $userBD = Auth::login($localUser);
+                $token = $localUser->createToken('Personal Access Token')->plainTextToken;
 
-            return redirect('http://localhost:5174?name=' . $user->name . '&email=' . $user->email . '&rol=' . $localUser->rol . '&token=' . $token);
-
-
+                return redirect('https://www.bolsa-trabajo.projecte02.ddaw.es/?name=' . $userBD->name . '&email=' . $userBD->email . '&rol=' . $userBD->rol . '&token=' . $token);
+            }
+            return redirect('https://www.bolsa-trabajo.projecte02.ddaw.es/');
         } catch (\Exception $e) {
             dd($e);
             return response()->json(['error' => 'Ha ocurrido un error durante el proceso de autenticación.'], 500);
