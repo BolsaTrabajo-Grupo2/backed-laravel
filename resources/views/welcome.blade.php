@@ -8,6 +8,8 @@
             font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
+
+
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -17,12 +19,12 @@
         }
 
         h1 {
-            color: white; /* Cambia el color del texto según el contraste con la imagen */
+            color: white;
             font-size: 300%;
             text-align: center;
             margin-top: 30px;
-            background-color: rgba(0, 0, 0, 0.5); /* Ajusta la opacidad según sea necesario */
-            padding: 10px; /* Ajusta el espaciado interno según sea necesario */
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 10px;
         }
 
         .login-container {

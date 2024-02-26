@@ -26,7 +26,7 @@ class OfferBackendRequest extends FormRequest
         return [
             'description' => 'required|string|max:200',
             'duration' => 'required|string|max:50',
-            'responsible_name' => 'nullable|string|max:100',
+            'responsible_name' => 'required|string|max:100',
             'inscription_method' => 'nullable|boolean',
             'observations' => 'nullable|string|max:250',
             'CIF' => [
