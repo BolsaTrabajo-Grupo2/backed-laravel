@@ -6,6 +6,8 @@ use App\Http\Controllers\Api\UserApiController;
 use App\Http\Requests\CompanyRequest;
 use App\Http\Requests\CompanyUpdateBackendRequest;
 use App\Models\Company;
+use App\Models\User;
+use App\Notifications\ActivedNotification;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
@@ -105,5 +107,12 @@ class CompanyController extends Controller
 
             return redirect()->route('company.index')->with('error', 'Error al eliminar la compañía y el usuario.');
         }
+    }
+    public function accept($id){
+        $user = User::findOrFail($id);
+        $user->accept = true;
+        $user->save();
+        $user->notify(new ActivedNotification());
+        return redirect()->route('company.index')->with('success', 'Empresa validada correctamente.');
     }
 }

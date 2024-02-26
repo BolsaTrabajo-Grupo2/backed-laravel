@@ -4,15 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\OfferBackendRequest;
 use App\Http\Requests\OfferRequest;
+use App\Mail\NewOfferStudentMail;
 use App\Models\Apply;
 use App\Models\Assigned;
 use App\Models\Company;
 use App\Models\Cycle;
 use App\Models\Offer;
 use App\Models\Student;
+use App\Models\Study;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class OfferController extends Controller
 {
@@ -148,5 +152,21 @@ class OfferController extends Controller
 
             return response()->json(['error' => $e->getMessage()], 500);
         }
+    }
+    public function verificate($id){
+        $offer = Offer::findOrFail($id);
+        $offer->verified = true;
+        $offer->save();
+        $cycleOffers = Assigned::where('id_offer',$offer->id)->get();
+        foreach ($cycleOffers as $cycle) {
+            $studentsCycle = Study::where('id_cycle',$cycle->id_cycle)->get();
+            $c = Cycle::findOrFail($cycle->id_cycle);
+            foreach ($studentsCycle as $student){
+                $s = Student::findOrFail($student->id_student);
+                $u = User::findOrFail($s->id_user);
+                Mail::to($u->email)->send(new NewOfferStudentMail($u,$offer,$c));
+            }
+        }
+        return redirect()->route('offer.index')->with('success', 'Oferta validada correctamente.');
     }
 }

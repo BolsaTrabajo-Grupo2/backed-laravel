@@ -22,6 +22,9 @@
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger btn-rounded" onclick="return confirm('¿Estás seguro de que deseas eliminar este estudiante?')">Eliminar</button>
                                 </form>
+                                @if($student->user->accept == 0)
+                                    <a href="{{ route('acceptStudent', $student->id_user) }}" class="btn btn-primary btn-rounded mr-2">Validar</a>
+                                @endif
                             </div>
                         </div>
                     </div>

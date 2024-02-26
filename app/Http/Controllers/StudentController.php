@@ -13,16 +13,27 @@ use App\Models\Offer;
 use App\Models\Student;
 use App\Models\Study;
 use App\Models\User;
+use App\Notifications\ActivedNotification;
 use App\Notifications\CycleValidationRequest;
 use App\Notifications\NewStudentOrCompanyNotification;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class StudentController extends Controller
 {
     public function index()
     {
-        $students = Student::withCount('applies')->paginate(10);
+        $user = Auth::user();
+        if($user->rol == 'ADM'){
+            $students = Student::withCount('applies')->paginate(10);
+        }else{
+          $cycles = Cycle::where('id_responsible',$user->id)->get();
+          $cycleIds = $cycles->pluck('id');
+          $students = Student::whereHas('studies', function($query) use ($cycleIds) {
+               $query->whereIn('id_cycle', $cycleIds);
+          })->withCount('applies')->paginate(10);
+        }
         return view('student.index', compact('students'));
     }
     public function show($id)
@@ -146,5 +157,18 @@ class StudentController extends Controller
 
         User::where('id', $userId)->delete();
         return redirect()->route('student.index')->with('success', 'Estudiante eliminado correctamente.');
+    }
+    public function accept($id){
+            $user = User::findOrFail($id);
+            $user->accept = true;
+            $user->save();
+            $user->notify(new ActivedNotification());
+            $student = Student::where('id_user',$id)->first();
+            $studies = Study::where('id_student',$student->id)->get();
+            foreach ($studies as $study){
+                $study->verified = true;
+                $study->save();
+            }
+            return redirect()->route('student.index')->with('success', 'Estudiante añadido correctamente.');
     }
 }

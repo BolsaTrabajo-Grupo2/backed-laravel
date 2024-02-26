@@ -26,6 +26,9 @@
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger btn-rounded" onclick="return confirm('¿Estás seguro de que deseas eliminar esta oferta?')">Eliminar</button>
                                         </form>
+                                        @if($offer->verified == 0)
+                                            <a href="{{ route('verifiedOffer', $offer->id) }}" class="btn btn-primary btn-rounded mr-2">Verificar</a>
+                                        @endif
                                     </div>
                                 </div>
                             </div>

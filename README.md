@@ -1,66 +1,96 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Bolsa Trabajo Batoi
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Descripción
+Este proyecto está desarrollado para facilitar a los estudiantes del centro a buscar trabajo después de terminar sus estudios. Esta parte está dirigida para los responsables y administradores, ya que se encargarán de todo el mantenimiento de la bolsa. 
+## Tabla de contenidos:
+- [Tecnologías utilizadas](#tecnologías-utilizadas)
+- [Configuración de Desarrollo](#configuración-de-desarrollo)
+- [Despliegue en Producción](#despliegue-en-producción)
+- [Contribución](#contribución)
+- [Licencia](#licencia)
+- [Autores](#autores)
 
-## About Laravel
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Tecnoloǵias utilizadas:
+- PHP
+- Laravel
+- Dep Deploy
+- Apache
+- HTML
+- CSS
+- Bootstrap
+- Docker
+- Artisan
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Configuración de Desarrollo
+1. Clona el repositorio del proyecto:
+    ```
+    git clone https://github.com/BolsaTrabajo-Grupo2/backed-laravel.git
+    ```
+2. Accede al directorio del proyecto:
+    ```
+    cd backed-laravel
+    ```
+3. Instala las dependencias:
+    ```
+    docker run --rm -v $(pwd):/opt -w /opt laravelsail/php82-composer:latest composer install
+    ```
+4. Copia el fichero .env:
+    ```
+    cp .env.example .env
+    ```
+5. Ejecuta los servidores con Sail:
+    ```
+    vendor/bin/sail up -d
+    ```
+6. Abre tu navegador y accede a http://localhost:8080 y crea la base de datos bolsa-trabajo.
+7. Inicia el terminal del contenedor:
+    ```
+    vendor/bin/sail bash
+    ```
+9. Genera la clave APP.KEY:
+    ```
+    php artisan key:generate
+    ```
+11. Construlle los seeders:
+    ```
+    php artisan migrate:fresh --seed
+    ```
+13. Genera los node_modules
+    ```
+    npm install
+    npm run build
+    ```
+    
+## Despliegue en Producción
+Para desplegar de la aplicación en producción, sigue los siguientes pasos:
+1. Instalar en el servidor donde se desplegara el composer.
+2. Instalar las dependencias del framework laravel.
+3. En la máquina del cliente tienes que instalar también el deployer.
+4. Luego se inicializa el Deployer con el siguiente comando:
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+       dep init
 
-## Learning Laravel
+5. Configuras el fichero deploy.php para que se conecte con el servidor y se despliegue.
+6. Ahora con el siguiente comando ya podrás desplegar:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+   dep deploy
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+7. Solo faltaría que en el servidor tuviera instalado un servidor web y tener configurado el server block correctamente.
+   
+## Contribución
+Si quieres contribuir a este proyecto, por favor sigue estos pasos:
+1. Haz un fork del repositorio
+2. Crea una nueva rama (git checkout -b feature/nueva-caracteristica)
+3. Haz tus cambios y realiza commits (git commit -am 'Añade una nueva característica')
+4. Sube tus cambios al fork (git push origin feature/nueva-caracteristica)
+5. Crea un nuevo Pull Request
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Licencia
+Este proyecto está bajo la [Licencia MIT](https://opensource.org/licenses/MIT). Para más detalles, consulta el archivo de licencia adjunto.
 
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Autores
+- [Lucas Juan](https://github.com/LucasJR13)
+- [Arantxa Gandía](https://github.com/Arantxaa31)
+- [Jaume Miró](https://github.com/JaumeMiroCorcoles)
+- [María Ruiz](https://github.com/mariaruizpaton)
